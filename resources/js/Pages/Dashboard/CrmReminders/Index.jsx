@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from '@/i18n';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, router } from "@inertiajs/react";
 import Pagination from "@/Components/Dashboard/Pagination";
@@ -6,18 +7,19 @@ import Table from "@/Components/Dashboard/Table";
 import { IconBellRinging, IconBrandWhatsapp } from "@tabler/icons-react";
 
 export default function Index({ campaigns, filters }) {
+    const { t } = useTranslation();
     const handleFilterChange = (key, value) => {
         router.get(route("crm-reminders.index"), { ...filters, [key]: value }, { preserveState: true, replace: true });
     };
 
     return (
         <>
-            <Head title="CRM Reminders" />
+            <Head title={t('CRM Reminders')} />
             <div className="w-full">
                 <div className="mb-6">
-                    <h1 className="text-2xl font-bold text-slate-900 dark:text-white">CRM Reminders</h1>
+                    <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{t('CRM Reminders')}</h1>
                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                        Queue reminder internal untuk piutang, repeat order, invoice share, dan promo broadcast.
+                        {t('Queue reminder internal untuk piutang, repeat order, invoice share, dan promo broadcast.')}
                     </p>
                 </div>
 
@@ -28,34 +30,34 @@ export default function Index({ campaigns, filters }) {
                             onChange={(event) => handleFilterChange("type", event.target.value)}
                             className="h-11 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                         >
-                            <option value="">Semua Tipe</option>
-                            <option value="promo_broadcast">Promo Broadcast</option>
-                            <option value="invoice_share">Invoice Share</option>
-                            <option value="due_date_reminder">Due Date Reminder</option>
-                            <option value="repeat_order_reminder">Repeat Order Reminder</option>
+                            <option value="">{t('Semua Tipe')}</option>
+                            <option value="promo_broadcast">{t('Promo Broadcast')}</option>
+                            <option value="invoice_share">{t('Invoice Share')}</option>
+                            <option value="due_date_reminder">{t('Due Date Reminder')}</option>
+                            <option value="repeat_order_reminder">{t('Repeat Order Reminder')}</option>
                         </select>
                         <select
                             value={filters.status || ""}
                             onChange={(event) => handleFilterChange("status", event.target.value)}
                             className="h-11 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                         >
-                            <option value="">Semua Status</option>
-                            <option value="draft">Draft</option>
-                            <option value="ready">Ready</option>
-                            <option value="processed">Processed</option>
-                            <option value="cancelled">Cancelled</option>
+                            <option value="">{t('Semua Status')}</option>
+                            <option value="draft">{t('Draft')}</option>
+                            <option value="ready">{t('Ready')}</option>
+                            <option value="processed">{t('Processed')}</option>
+                            <option value="cancelled">{t('Cancelled')}</option>
                         </select>
                     </div>
                 </div>
 
-                <Table.Card title="Reminder & Campaign Queue">
+                <Table.Card title={t('Reminder & Campaign Queue')}>
                     <Table>
                         <Table.Thead>
                             <tr>
-                                <Table.Th>Campaign</Table.Th>
-                                <Table.Th>Status</Table.Th>
-                                <Table.Th>Target</Table.Th>
-                                <Table.Th>Aksi Cepat</Table.Th>
+                                <Table.Th>{t('Campaign')}</Table.Th>
+                                <Table.Th>{t('Status')}</Table.Th>
+                                <Table.Th>{t('Target')}</Table.Th>
+                                <Table.Th>{t('Aksi Cepat')}</Table.Th>
                             </tr>
                         </Table.Thead>
                         <Table.Tbody>

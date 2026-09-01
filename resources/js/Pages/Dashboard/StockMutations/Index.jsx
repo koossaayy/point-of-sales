@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from '@/i18n';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, router } from "@inertiajs/react";
 import Table from "@/Components/Dashboard/Table";
@@ -14,6 +15,7 @@ const formatDateTime = (value) =>
         : "-";
 
 export default function Index({ stockMutations, products, warehouses = [], filters }) {
+    const { t } = useTranslation();
     const updateFilter = (key, value) => {
         router.get(
             route("stock-mutations.index"),
@@ -30,14 +32,14 @@ export default function Index({ stockMutations, products, warehouses = [], filte
 
     return (
         <>
-            <Head title="Mutasi Stok" />
+            <Head title={t('Mutasi Stok')} />
 
             <div className="mb-6">
                 <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                    Mutasi Stok
+                    {t('Mutasi Stok')}
                 </h1>
                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                    Histori perubahan stok dari stock opname dan initial stock produk.
+                    {t('Histori perubahan stok dari stock opname dan initial stock produk.')}
                 </p>
             </div>
 
@@ -49,7 +51,7 @@ export default function Index({ stockMutations, products, warehouses = [], filte
                     }
                     className="h-11 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                 >
-                    <option value="">Semua Produk</option>
+                    <option value="">{t('Semua Produk')}</option>
                     {products.map((product) => (
                         <option key={product.id} value={product.id}>
                             {product.title}
@@ -64,10 +66,10 @@ export default function Index({ stockMutations, products, warehouses = [], filte
                     }
                     className="h-11 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                 >
-                    <option value="">Semua Tipe</option>
-                    <option value="in">In</option>
-                    <option value="out">Out</option>
-                    <option value="adjustment">Adjustment</option>
+                    <option value="">{t('Semua Tipe')}</option>
+                    <option value="in">{t('In')}</option>
+                    <option value="out">{t('Out')}</option>
+                    <option value="adjustment">{t('Adjustment')}</option>
                 </select>
 
                 <select
@@ -75,7 +77,7 @@ export default function Index({ stockMutations, products, warehouses = [], filte
                     onChange={(event) => updateFilter("warehouse_id", event.target.value)}
                     className="h-11 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                 >
-                    <option value="">Semua Gudang</option>
+                    <option value="">{t('Semua Gudang')}</option>
                     {warehouses.map((w) => (
                         <option key={w.id} value={w.id}>{w.code} — {w.name}</option>
                     ))}
@@ -100,18 +102,18 @@ export default function Index({ stockMutations, products, warehouses = [], filte
                 />
             </div>
 
-            <Table.Card title="Histori Mutasi Stok">
+            <Table.Card title={t('Histori Mutasi Stok')}>
                 <Table>
                     <Table.Thead>
                         <tr>
-                            <Table.Th>Produk</Table.Th>
-                            <Table.Th>Tipe</Table.Th>
-                            <Table.Th>Qty</Table.Th>
-                            <Table.Th>Before / After</Table.Th>
-                            <Table.Th>Gudang</Table.Th>
-                            <Table.Th>Referensi</Table.Th>
-                            <Table.Th>Dibuat Oleh</Table.Th>
-                            <Table.Th>Waktu</Table.Th>
+                            <Table.Th>{t('Produk')}</Table.Th>
+                            <Table.Th>{t('Tipe')}</Table.Th>
+                            <Table.Th>{t('Qty')}</Table.Th>
+                            <Table.Th>{t('Before / After')}</Table.Th>
+                            <Table.Th>{t('Gudang')}</Table.Th>
+                            <Table.Th>{t('Referensi')}</Table.Th>
+                            <Table.Th>{t('Dibuat Oleh')}</Table.Th>
+                            <Table.Th>{t('Waktu')}</Table.Th>
                         </tr>
                     </Table.Thead>
                     <Table.Tbody>
@@ -160,7 +162,7 @@ export default function Index({ stockMutations, products, warehouses = [], filte
                                     colSpan={8}
                                 message={
                                     <div className="text-slate-500 dark:text-slate-400">
-                                        Belum ada mutasi stok.
+                                        {t('Belum ada mutasi stok.')}
                                     </div>
                                 }
                             >

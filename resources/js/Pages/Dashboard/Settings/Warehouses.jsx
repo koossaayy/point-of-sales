@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Head, usePage, router } from "@inertiajs/react";
+import { useTranslation } from '@/i18n';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import {
     IconBuildingWarehouse,
@@ -13,6 +14,7 @@ import { useAuthorization } from "@/Utils/authorization";
 import Input from "@/Components/Dashboard/Input";
 
 export default function Warehouses({ warehouses = [] }) {
+    const { t } = useTranslation();
     const { flash } = usePage().props;
     const { can } = useAuthorization();
     const canCreate = can("warehouses-create");
@@ -82,7 +84,7 @@ export default function Warehouses({ warehouses = [] }) {
     };
 
     const typeLabel = (type) => {
-        const labels = { main: "Utama", branch: "Cabang", warehouse: "Gudang" };
+        const labels = { main: t('Utama'), branch: t('Cabang'), warehouse: t('Gudang') };
         return labels[type] || type;
     };
 
@@ -97,15 +99,15 @@ export default function Warehouses({ warehouses = [] }) {
 
     return (
         <>
-            <Head title="Pengaturan Gudang" />
+            <Head title={t('Pengaturan Gudang')} />
 
             <div className="mb-6">
                 <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <IconBuildingWarehouse size={28} className="text-primary-500" />
-                    Gudang / Cabang
+                    {t('Gudang / Cabang')}
                 </h1>
                 <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                    Kelola gudang dan cabang untuk pemisahan stok per lokasi
+                    {t('Kelola gudang dan cabang untuk pemisahan stok per lokasi')}
                 </p>
             </div>
 
@@ -113,7 +115,7 @@ export default function Warehouses({ warehouses = [] }) {
                 <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
                     <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
                         <h3 className="font-semibold text-slate-800 dark:text-white">
-                            Daftar Gudang ({warehouses.length})
+                            {t('Daftar Gudang (')}{warehouses.length})
                         </h3>
                         {canCreate && (
                             <button
@@ -121,7 +123,7 @@ export default function Warehouses({ warehouses = [] }) {
                                 className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium transition-colors"
                             >
                                 <IconPlus size={18} />
-                                Tambah Gudang
+                                {t('Tambah Gudang')}
                             </button>
                         )}
                     </div>
@@ -151,7 +153,7 @@ export default function Warehouses({ warehouses = [] }) {
                                     <div className="flex items-center gap-2 shrink-0">
                                         {w.type !== "main" && (
                                             <span className="text-xs text-slate-400 dark:text-slate-500">
-                                                Sort: {w.sort_order}
+                                                {t('Sort:')} {w.sort_order}
                                             </span>
                                         )}
                                         {canUpdate && (
@@ -177,7 +179,7 @@ export default function Warehouses({ warehouses = [] }) {
                     ) : (
                         <div className="p-8 text-center">
                             <IconBuildingWarehouse size={48} className="mx-auto text-slate-300 dark:text-slate-600 mb-3" />
-                            <p className="text-slate-500 dark:text-slate-400">Belum ada gudang</p>
+                            <p className="text-slate-500 dark:text-slate-400">{t('Belum ada gudang')}</p>
                         </div>
                     )}
                 </div>
@@ -185,34 +187,34 @@ export default function Warehouses({ warehouses = [] }) {
                 {showForm && (
                     <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 space-y-4">
                         <h3 className="font-semibold text-slate-800 dark:text-white">
-                            {editing ? "Edit Gudang" : "Tambah Gudang Baru"}
+                            {editing ? t('Edit Gudang') : t('Tambah Gudang Baru')}
                         </h3>
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <Input
-                                    label="Kode"
-                                    placeholder="WH-002"
+                                    label={t('Kode')}
+                                    placeholder={t('WH-002')}
                                     value={form.code}
                                     onChange={(e) => setForm({ ...form, code: e.target.value })}
                                     errors={errors.code}
                                     disabled={!!editing}
                                 />
                                 <Input
-                                    label="Nama Gudang"
-                                    placeholder="Gudang Cabang A"
+                                    label={t('Nama Gudang')}
+                                    placeholder={t('Gudang Cabang A')}
                                     value={form.name}
                                     onChange={(e) => setForm({ ...form, name: e.target.value })}
                                     errors={errors.name}
                                 />
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Tipe</label>
+                                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{t('Tipe')}</label>
                                     <select
                                         value={form.type}
                                         onChange={(e) => setForm({ ...form, type: e.target.value })}
                                         className="w-full h-11 px-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm text-slate-700 dark:text-slate-200 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500"
                                     >
-                                        <option value="branch">Cabang</option>
-                                        <option value="warehouse">Gudang</option>
+                                        <option value="branch">{t('Cabang')}</option>
+                                        <option value="warehouse">{t('Gudang')}</option>
                                     </select>
                                     {errors.type && (
                                         <p className="text-xs text-danger-500 mt-1">{errors.type}</p>
@@ -222,7 +224,7 @@ export default function Warehouses({ warehouses = [] }) {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                        Alamat
+                                        {t('Alamat')}
                                     </label>
                                     <textarea
                                         value={form.address}
@@ -235,7 +237,7 @@ export default function Warehouses({ warehouses = [] }) {
                                 </div>
                                 <div className="space-y-4">
                                     <Input
-                                        label="Telepon"
+                                        label={t('Telepon')}
                                         placeholder="021-12345678"
                                         value={form.phone}
                                         onChange={(e) => setForm({ ...form, phone: e.target.value })}
@@ -243,7 +245,7 @@ export default function Warehouses({ warehouses = [] }) {
                                     />
                                     <div className="grid grid-cols-2 gap-4">
                                         <Input
-                                            label="Urutan"
+                                            label={t('Urutan')}
                                             type="number"
                                             value={form.sort_order}
                                             onChange={(e) => setForm({ ...form, sort_order: parseInt(e.target.value) || 0 })}
@@ -257,7 +259,7 @@ export default function Warehouses({ warehouses = [] }) {
                                                     onChange={(e) => setForm({ ...form, is_active: e.target.checked })}
                                                     className="rounded border-slate-300 dark:border-slate-600 text-primary-600 focus:ring-primary-500"
                                                 />
-                                                Aktif
+                                                {t('Aktif')}
                                             </label>
                                         </div>
                                     </div>
@@ -268,14 +270,14 @@ export default function Warehouses({ warehouses = [] }) {
                                     type="submit"
                                     className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary-500 hover:bg-primary-600 text-white text-sm font-semibold transition-colors"
                                 >
-                                    {editing ? "Update" : "Simpan"}
+                                    {editing ? t('Update') : t('Simpan')}
                                 </button>
                                 <button
                                     type="button"
                                     onClick={resetForm}
                                     className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                                 >
-                                    Batal
+                                    {t('Batal')}
                                 </button>
                             </div>
                         </form>

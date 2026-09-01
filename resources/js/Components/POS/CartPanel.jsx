@@ -5,6 +5,7 @@ import {
     IconPlus,
     IconShoppingCart,
 } from "@tabler/icons-react";
+import { useTranslation } from '@/i18n';
 import { getProductImageUrl } from "@/Utils/imageUrl";
 
 const formatPrice = (value = 0) =>
@@ -16,6 +17,7 @@ const formatPrice = (value = 0) =>
 
 // Single Cart Item
 function CartItem({ item, onUpdateQty, onRemove, isRemoving }) {
+    const { t } = useTranslation();
     // Note: item.price from backend is already the total (sell_price * qty)
     const quantity = Number(item.qty || 0);
     const itemPrice = Number(item.price || 0);
@@ -53,7 +55,7 @@ function CartItem({ item, onUpdateQty, onRemove, isRemoving }) {
             {/* Product Info */}
             <div className="flex-1 min-w-0">
                 <h4 className="text-sm font-medium text-slate-800 dark:text-slate-200 truncate">
-                    {item.product?.title || "Produk"}
+                    {item.product?.title || t('Produk')}
                 </h4>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                     {formatPrice(unitPrice)} × {item.qty}
@@ -102,6 +104,7 @@ function CartItem({ item, onUpdateQty, onRemove, isRemoving }) {
 
 // Empty Cart State
 function EmptyCart() {
+    const { t } = useTranslation();
     return (
         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
             <div className="w-20 h-20 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-4">
@@ -111,10 +114,10 @@ function EmptyCart() {
                 />
             </div>
             <h3 className="text-base font-medium text-slate-600 dark:text-slate-400">
-                Keranjang Kosong
+                {t('Keranjang Kosong')}
             </h3>
             <p className="text-sm text-slate-400 dark:text-slate-500 mt-1">
-                Klik produk untuk menambahkan
+                {t('Klik produk untuk menambahkan')}
             </p>
         </div>
     );
@@ -128,6 +131,7 @@ export default function CartPanel({
     removingItemId,
     className = "",
 }) {
+    const { t } = useTranslation();
     const totalItems = items.reduce((sum, item) => sum + Number(item.qty || 0), 0);
     // Note: item.price from backend is already sell_price * qty
     const subtotal = items.reduce((sum, item) => sum + Number(item.price || 0), 0);
@@ -142,7 +146,7 @@ export default function CartPanel({
                         className="text-slate-600 dark:text-slate-400"
                     />
                     <h2 className="text-base font-semibold text-slate-800 dark:text-white">
-                        Keranjang
+                        {t('Keranjang')}
                     </h2>
                 </div>
                 {totalItems > 0 && (
@@ -177,7 +181,7 @@ export default function CartPanel({
                 <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
                     <div className="flex items-center justify-between">
                         <span className="text-sm text-slate-600 dark:text-slate-400">
-                            Subtotal
+                            {t('Subtotal')}
                         </span>
                         <span className="text-lg font-bold text-slate-900 dark:text-white">
                             {formatPrice(subtotal)}

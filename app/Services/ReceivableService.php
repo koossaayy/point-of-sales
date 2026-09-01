@@ -14,7 +14,7 @@ class ReceivableService
             ->whereNotNull('due_date')
             ->get();
 
-        $buckets = ['current', '0-30', '31-60', '61-90', '90+'];
+        $buckets = [__('current'), __('0-30'), __('31-60'), __('61-90'), __('90+')];
 
         return collect($buckets)->map(function ($bucket) use ($receivables) {
             $filtered = $receivables->filter(fn ($r) => $r->aging_bucket === $bucket);

@@ -9,8 +9,10 @@ import {
     IconCurrencyDollar,
 } from "@tabler/icons-react";
 import { usePage, router } from "@inertiajs/react";
+import { useTranslation } from '@/i18n';
 
 export default function Notification() {
+    const { t } = useTranslation();
     const {
         lowStockNotifications = [],
         receivableNotifications = [],
@@ -119,11 +121,13 @@ export default function Notification() {
 
     const badgeCount = data.length;
 
-    const NotificationList = () => (
+    const NotificationList = () => {
+    const { t } = useTranslation();
+    return (
         <div className="flex flex-col gap-3 items-start max-h-80 overflow-y-auto pr-1">
             {badgeCount === 0 && (
                 <div className="text-sm text-gray-500 dark:text-gray-400">
-                    Tidak ada notifikasi
+                    {t('Tidak ada notifikasi')}
                 </div>
             )}
             {data.map((item) => (
@@ -147,12 +151,13 @@ export default function Notification() {
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold text-primary-600 hover:bg-primary-50 dark:text-primary-300 dark:hover:bg-primary-900/30 border border-transparent hover:border-primary-200 dark:hover:border-primary-800"
                     >
                         <IconCircleCheck size={16} />
-                        Dibaca
+                        {t('Dibaca')}
                     </button>
                 </div>
             ))}
         </div>
     );
+};
 
     return (
         <>
@@ -179,7 +184,7 @@ export default function Notification() {
                         <Menu.Items className="absolute rounded-2xl w-[600px] max-w-[94vw] border md:right-0 z-[100] bg-white dark:bg-gray-950 dark:border-gray-900 shadow-2xl">
                             <div className="flex justify-between items-center gap-2 p-4 border-b dark:border-gray-900">
                                 <div className="text-xl font-bold text-gray-700 dark:text-gray-200 flex items-center gap-2">
-                                    Notifikasi
+                                    {t('Notifikasi')}
                                 </div>
                                 <div className="flex items-center gap-2">
                                     {badgeCount > 0 && (
@@ -187,7 +192,7 @@ export default function Notification() {
                                             onClick={handleMarkAllRead}
                                             className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
                                         >
-                                            Tandai dibaca
+                                            {t('Tandai dibaca')}
                                         </button>
                                     )}
                                     <IconDots className="text-gray-500 dark:text-gray-200" size={24} />
@@ -217,7 +222,7 @@ export default function Notification() {
                     >
                         <div className="flex justify-between items-center gap-2 p-4 border-b mt-2 dark:border-gray-900 ">
                             <div className="text-base font-bold text-gray-500 dark:text-gray-400 ">
-                                Notifications
+                                {t('Notifications')}
                             </div>
                             <IconDots className="text-gray-500 dark:text-gray-400" size={24} />
                         </div>

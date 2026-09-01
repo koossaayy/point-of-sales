@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { Head, router } from "@inertiajs/react";
 import { IconShoppingCart, IconMinus, IconPlus } from "@tabler/icons-react";
 import toast from "react-hot-toast";
+import { useTranslation } from '@/i18n';
 
 const fmt = (v) => Number(v || 0).toLocaleString("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0 });
 
 export default function DineMenu({ table, categories, products, selfOrderEnabled, payOnlineEnabled, storeName }) {
+    const { t } = useTranslation();
     const [cart, setCart] = useState([]);
     const [activeCategory, setActiveCategory] = useState("all");
     const [notes, setNotes] = useState("");
@@ -51,11 +53,11 @@ export default function DineMenu({ table, categories, products, selfOrderEnabled
 
     const handleSubmit = (paymentOption) => {
         if (!selfOrderEnabled) {
-            toast.error("Fitur pemesanan sementara nonaktif.");
+            toast.error(t('Fitur pemesanan sementara nonaktif.'));
             return;
         }
         if (cart.length === 0) {
-            toast.error("Pilih minimal satu item.");
+            toast.error(t('Pilih minimal satu item.'));
             return;
         }
         setSubmitting(true);
@@ -65,7 +67,7 @@ export default function DineMenu({ table, categories, products, selfOrderEnabled
             {
                 onSuccess: () => setSubmitting(false),
                 onError: () => {
-                    toast.error("Gagal mengirim pesanan.");
+                    toast.error(t('Gagal mengirim pesanan.'));
                     setSubmitting(false);
                 },
             }
@@ -76,19 +78,19 @@ export default function DineMenu({ table, categories, products, selfOrderEnabled
 
     return (
         <>
-            <Head title={`Menu ${table.name} — ${storeName}`} />
+            <Head title={t('Menu {{0}} — {{1}}', { 0: table.name, 1: storeName })} />
             <div className="min-h-screen bg-slate-50 flex flex-col">
                 <header className="bg-white border-b border-slate-200 sticky top-0 z-20">
                     <div className="max-w-lg mx-auto px-4 py-3 flex items-center justify-between">
                         <div>
                             <h1 className="font-bold text-slate-900 text-lg">{storeName}</h1>
                             <p className="text-xs text-slate-500">
-                                Meja {table.name}
+                                {t('Meja')} {table.name}
                                 {table.area_name ? ` · ${table.area_name}` : ""}
                             </p>
                         </div>
                         <button onClick={() => window.history.back()} className="text-sm text-slate-500 hover:text-slate-700">
-                            Kembali
+                            {t('Kembali')}
                         </button>
                     </div>
                 </header>
@@ -103,7 +105,7 @@ export default function DineMenu({ table, categories, products, selfOrderEnabled
                                     : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                             }`}
                         >
-                            Semua
+                            {t('Semua')}
                         </button>
                         {categories.map((cat) => (
                             <button
@@ -141,7 +143,7 @@ export default function DineMenu({ table, categories, products, selfOrderEnabled
                                                     onClick={() => addItem(product)}
                                                     className="w-full py-1.5 bg-primary-500 hover:bg-primary-600 text-white text-xs font-medium rounded-lg transition-colors"
                                                 >
-                                                    + Tambah
+                                                    {t('+ Tambah')}
                                                 </button>
                                             ) : (
                                                 <div className="flex items-center gap-2 w-full">
@@ -188,7 +190,7 @@ export default function DineMenu({ table, categories, products, selfOrderEnabled
                 <dialog id="cart-modal" className="modal modal-bottom sm:modal-middle">
                     <div className="modal-box max-w-lg mx-auto">
                         <div className="flex items-center justify-between mb-4">
-                            <h3 className="font-bold text-lg">Pesanan Anda</h3>
+                            <h3 className="font-bold text-lg">{t('Pesanan Anda')}</h3>
                             <form method="dialog">
                                 <button className="btn btn-sm btn-circle btn-ghost">✕</button>
                             </form>
@@ -216,7 +218,7 @@ export default function DineMenu({ table, categories, products, selfOrderEnabled
                         <div className="mt-4 pt-3 border-t border-slate-200">
                             <textarea
                                 className="textarea textarea-bordered w-full text-sm"
-                                placeholder="Catatan pesanan (opsional)"
+                                placeholder={t('Catatan pesanan (opsional)')}
                                 value={notes}
                                 onChange={(e) => setNotes(e.target.value)}
                                 rows={2}
@@ -225,7 +227,7 @@ export default function DineMenu({ table, categories, products, selfOrderEnabled
 
                         <div className="mt-4 flex flex-col gap-2">
                             <div className="flex justify-between font-semibold">
-                                <span>Total</span>
+                                <span>{t('Total')}</span>
                                 <span>{fmt(cartTotal())}</span>
                             </div>
                             <button
@@ -236,7 +238,7 @@ export default function DineMenu({ table, categories, products, selfOrderEnabled
                                 disabled={submitting}
                                 className="btn bg-primary-500 hover:bg-primary-600 text-white"
                             >
-                                {submitting ? "Mengirim..." : "Pesan — Bayar di Kasir"}
+                                {submitting ? t('Mengirim...') : t('Pesan — Bayar di Kasir')}
                             </button>
                             {payOnlineEnabled && (
                                 <button
@@ -247,13 +249,13 @@ export default function DineMenu({ table, categories, products, selfOrderEnabled
                                     disabled={submitting}
                                     className="btn btn-outline border-primary-500 text-primary-600 hover:bg-primary-50"
                                 >
-                                    Pesan — Bayar Online
+                                    {t('Pesan — Bayar Online')}
                                 </button>
                             )}
                         </div>
                     </div>
                     <form method="dialog" className="modal-backdrop">
-                        <button>close</button>
+                        <button>{t('close')}</button>
                     </form>
                 </dialog>
             </div>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from '@/i18n';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, useForm, usePage, Link } from "@inertiajs/react";
 import Input from "@/Components/Dashboard/Input";
@@ -12,6 +13,7 @@ import {
 import axios from "axios";
 
 export default function Create() {
+    const { t } = useTranslation();
     const { errors, provinces = [], tierOptions = [] } = usePage().props;
 
     const { data, setData, post, processing } = useForm({
@@ -88,14 +90,14 @@ export default function Create() {
     const submit = (e) => {
         e.preventDefault();
         post(route("customers.store"), {
-            onSuccess: () => toast.success("Pelanggan berhasil ditambahkan"),
-            onError: () => toast.error("Gagal menyimpan pelanggan"),
+            onSuccess: () => toast.success(t('Pelanggan berhasil ditambahkan')),
+            onError: () => toast.error(t('Gagal menyimpan pelanggan')),
         });
     };
 
     return (
         <>
-            <Head title="Tambah Pelanggan" />
+            <Head title={t('Tambah Pelanggan')} />
 
             <div className="mb-6">
                 <Link
@@ -103,11 +105,11 @@ export default function Create() {
                     className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-primary-600 mb-3"
                 >
                     <IconArrowLeft size={16} />
-                    Kembali ke Pelanggan
+                    {t('Kembali ke Pelanggan')}
                 </Link>
                 <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <IconUsers size={28} className="text-primary-500" />
-                    Tambah Pelanggan Baru
+                    {t('Tambah Pelanggan Baru')}
                 </h1>
             </div>
 
@@ -117,15 +119,15 @@ export default function Create() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <Input
                                 type="text"
-                                label="Nama Pelanggan"
-                                placeholder="Masukkan nama lengkap"
+                                label={t('Nama Pelanggan')}
+                                placeholder={t('Masukkan nama lengkap')}
                                 errors={errors.name}
                                 onChange={(e) => setData("name", e.target.value)}
                                 value={data.name}
                             />
                             <Input
                                 type="text"
-                                label="No. Handphone"
+                                label={t('No. Handphone')}
                                 placeholder="08xxxxxxxxxx"
                                 errors={errors.no_telp}
                                 onChange={(e) =>
@@ -139,10 +141,10 @@ export default function Create() {
                             <div className="flex items-center justify-between gap-4">
                                 <div>
                                     <p className="text-sm font-semibold text-slate-900 dark:text-white">
-                                        Aktivasi Loyalty Member
+                                        {t('Aktivasi Loyalty Member')}
                                     </p>
                                     <p className="text-xs text-slate-500 dark:text-slate-400">
-                                        Member mendapat poin, voucher, dan harga khusus.
+                                        {t('Member mendapat poin, voucher, dan harga khusus.')}
                                     </p>
                                 </div>
                                 <label className="inline-flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300">
@@ -157,14 +159,14 @@ export default function Create() {
                                         }
                                         className="h-4 w-4 rounded border-slate-300 text-primary-500"
                                     />
-                                    Member
+                                    {t('Member')}
                                 </label>
                             </div>
 
                             {data.is_loyalty_member && (
                                 <div className="mt-4">
                                     <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                                        Tier Awal
+                                        {t('Tier Awal')}
                                     </label>
                                     <select
                                         value={data.loyalty_tier}
@@ -192,14 +194,14 @@ export default function Create() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Provinsi
+                                    {t('Provinsi')}
                                 </label>
                                 <select
                                     value={data.province_id}
                                     onChange={(e) => setData("province_id", e.target.value)}
                                     className="w-full h-11 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-3 text-sm"
                                 >
-                                    <option value="">Pilih Provinsi</option>
+                                    <option value="">{t('Pilih Provinsi')}</option>
                                     {provinces.map((prov) => (
                                         <option key={prov.code} value={prov.code}>
                                             {prov.name}
@@ -222,7 +224,7 @@ export default function Create() {
                                     className="w-full h-11 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-3 text-sm"
                                     disabled={!data.province_id}
                                 >
-                                    <option value="">Pilih Kota/Kabupaten</option>
+                                    <option value="">{t('Pilih Kota/Kabupaten')}</option>
                                     {regencies.map((item) => (
                                         <option key={item.code} value={item.code}>
                                             {item.name}
@@ -240,7 +242,7 @@ export default function Create() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Kecamatan
+                                    {t('Kecamatan')}
                                 </label>
                                 <select
                                     value={data.district_id}
@@ -248,7 +250,7 @@ export default function Create() {
                                     className="w-full h-11 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-3 text-sm"
                                     disabled={!data.regency_id}
                                 >
-                                    <option value="">Pilih Kecamatan</option>
+                                    <option value="">{t('Pilih Kecamatan')}</option>
                                     {districts.map((item) => (
                                         <option key={item.code} value={item.code}>
                                             {item.name}
@@ -263,7 +265,7 @@ export default function Create() {
                             </div>
                             <div>
                                 <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Kelurahan
+                                    {t('Kelurahan')}
                                 </label>
                                 <select
                                     value={data.village_id}
@@ -274,7 +276,7 @@ export default function Create() {
                                     className="w-full h-11 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-3 text-sm"
                                     disabled={!data.district_id}
                                 >
-                                    <option value="">Pilih Kelurahan</option>
+                                    <option value="">{t('Pilih Kelurahan')}</option>
                                     {villages.map((item) => (
                                         <option
                                             key={item.code}
@@ -293,8 +295,8 @@ export default function Create() {
                         </div>
 
                         <Textarea
-                            label="Alamat Detail"
-                            placeholder="Alamat lengkap pelanggan"
+                            label={t('Alamat Detail')}
+                            placeholder={t('Alamat lengkap pelanggan')}
                             errors={errors.address}
                             onChange={(e) => setData("address", e.target.value)}
                             value={data.address}
@@ -307,7 +309,7 @@ export default function Create() {
                             href={route("customers.index")}
                             className="px-5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium transition-colors"
                         >
-                            Batal
+                            {t('Batal')}
                         </Link>
                         <button
                             type="submit"
@@ -315,7 +317,7 @@ export default function Create() {
                             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary-500 hover:bg-primary-600 text-white font-medium transition-colors disabled:opacity-50"
                         >
                             <IconDeviceFloppy size={18} />
-                            {processing ? "Menyimpan..." : "Simpan"}
+                            {processing ? t('Menyimpan...') : t('Simpan')}
                         </button>
                     </div>
                 </div>

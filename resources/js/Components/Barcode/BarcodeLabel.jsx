@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import JsBarcode from "jsbarcode";
 import { useEffect } from "react";
+import { useTranslation } from '@/i18n';
 
 /**
  * BarcodeLabel Component
@@ -13,6 +14,7 @@ export default function BarcodeLabel({
     showOngkir = false,
     ongkirAmount = 0,
 }) {
+    const { t } = useTranslation();
     const barcodeRef = useRef(null);
 
     const sizes = {
@@ -101,7 +103,7 @@ export default function BarcodeLabel({
                     className="text-slate-500 mt-0.5"
                     style={{ fontSize: size === "50x30" ? "8px" : "10px" }}
                 >
-                    + Ongkir {formatPrice(ongkirAmount)}
+                    {t('+ Ongkir')} {formatPrice(ongkirAmount)}
                 </p>
             )}
         </div>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from '@/i18n';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, usePage, Link } from "@inertiajs/react";
 import Button from "@/Components/Dashboard/Button";
@@ -81,6 +82,7 @@ function CategoryCard({ category, canUpdate, canDelete }) {
 }
 
 export default function Index({ categories }) {
+    const { t } = useTranslation();
     const { can } = useAuthorization();
     const [viewMode, setViewMode] = useState("grid");
     const canCreateCategories = can("categories-create");
@@ -89,14 +91,14 @@ export default function Index({ categories }) {
 
     return (
         <>
-            <Head title="Kategori" />
+            <Head title={t('Kategori')} />
 
             {/* Header */}
             <div className="mb-6">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
                         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                            Kategori
+                            {t('Kategori')}
                         </h1>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
                             {categories.total || categories.data?.length || 0}{" "}
@@ -115,7 +117,7 @@ export default function Index({ categories }) {
                             className={
                                 "bg-primary-500 hover:bg-primary-600 text-white shadow-lg shadow-primary-500/30"
                             }
-                            label={"Tambah Kategori"}
+                            label={t('Tambah Kategori')}
                             href={route("categories.create")}
                         />
                     )}
@@ -127,7 +129,7 @@ export default function Index({ categories }) {
                 <div className="w-full sm:w-80">
                     <Search
                         url={route("categories.index")}
-                        placeholder="Cari kategori..."
+                        placeholder={t('Cari kategori...')}
                     />
                 </div>
                 <div className="flex items-center gap-2">
@@ -138,7 +140,7 @@ export default function Index({ categories }) {
                                 ? "bg-primary-100 text-primary-600 dark:bg-primary-900/50 dark:text-primary-400"
                                 : "text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
                         }`}
-                        title="Grid View"
+                        title={t('Grid View')}
                     >
                         <IconLayoutGrid size={20} />
                     </button>
@@ -149,7 +151,7 @@ export default function Index({ categories }) {
                                 ? "bg-primary-100 text-primary-600 dark:bg-primary-900/50 dark:text-primary-400"
                                 : "text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
                         }`}
-                        title="List View"
+                        title={t('List View')}
                     >
                         <IconList size={20} />
                     </button>
@@ -172,13 +174,13 @@ export default function Index({ categories }) {
                     </div>
                 ) : (
                     /* List View */
-                    <Table.Card title={"Data Kategori"}>
+                    <Table.Card title={t('Data Kategori')}>
                         <Table>
                             <Table.Thead>
                                 <tr>
-                                    <Table.Th className="w-10">No</Table.Th>
-                                    <Table.Th>Kategori</Table.Th>
-                                    <Table.Th>Deskripsi</Table.Th>
+                                    <Table.Th className="w-10">{t('No')}</Table.Th>
+                                    <Table.Th>{t('Kategori')}</Table.Th>
+                                    <Table.Th>{t('Deskripsi')}</Table.Th>
                                     <Table.Th></Table.Th>
                                 </tr>
                             </Table.Thead>
@@ -282,10 +284,10 @@ export default function Index({ categories }) {
                         />
                     </div>
                     <h3 className="text-lg font-medium text-slate-800 dark:text-slate-200 mb-1">
-                        Belum Ada Kategori
+                        {t('Belum Ada Kategori')}
                     </h3>
                     <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
-                        Tambahkan kategori pertama Anda.
+                        {t('Tambahkan kategori pertama Anda.')}
                     </p>
                     <Button
                         type={"link"}
@@ -293,7 +295,7 @@ export default function Index({ categories }) {
                         className={
                             "bg-primary-500 hover:bg-primary-600 text-white"
                         }
-                        label={"Tambah Kategori"}
+                        label={t('Tambah Kategori')}
                         href={route("categories.create")}
                     />
                 </div>

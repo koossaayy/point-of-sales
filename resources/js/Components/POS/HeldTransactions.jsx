@@ -9,6 +9,7 @@ import {
     IconX,
 } from "@tabler/icons-react";
 import toast from "react-hot-toast";
+import { useTranslation } from '@/i18n';
 
 const formatPrice = (value = 0) =>
     Number(value || 0).toLocaleString("id-ID", {
@@ -25,6 +26,7 @@ export default function HeldTransactions({
     heldCarts = [],
     hasActiveCart = false,
 }) {
+    const { t } = useTranslation();
     const [isExpanded, setIsExpanded] = useState(false);
     const [resumingId, setResumingId] = useState(null);
     const [deletingId, setDeletingId] = useState(null);
@@ -36,7 +38,7 @@ export default function HeldTransactions({
     const handleResume = (holdId) => {
         if (hasActiveCart) {
             toast.error(
-                "Selesaikan atau tahan transaksi aktif terlebih dahulu"
+                t('Selesaikan atau tahan transaksi aktif terlebih dahulu')
             );
             return;
         }
@@ -49,13 +51,13 @@ export default function HeldTransactions({
             {
                 preserveScroll: true,
                 onSuccess: () => {
-                    toast.success("Transaksi dilanjutkan");
+                    toast.success(t('Transaksi dilanjutkan'));
                     setResumingId(null);
                     setIsExpanded(false);
                 },
                 onError: (errors) => {
                     toast.error(
-                        errors.message || "Gagal melanjutkan transaksi"
+                        errors.message || t('Gagal melanjutkan transaksi')
                     );
                     setResumingId(null);
                 },
@@ -64,18 +66,18 @@ export default function HeldTransactions({
     };
 
     const handleDelete = (holdId) => {
-        if (!confirm("Hapus transaksi yang ditahan ini?")) return;
+        if (!confirm(t('Hapus transaksi yang ditahan ini?'))) return;
 
         setDeletingId(holdId);
 
         router.delete(route("transactions.clearHold", holdId), {
             preserveScroll: true,
             onSuccess: () => {
-                toast.success("Transaksi dihapus");
+                toast.success(t('Transaksi dihapus'));
                 setDeletingId(null);
             },
             onError: () => {
-                toast.error("Gagal menghapus transaksi");
+                toast.error(t('Gagal menghapus transaksi'));
                 setDeletingId(null);
             },
         });
@@ -98,7 +100,7 @@ export default function HeldTransactions({
                         {heldCarts.length}
                     </div>
                     <span className="text-sm font-medium text-amber-700 dark:text-amber-300">
-                        Transaksi Ditahan
+                        {t('Transaksi Ditahan')}
                     </span>
                     <span className="text-xs text-amber-600 dark:text-amber-400">
                         • {formatPrice(totalHeldAmount)}
@@ -119,7 +121,7 @@ export default function HeldTransactions({
                         {heldCarts.length}
                     </div>
                     <span className="text-sm font-medium text-amber-700 dark:text-amber-300">
-                        Transaksi Ditahan
+                        {t('Transaksi Ditahan')}
                     </span>
                 </div>
                 <button
@@ -155,8 +157,8 @@ export default function HeldTransactions({
                                 className="px-2 py-1 rounded bg-amber-500 hover:bg-amber-600 text-white text-xs font-medium disabled:opacity-50 flex items-center gap-1"
                                 title={
                                     hasActiveCart
-                                        ? "Kosongkan keranjang dulu"
-                                        : "Lanjutkan"
+                                        ? t('Kosongkan keranjang dulu')
+                                        : t('Lanjutkan')
                                 }
                             >
                                 {resumingId === hold.hold_id ? (
@@ -184,6 +186,7 @@ export default function HeldTransactions({
  * HoldButton - Compact button to hold current transaction
  */
 export function HoldButton({ hasItems = false, onHold, isHolding = false }) {
+    const { t } = useTranslation();
     const [showLabelInput, setShowLabelInput] = useState(false);
     const [label, setLabel] = useState("");
 
@@ -202,7 +205,7 @@ export function HoldButton({ hasItems = false, onHold, isHolding = false }) {
                     type="text"
                     value={label}
                     onChange={(e) => setLabel(e.target.value)}
-                    placeholder="Label (opsional)"
+                    placeholder={t('Label (opsional)')}
                     className="flex-1 h-8 px-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-sm"
                     autoFocus
                     onKeyDown={(e) => {
@@ -215,7 +218,7 @@ export function HoldButton({ hasItems = false, onHold, isHolding = false }) {
                     disabled={isHolding}
                     className="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-white text-xs font-semibold disabled:opacity-50"
                 >
-                    {isHolding ? "..." : "OK"}
+                    {isHolding ? t('...') : t('OK')}
                 </button>
                 <button
                     onClick={() => setShowLabelInput(false)}
@@ -233,7 +236,7 @@ export function HoldButton({ hasItems = false, onHold, isHolding = false }) {
             className="flex items-center justify-center gap-1.5 w-full py-2 px-3 rounded-lg border border-dashed border-amber-400 dark:border-amber-700 text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-950/30 text-xs font-medium transition-colors"
         >
             <IconClock size={14} />
-            Tahan
+            {t('Tahan')}
         </button>
     );
 }

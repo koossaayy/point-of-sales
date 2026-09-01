@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import React, { useState } from "react";
 import { Head, useForm, usePage, Link } from "@inertiajs/react";
@@ -29,6 +30,7 @@ function UserCard({
     canUpdate,
     canDelete,
 }) {
+    const { t } = useTranslation();
     const avatarUrl = user.avatar;
     const initial =
         user.name?.charAt(0)?.toUpperCase() ||
@@ -104,7 +106,7 @@ function UserCard({
                             className="flex-1 flex items-center justify-center gap-1.5 py-3 text-warning-600 hover:bg-warning-50 dark:hover:bg-warning-950/50 text-sm font-medium transition-colors"
                         >
                             <IconPencilCog size={16} />
-                            <span>Edit</span>
+                            <span>{t('Edit')}</span>
                         </Link>
                     )}
                     {canUpdate && canDelete && (
@@ -116,7 +118,7 @@ function UserCard({
                             className="flex-1 flex items-center justify-center gap-1.5 py-3 text-danger-600 hover:bg-danger-50 dark:hover:bg-danger-950/50 text-sm font-medium transition-colors"
                         >
                             <IconTrash size={16} />
-                            <span>Hapus</span>
+                            <span>{t('Hapus')}</span>
                         </button>
                     )}
                 </div>
@@ -126,6 +128,7 @@ function UserCard({
 }
 
 export default function Index() {
+    const { t } = useTranslation();
     const { users } = usePage().props;
     const { can } = useAuthorization();
     const [viewMode, setViewMode] = useState("grid");
@@ -152,20 +155,20 @@ export default function Index() {
 
     const deleteData = async (id) => {
         Swal.fire({
-            title: "Hapus Pengguna?",
-            text: "Data yang dihapus tidak dapat dikembalikan!",
+            title: t('Hapus Pengguna?'),
+            text: t('Data yang dihapus tidak dapat dikembalikan!'),
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#ef4444",
             cancelButtonColor: "#64748b",
-            confirmButtonText: "Ya, Hapus!",
-            cancelButtonText: "Batal",
+            confirmButtonText: t('Ya, Hapus!'),
+            cancelButtonText: t('Batal'),
         }).then((result) => {
             if (result.isConfirmed) {
                 destroy(route("users.destroy", [id]));
                 Swal.fire({
                     title: "Berhasil!",
-                    text: "Data berhasil dihapus!",
+                    text: t('Data berhasil dihapus!'),
                     icon: "success",
                     showConfirmButton: false,
                     timer: 1500,
@@ -177,14 +180,14 @@ export default function Index() {
 
     return (
         <>
-            <Head title="Pengguna" />
+            <Head title={t('Pengguna')} />
 
             {/* Header */}
             <div className="mb-6">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
                         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                            Pengguna
+                            {t('Pengguna')}
                         </h1>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
                             {users.total || users.data?.length || 0} pengguna
@@ -199,7 +202,7 @@ export default function Index() {
                                 className={
                                     "bg-danger-500 hover:bg-danger-600 text-white"
                                 }
-                                label={`Hapus ${data.selectedUser.length}`}
+                                label={t('Hapus {{0}}', { 0: data.selectedUser.length })}
                                 onClick={() => deleteData(data.selectedUser)}
                             />
                         )}
@@ -216,7 +219,7 @@ export default function Index() {
                                 className={
                                     "bg-primary-500 hover:bg-primary-600 text-white shadow-lg shadow-primary-500/30"
                                 }
-                                label={"Tambah Pengguna"}
+                                label={t('Tambah Pengguna')}
                             />
                         )}
                     </div>
@@ -228,7 +231,7 @@ export default function Index() {
                 <div className="w-full sm:w-80">
                     <Search
                         url={route("users.index")}
-                        placeholder="Cari pengguna..."
+                        placeholder={t('Cari pengguna...')}
                     />
                 </div>
                 <div className="flex items-center gap-2">
@@ -274,7 +277,7 @@ export default function Index() {
                         ))}
                     </div>
                 ) : (
-                    <Table.Card title={"Data Pengguna"}>
+                    <Table.Card title={t('Data Pengguna')}>
                         <Table>
                             <Table.Thead>
                                 <tr>
@@ -300,9 +303,9 @@ export default function Index() {
                                             />
                                         )}
                                     </Table.Th>
-                                    <Table.Th className={"w-10"}>No</Table.Th>
-                                    <Table.Th>Pengguna</Table.Th>
-                                    <Table.Th>Group Akses</Table.Th>
+                                    <Table.Th className={"w-10"}>{t('No')}</Table.Th>
+                                    <Table.Th>{t('Pengguna')}</Table.Th>
+                                    <Table.Th>{t('Group Akses')}</Table.Th>
                                     <Table.Th></Table.Th>
                                 </tr>
                             </Table.Thead>
@@ -427,10 +430,10 @@ export default function Index() {
                         />
                     </div>
                     <h3 className="text-lg font-medium text-slate-800 dark:text-slate-200 mb-1">
-                        Belum Ada Pengguna
+                        {t('Belum Ada Pengguna')}
                     </h3>
                     <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
-                        Tambahkan pengguna pertama Anda.
+                        {t('Tambahkan pengguna pertama Anda.')}
                     </p>
                     {canCreateUsers && (
                         <Button
@@ -439,7 +442,7 @@ export default function Index() {
                             className={
                                 "bg-primary-500 hover:bg-primary-600 text-white"
                             }
-                            label={"Tambah Pengguna"}
+                            label={t('Tambah Pengguna')}
                             href={route("users.create")}
                         />
                     )}

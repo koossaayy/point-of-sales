@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import InputSelect from "@/Components/Dashboard/InputSelect";
 import Table from "@/Components/Dashboard/Table";
@@ -18,6 +19,7 @@ import {
     IconUsers,
     IconX,
 } from "@tabler/icons-react";
+import i18next from 'i18next';
 
 const defaultFilters = {
     start_date: "",
@@ -50,22 +52,22 @@ const formatDateTime = (value) =>
 
 const coverageStatusConfig = {
     critical: {
-        label: "Kritis",
+        get label() { return i18next.t('Kritis'); },
         className:
             "bg-rose-100 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300",
     },
     low: {
-        label: "Rendah",
+        get label() { return i18next.t('Rendah'); },
         className:
             "bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300",
     },
     healthy: {
-        label: "Sehat",
+        get label() { return i18next.t('Sehat'); },
         className:
             "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300",
     },
     no_movement: {
-        label: "Tidak Bergerak",
+        get label() { return i18next.t('Tidak Bergerak'); },
         className:
             "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
     },
@@ -73,39 +75,39 @@ const coverageStatusConfig = {
 
 const promoStatusConfig = {
     active: {
-        label: "Aktif",
+        get label() { return i18next.t('Aktif'); },
         className:
             "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300",
     },
     scheduled: {
-        label: "Terjadwal",
+        get label() { return i18next.t('Terjadwal'); },
         className:
             "bg-sky-100 text-sky-700 dark:bg-sky-950/50 dark:text-sky-300",
     },
     expired: {
-        label: "Berakhir",
+        get label() { return i18next.t('Berakhir'); },
         className:
             "bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300",
     },
     inactive: {
-        label: "Nonaktif",
+        get label() { return i18next.t('Nonaktif'); },
         className:
             "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
     },
 };
 
 const promoKindLabel = {
-    standard_discount: "Discount",
-    qty_break: "Grosir",
-    bundle_price: "Bundle",
-    buy_x_get_y: "BXGY",
+    get standard_discount() { return i18next.t('Discount'); },
+    get qty_break() { return i18next.t('Grosir'); },
+    get bundle_price() { return i18next.t('Bundle'); },
+    get buy_x_get_y() { return i18next.t('BXGY'); },
 };
 
 const crmCampaignTypeLabel = {
-    promo_broadcast: "Promo Broadcast",
-    invoice_share: "Invoice Share",
-    due_date_reminder: "Due Reminder",
-    repeat_order_reminder: "Repeat Order",
+    get promo_broadcast() { return i18next.t('Promo Broadcast'); },
+    get invoice_share() { return i18next.t('Invoice Share'); },
+    get due_date_reminder() { return i18next.t('Due Reminder'); },
+    get repeat_order_reminder() { return i18next.t('Repeat Order'); },
 };
 
 function SummaryCard({ title, value, description, icon: Icon, gradient }) {
@@ -145,6 +147,7 @@ function EmptyState({ message }) {
 }
 
 function ChartCard({ title, subtitle, chartRef, hasData }) {
+    const { t } = useTranslation();
     return (
         <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
             <div className="mb-4">
@@ -160,7 +163,7 @@ function ChartCard({ title, subtitle, chartRef, hasData }) {
                     <canvas ref={chartRef} />
                 </div>
             ) : (
-                <EmptyState message="Belum ada data untuk periode ini." />
+                <EmptyState message={t('Belum ada data untuk periode ini.')} />
             )}
         </div>
     );
@@ -185,6 +188,7 @@ export default function Insights({
     loyaltyPerformance,
     crmOperations,
 }) {
+    const { t } = useTranslation();
     const [showFilters, setShowFilters] = useState(false);
     const [marginView, setMarginView] = useState("product");
     const [filterData, setFilterData] = useState({
@@ -245,7 +249,7 @@ export default function Insights({
                 labels: hourChartData.map((item) => item.label),
                 datasets: [
                     {
-                        label: "Omzet",
+                        label: t('Omzet'),
                         data: hourChartData.map((item) => item.revenue_total),
                         backgroundColor: "#3b82f6",
                         borderRadius: 8,
@@ -281,7 +285,7 @@ export default function Insights({
                 labels: dayChartData.map((item) => item.label),
                 datasets: [
                     {
-                        label: "Omzet",
+                        label: t('Omzet'),
                         data: dayChartData.map((item) => item.revenue_total),
                         borderColor: "#10b981",
                         backgroundColor: "rgba(16, 185, 129, 0.15)",
@@ -345,7 +349,7 @@ export default function Insights({
 
     return (
         <>
-            <Head title="Advanced Sales Insights" />
+            <Head title={t('Advanced Sales Insights')} />
 
             <div className="space-y-6">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -355,11 +359,10 @@ export default function Insights({
                                 size={28}
                                 className="text-primary-500"
                             />
-                            Advanced Sales Insights
+                            {t('Advanced Sales Insights')}
                         </h1>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                            Insight operasional penjualan, margin, produk, dan
-                            performa kasir dalam satu dashboard.
+                            {t('Insight operasional penjualan, margin, produk, dan performa kasir dalam satu dashboard.')}
                         </p>
                     </div>
                     <button
@@ -371,36 +374,36 @@ export default function Insights({
                         }`}
                     >
                         <IconFilter size={18} />
-                        Filter
+                        {t('Filter')}
                     </button>
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
                     <SummaryCard
-                        title="Pendapatan"
+                        title={t('Pendapatan')}
                         value={formatCurrency(summary?.revenue_total ?? 0)}
-                        description={`${summary?.orders_count ?? 0} transaksi`}
+                        description={t('{{0}} transaksi', { 0: summary?.orders_count ?? 0 })}
                         icon={IconReceipt2}
                         gradient="from-primary-500 to-primary-700"
                     />
                     <SummaryCard
-                        title="Profit"
+                        title={t('Profit')}
                         value={formatCurrency(summary?.profit_total ?? 0)}
-                        description={`Rata-rata ${formatCurrency(summary?.average_order ?? 0)}`}
+                        description={t('Rata-rata {{0}}', { 0: formatCurrency(summary?.average_order ?? 0) })}
                         icon={IconCoin}
                         gradient="from-emerald-500 to-emerald-700"
                     />
                     <SummaryCard
-                        title="Item Terjual"
+                        title={t('Item Terjual')}
                         value={(summary?.items_sold ?? 0).toLocaleString("id-ID")}
-                        description={`Diskon manual ${formatCurrency(summary?.manual_discount_total ?? 0)}`}
+                        description={t('Diskon manual {{0}}', { 0: formatCurrency(summary?.manual_discount_total ?? 0) })}
                         icon={IconPackage}
                         gradient="from-amber-500 to-amber-700"
                     />
                     <SummaryCard
-                        title="Kasir Aktif di Filter"
+                        title={t('Kasir Aktif di Filter')}
                         value={cashierPerformance.length.toLocaleString("id-ID")}
-                        description="Leaderboard performa kasir"
+                        description={t('Leaderboard performa kasir')}
                         icon={IconUsers}
                         gradient="from-fuchsia-500 to-fuchsia-700"
                     />
@@ -412,7 +415,7 @@ export default function Insights({
                             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
                                 <div>
                                     <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                        Tanggal Mulai
+                                        {t('Tanggal Mulai')}
                                     </label>
                                     <input
                                         type="date"
@@ -425,7 +428,7 @@ export default function Insights({
                                 </div>
                                 <div>
                                     <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                        Tanggal Akhir
+                                        {t('Tanggal Akhir')}
                                     </label>
                                     <input
                                         type="date"
@@ -437,36 +440,36 @@ export default function Insights({
                                     />
                                 </div>
                                 <InputSelect
-                                    label="Kasir"
+                                    label={t('Kasir')}
                                     data={cashiers}
                                     selected={selectedCashier}
                                     setSelected={(value) => {
                                         setSelectedCashier(value);
                                         handleChange("cashier_id", value ? String(value.id) : "");
                                     }}
-                                    placeholder="Semua kasir"
+                                    placeholder={t('Semua kasir')}
                                     searchable
                                 />
                                 <InputSelect
-                                    label="Pelanggan"
+                                    label={t('Pelanggan')}
                                     data={customers}
                                     selected={selectedCustomer}
                                     setSelected={(value) => {
                                         setSelectedCustomer(value);
                                         handleChange("customer_id", value ? String(value.id) : "");
                                     }}
-                                    placeholder="Semua pelanggan"
+                                    placeholder={t('Semua pelanggan')}
                                     searchable
                                 />
                                 <InputSelect
-                                    label="Kategori"
+                                    label={t('Kategori')}
                                     data={categories}
                                     selected={selectedCategory}
                                     setSelected={(value) => {
                                         setSelectedCategory(value);
                                         handleChange("category_id", value ? String(value.id) : "");
                                     }}
-                                    placeholder="Semua kategori"
+                                    placeholder={t('Semua kategori')}
                                     searchable
                                 />
                             </div>
@@ -485,7 +488,7 @@ export default function Insights({
                                     className="inline-flex items-center gap-2 rounded-xl bg-primary-500 px-6 py-2.5 font-medium text-white transition-colors hover:bg-primary-600"
                                 >
                                     <IconSearch size={18} />
-                                    Terapkan
+                                    {t('Terapkan')}
                                 </button>
                             </div>
                         </form>
@@ -494,13 +497,13 @@ export default function Insights({
 
                 <div className="grid gap-6 xl:grid-cols-2">
                     <ChartCard
-                        title="Sales by Hour"
+                        title={t('Sales by Hour')}
                         subtitle="Pola omzet per jam dari transaksi yang lolos filter."
                         chartRef={salesHourChartRef}
                         hasData={hourChartData.length > 0}
                     />
                     <ChartCard
-                        title="Sales by Day"
+                        title={t('Sales by Day')}
                         subtitle="Tren omzet harian pada periode aktif."
                         chartRef={salesDayChartRef}
                         hasData={dayChartData.length > 0}
@@ -509,21 +512,21 @@ export default function Insights({
 
                 <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
                     <SummaryCard
-                        title="Customer Aktif"
+                        title={t('Customer Aktif')}
                         value={(repeatSummary.active_customers ?? 0).toLocaleString("id-ID")}
-                        description={`${repeatSummary.new_customers ?? 0} pelanggan baru`}
+                        description={t('{{0}} pelanggan baru', { 0: repeatSummary.new_customers ?? 0 })}
                         icon={IconUsers}
                         gradient="from-sky-500 to-sky-700"
                     />
                     <SummaryCard
-                        title="Repeat Rate"
+                        title={t('Repeat Rate')}
                         value={`${formatPercentage(repeatSummary.repeat_rate ?? 0)}%`}
-                        description={`${repeatSummary.repeat_customers ?? 0} pelanggan repeat`}
+                        description={t('{{0}} pelanggan repeat', { 0: repeatSummary.repeat_customers ?? 0 })}
                         icon={IconTrendingUp}
                         gradient="from-violet-500 to-violet-700"
                     />
                     <SummaryCard
-                        title="Member Revenue Share"
+                        title={t('Member Revenue Share')}
                         value={`${formatPercentage(repeatSummary.member_revenue_share ?? 0)}%`}
                         description={formatCurrency(
                             repeatSummary.member_revenue_total ?? 0
@@ -532,26 +535,26 @@ export default function Insights({
                         gradient="from-teal-500 to-teal-700"
                     />
                     <SummaryCard
-                        title="Stok Perlu Perhatian"
+                        title={t('Stok Perlu Perhatian')}
                         value={(
                             (stockCoverageSummary.critical ?? 0) +
                             (stockCoverageSummary.low ?? 0)
                         ).toLocaleString("id-ID")}
-                        description={`${stockCoverageSummary.window_days ?? 0} hari jendela analisa`}
+                        description={t('{{0}} hari jendela analisa', { 0: stockCoverageSummary.window_days ?? 0 })}
                         icon={IconClock}
                         gradient="from-rose-500 to-rose-700"
                     />
                 </div>
 
-                <Table.Card title="Top Selling Products">
+                <Table.Card title={t('Top Selling Products')}>
                     <Table>
                         <Table.Thead>
                             <tr>
-                                <Table.Th>Produk</Table.Th>
-                                <Table.Th>Kategori</Table.Th>
-                                <Table.Th className="text-right">Qty</Table.Th>
-                                <Table.Th className="text-right">Omzet</Table.Th>
-                                <Table.Th className="text-right">Profit</Table.Th>
+                                <Table.Th>{t('Produk')}</Table.Th>
+                                <Table.Th>{t('Kategori')}</Table.Th>
+                                <Table.Th className="text-right">{t('Qty')}</Table.Th>
+                                <Table.Th className="text-right">{t('Omzet')}</Table.Th>
+                                <Table.Th className="text-right">{t('Profit')}</Table.Th>
                             </tr>
                         </Table.Thead>
                         <Table.Tbody>
@@ -581,15 +584,15 @@ export default function Insights({
                     </Table>
                 </Table.Card>
 
-                <Table.Card title="Low Performing Products">
+                <Table.Card title={t('Low Performing Products')}>
                     <Table>
                         <Table.Thead>
                             <tr>
-                                <Table.Th>Produk</Table.Th>
-                                <Table.Th>Stok</Table.Th>
-                                <Table.Th className="text-right">Qty Sold</Table.Th>
-                                <Table.Th className="text-right">Omzet</Table.Th>
-                                <Table.Th>Last Sold</Table.Th>
+                                <Table.Th>{t('Produk')}</Table.Th>
+                                <Table.Th>{t('Stok')}</Table.Th>
+                                <Table.Th className="text-right">{t('Qty Sold')}</Table.Th>
+                                <Table.Th className="text-right">{t('Omzet')}</Table.Th>
+                                <Table.Th>{t('Last Sold')}</Table.Th>
                             </tr>
                         </Table.Thead>
                         <Table.Tbody>
@@ -623,10 +626,10 @@ export default function Insights({
                     <div className="flex flex-col gap-3 border-b border-slate-100 p-5 dark:border-slate-800 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-                                Margin per Produk / Kategori
+                                {t('Margin per Produk / Kategori')}
                             </h2>
                             <p className="text-sm text-slate-500 dark:text-slate-400">
-                                Perbandingan omzet, profit, dan margin kotor.
+                                {t('Perbandingan omzet, profit, dan margin kotor.')}
                             </p>
                         </div>
                         <div className="inline-flex rounded-xl bg-slate-100 p-1 dark:bg-slate-800">
@@ -635,25 +638,25 @@ export default function Insights({
                                 onClick={() => setMarginView("product")}
                                 className={`rounded-lg px-3 py-2 text-sm font-medium ${marginView === "product" ? "bg-white text-primary-600 shadow dark:bg-slate-900" : "text-slate-600 dark:text-slate-300"}`}
                             >
-                                Per Produk
+                                {t('Per Produk')}
                             </button>
                             <button
                                 type="button"
                                 onClick={() => setMarginView("category")}
                                 className={`rounded-lg px-3 py-2 text-sm font-medium ${marginView === "category" ? "bg-white text-primary-600 shadow dark:bg-slate-900" : "text-slate-600 dark:text-slate-300"}`}
                             >
-                                Per Kategori
+                                {t('Per Kategori')}
                             </button>
                         </div>
                     </div>
                     <Table>
                         <Table.Thead>
                             <tr>
-                                <Table.Th>{marginView === "product" ? "Produk" : "Kategori"}</Table.Th>
-                                <Table.Th className="text-right">Qty</Table.Th>
-                                <Table.Th className="text-right">Omzet</Table.Th>
-                                <Table.Th className="text-right">Profit</Table.Th>
-                                <Table.Th className="text-right">Margin %</Table.Th>
+                                <Table.Th>{marginView === "product" ? t('Produk') : t('Kategori')}</Table.Th>
+                                <Table.Th className="text-right">{t('Qty')}</Table.Th>
+                                <Table.Th className="text-right">{t('Omzet')}</Table.Th>
+                                <Table.Th className="text-right">{t('Profit')}</Table.Th>
+                                <Table.Th className="text-right">{t('Margin %')}</Table.Th>
                             </tr>
                         </Table.Thead>
                         <Table.Tbody>
@@ -678,16 +681,16 @@ export default function Insights({
                     </Table>
                 </div>
 
-                <Table.Card title="Cashier Performance">
+                <Table.Card title={t('Cashier Performance')}>
                     <Table>
                         <Table.Thead>
                             <tr>
-                                <Table.Th>Kasir</Table.Th>
-                                <Table.Th className="text-right">Transaksi</Table.Th>
-                                <Table.Th className="text-right">Items Sold</Table.Th>
-                                <Table.Th className="text-right">Omzet</Table.Th>
-                                <Table.Th className="text-right">Profit</Table.Th>
-                                <Table.Th className="text-right">Avg Basket</Table.Th>
+                                <Table.Th>{t('Kasir')}</Table.Th>
+                                <Table.Th className="text-right">{t('Transaksi')}</Table.Th>
+                                <Table.Th className="text-right">{t('Items Sold')}</Table.Th>
+                                <Table.Th className="text-right">{t('Omzet')}</Table.Th>
+                                <Table.Th className="text-right">{t('Profit')}</Table.Th>
+                                <Table.Th className="text-right">{t('Avg Basket')}</Table.Th>
                             </tr>
                         </Table.Thead>
                         <Table.Tbody>
@@ -709,11 +712,11 @@ export default function Insights({
                     </Table>
                 </Table.Card>
 
-                <Table.Card title="Repeat Customer Metrics">
+                <Table.Card title={t('Repeat Customer Metrics')}>
                     <div className="mb-4 grid gap-3 md:grid-cols-3">
                         <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
                             <p className="text-sm text-slate-500 dark:text-slate-400">
-                                Repeat Revenue
+                                {t('Repeat Revenue')}
                             </p>
                             <p className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
                                 {formatCurrency(
@@ -723,7 +726,7 @@ export default function Insights({
                         </div>
                         <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
                             <p className="text-sm text-slate-500 dark:text-slate-400">
-                                Revenue Member
+                                {t('Revenue Member')}
                             </p>
                             <p className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
                                 {formatCurrency(
@@ -733,7 +736,7 @@ export default function Insights({
                         </div>
                         <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
                             <p className="text-sm text-slate-500 dark:text-slate-400">
-                                Revenue Non-Member
+                                {t('Revenue Non-Member')}
                             </p>
                             <p className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
                                 {formatCurrency(
@@ -745,12 +748,12 @@ export default function Insights({
                     <Table>
                         <Table.Thead>
                             <tr>
-                                <Table.Th>Pelanggan</Table.Th>
-                                <Table.Th>Status</Table.Th>
-                                <Table.Th className="text-right">Transaksi</Table.Th>
-                                <Table.Th className="text-right">Omzet</Table.Th>
-                                <Table.Th className="text-right">Avg Basket</Table.Th>
-                                <Table.Th>Last Purchase</Table.Th>
+                                <Table.Th>{t('Pelanggan')}</Table.Th>
+                                <Table.Th>{t('Status')}</Table.Th>
+                                <Table.Th className="text-right">{t('Transaksi')}</Table.Th>
+                                <Table.Th className="text-right">{t('Omzet')}</Table.Th>
+                                <Table.Th className="text-right">{t('Avg Basket')}</Table.Th>
+                                <Table.Th>{t('Last Purchase')}</Table.Th>
                             </tr>
                         </Table.Thead>
                         <Table.Tbody>
@@ -767,7 +770,7 @@ export default function Insights({
                                                         ? item.loyalty_tier
                                                               .replace("_", " ")
                                                               .toUpperCase()
-                                                        : "Non-member"}
+                                                        : t('Non-member')}
                                                 </p>
                                             </div>
                                         </Table.Td>
@@ -780,8 +783,8 @@ export default function Insights({
                                                 }`}
                                             >
                                                 {item.is_loyalty_member
-                                                    ? "Member"
-                                                    : "Non-member"}
+                                                    ? t('Member')
+                                                    : t('Non-member')}
                                             </span>
                                         </Table.Td>
                                         <Table.Td className="text-right">
@@ -808,11 +811,11 @@ export default function Insights({
                     </Table>
                 </Table.Card>
 
-                <Table.Card title="Stock Coverage Analysis">
+                <Table.Card title={t('Stock Coverage Analysis')}>
                     <div className="mb-4 grid gap-3 md:grid-cols-4">
                         <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
                             <p className="text-sm text-slate-500 dark:text-slate-400">
-                                Stok Kritis
+                                {t('Stok Kritis')}
                             </p>
                             <p className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
                                 {(stockCoverageSummary.critical ?? 0).toLocaleString("id-ID")}
@@ -820,7 +823,7 @@ export default function Insights({
                         </div>
                         <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
                             <p className="text-sm text-slate-500 dark:text-slate-400">
-                                Stok Rendah
+                                {t('Stok Rendah')}
                             </p>
                             <p className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
                                 {(stockCoverageSummary.low ?? 0).toLocaleString("id-ID")}
@@ -828,7 +831,7 @@ export default function Insights({
                         </div>
                         <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
                             <p className="text-sm text-slate-500 dark:text-slate-400">
-                                Stok Sehat
+                                {t('Stok Sehat')}
                             </p>
                             <p className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
                                 {(stockCoverageSummary.healthy ?? 0).toLocaleString("id-ID")}
@@ -836,7 +839,7 @@ export default function Insights({
                         </div>
                         <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
                             <p className="text-sm text-slate-500 dark:text-slate-400">
-                                Tidak Bergerak
+                                {t('Tidak Bergerak')}
                             </p>
                             <p className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
                                 {(stockCoverageSummary.no_movement ?? 0).toLocaleString("id-ID")}
@@ -846,13 +849,13 @@ export default function Insights({
                     <Table>
                         <Table.Thead>
                             <tr>
-                                <Table.Th>Produk</Table.Th>
-                                <Table.Th>Status</Table.Th>
-                                <Table.Th className="text-right">Stok</Table.Th>
-                                <Table.Th className="text-right">Qty Sold</Table.Th>
-                                <Table.Th className="text-right">Avg / Hari</Table.Th>
-                                <Table.Th className="text-right">Coverage</Table.Th>
-                                <Table.Th>Last Sold</Table.Th>
+                                <Table.Th>{t('Produk')}</Table.Th>
+                                <Table.Th>{t('Status')}</Table.Th>
+                                <Table.Th className="text-right">{t('Stok')}</Table.Th>
+                                <Table.Th className="text-right">{t('Qty Sold')}</Table.Th>
+                                <Table.Th className="text-right">{t('Avg / Hari')}</Table.Th>
+                                <Table.Th className="text-right">{t('Coverage')}</Table.Th>
+                                <Table.Th>{t('Last Sold')}</Table.Th>
                             </tr>
                         </Table.Thead>
                         <Table.Tbody>
@@ -920,11 +923,11 @@ export default function Insights({
                 </Table.Card>
 
                 <div className="grid gap-6 xl:grid-cols-2">
-                    <Table.Card title="Promo Active Monitor">
+                    <Table.Card title={t('Promo Active Monitor')}>
                         <div className="mb-4 grid gap-3 md:grid-cols-2">
                             <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
                                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    Promo Aktif
+                                    {t('Promo Aktif')}
                                 </p>
                                 <p className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
                                     {(promoSummary.active ?? 0).toLocaleString("id-ID")}
@@ -932,7 +935,7 @@ export default function Insights({
                             </div>
                             <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
                                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    Promo Terjadwal
+                                    {t('Promo Terjadwal')}
                                 </p>
                                 <p className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
                                     {(promoSummary.scheduled ?? 0).toLocaleString("id-ID")}
@@ -955,10 +958,10 @@ export default function Insights({
                         <Table>
                             <Table.Thead>
                                 <tr>
-                                    <Table.Th>Rule</Table.Th>
-                                    <Table.Th>Tipe</Table.Th>
-                                    <Table.Th>Status</Table.Th>
-                                    <Table.Th>Periode</Table.Th>
+                                    <Table.Th>{t('Rule')}</Table.Th>
+                                    <Table.Th>{t('Tipe')}</Table.Th>
+                                    <Table.Th>{t('Status')}</Table.Th>
+                                    <Table.Th>{t('Periode')}</Table.Th>
                                 </tr>
                             </Table.Thead>
                             <Table.Tbody>
@@ -1027,7 +1030,7 @@ export default function Insights({
                         </Table>
                         <div className="mt-4 space-y-2">
                             <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
-                                Audit Promo Terbaru
+                                {t('Audit Promo Terbaru')}
                             </h3>
                             {promoRecentAudits.length > 0 ? (
                                 promoRecentAudits.map((audit) => (
@@ -1046,17 +1049,17 @@ export default function Insights({
                                 ))
                             ) : (
                                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    Belum ada audit promo terbaru.
+                                    {t('Belum ada audit promo terbaru.')}
                                 </p>
                             )}
                         </div>
                     </Table.Card>
 
-                    <Table.Card title="Loyalty Performance Summary">
+                    <Table.Card title={t('Loyalty Performance Summary')}>
                         <div className="mb-4 grid gap-3 md:grid-cols-2">
                             <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
                                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    Total Member
+                                    {t('Total Member')}
                                 </p>
                                 <p className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
                                     {(loyaltySummary.total_members ?? 0).toLocaleString("id-ID")}
@@ -1064,7 +1067,7 @@ export default function Insights({
                             </div>
                             <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
                                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    Saldo Poin
+                                    {t('Saldo Poin')}
                                 </p>
                                 <p className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
                                     {(loyaltySummary.points_balance_total ?? 0).toLocaleString("id-ID")}
@@ -1072,7 +1075,7 @@ export default function Insights({
                             </div>
                             <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
                                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    Poin Earned
+                                    {t('Poin Earned')}
                                 </p>
                                 <p className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
                                     {(loyaltySummary.points_earned ?? 0).toLocaleString("id-ID")}
@@ -1080,7 +1083,7 @@ export default function Insights({
                             </div>
                             <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
                                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    Poin Redeemed
+                                    {t('Poin Redeemed')}
                                 </p>
                                 <p className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
                                     {(loyaltySummary.points_redeemed ?? 0).toLocaleString("id-ID")}
@@ -1103,7 +1106,7 @@ export default function Insights({
                         <div className="mb-4 grid gap-3 md:grid-cols-3">
                             <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
                                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    Voucher Aktif
+                                    {t('Voucher Aktif')}
                                 </p>
                                 <p className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
                                     {(
@@ -1114,7 +1117,7 @@ export default function Insights({
                             </div>
                             <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
                                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    Voucher Digunakan
+                                    {t('Voucher Digunakan')}
                                 </p>
                                 <p className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
                                     {(
@@ -1125,7 +1128,7 @@ export default function Insights({
                             </div>
                             <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
                                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    Nominal Voucher
+                                    {t('Nominal Voucher')}
                                 </p>
                                 <p className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
                                     {formatCurrency(
@@ -1138,10 +1141,10 @@ export default function Insights({
                         <Table>
                             <Table.Thead>
                                 <tr>
-                                    <Table.Th>Member</Table.Th>
-                                    <Table.Th>Tier</Table.Th>
-                                    <Table.Th className="text-right">Poin</Table.Th>
-                                    <Table.Th className="text-right">Total Belanja</Table.Th>
+                                    <Table.Th>{t('Member')}</Table.Th>
+                                    <Table.Th>{t('Tier')}</Table.Th>
+                                    <Table.Th className="text-right">{t('Poin')}</Table.Th>
+                                    <Table.Th className="text-right">{t('Total Belanja')}</Table.Th>
                                 </tr>
                             </Table.Thead>
                             <Table.Tbody>
@@ -1177,11 +1180,11 @@ export default function Insights({
                     </Table.Card>
                 </div>
 
-                <Table.Card title="CRM Operational Snapshot">
+                <Table.Card title={t('CRM Operational Snapshot')}>
                     <div className="mb-4 grid gap-3 md:grid-cols-4">
                         <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
                             <p className="text-sm text-slate-500 dark:text-slate-400">
-                                Segment Aktif
+                                {t('Segment Aktif')}
                             </p>
                             <p className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
                                 {(crmSummary.segments_active ?? 0).toLocaleString("id-ID")}
@@ -1189,7 +1192,7 @@ export default function Insights({
                         </div>
                         <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
                             <p className="text-sm text-slate-500 dark:text-slate-400">
-                                Campaign Draft/Ready
+                                {t('Campaign Draft/Ready')}
                             </p>
                             <p className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
                                 {(
@@ -1200,7 +1203,7 @@ export default function Insights({
                         </div>
                         <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
                             <p className="text-sm text-slate-500 dark:text-slate-400">
-                                Queue Ready
+                                {t('Queue Ready')}
                             </p>
                             <p className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
                                 {(
@@ -1210,7 +1213,7 @@ export default function Insights({
                         </div>
                         <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
                             <p className="text-sm text-slate-500 dark:text-slate-400">
-                                Queue Sent
+                                {t('Queue Sent')}
                             </p>
                             <p className="mt-2 text-xl font-semibold text-slate-900 dark:text-white">
                                 {(crmSummary.queue_sent ?? 0).toLocaleString(
@@ -1221,25 +1224,25 @@ export default function Insights({
                     </div>
                     <div className="mb-4 flex flex-wrap gap-2">
                         <span className="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-300">
-                            Manual Segment:{" "}
+                            {t('Manual Segment:')}{" "}
                             {Number(
                                 crmSummary.segments_manual ?? 0
                             ).toLocaleString("id-ID")}
                         </span>
                         <span className="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-300">
-                            Auto Segment:{" "}
+                            {t('Auto Segment:')}{" "}
                             {Number(
                                 crmSummary.segments_auto ?? 0
                             ).toLocaleString("id-ID")}
                         </span>
                         <span className="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-300">
-                            Memberships:{" "}
+                            {t('Memberships:')}{" "}
                             {Number(
                                 crmSummary.memberships_total ?? 0
                             ).toLocaleString("id-ID")}
                         </span>
                         <span className="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700 dark:bg-slate-800 dark:text-slate-300">
-                            Campaign Processed:{" "}
+                            {t('Campaign Processed:')}{" "}
                             {Number(
                                 crmSummary.campaigns_processed ?? 0
                             ).toLocaleString("id-ID")}
@@ -1248,11 +1251,11 @@ export default function Insights({
                     <Table>
                         <Table.Thead>
                             <tr>
-                                <Table.Th>Campaign</Table.Th>
-                                <Table.Th>Tipe</Table.Th>
-                                <Table.Th>Status</Table.Th>
-                                <Table.Th className="text-right">Target</Table.Th>
-                                <Table.Th>Diproses</Table.Th>
+                                <Table.Th>{t('Campaign')}</Table.Th>
+                                <Table.Th>{t('Tipe')}</Table.Th>
+                                <Table.Th>{t('Status')}</Table.Th>
+                                <Table.Th className="text-right">{t('Target')}</Table.Th>
+                                <Table.Th>{t('Diproses')}</Table.Th>
                             </tr>
                         </Table.Thead>
                         <Table.Tbody>

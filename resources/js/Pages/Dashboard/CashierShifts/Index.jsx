@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { Head, Link, router, usePage } from "@inertiajs/react";
+import { useTranslation } from '@/i18n';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import Table from "@/Components/Dashboard/Table";
 import Pagination from "@/Components/Dashboard/Pagination";
@@ -35,6 +36,7 @@ export default function Index({
     activeShift = null,
     warehouses = [],
 }) {
+    const { t } = useTranslation();
     const { auth, errors } = usePage().props;
     const { can } = useAuthorization();
     const [openingCash, setOpeningCash] = useState("");
@@ -82,17 +84,17 @@ export default function Index({
 
     return (
         <>
-            <Head title="Shift Kasir" />
+            <Head title={t('Shift Kasir')} />
 
             <div className="space-y-6">
                 <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div>
                         <h1 className="flex items-center gap-2 text-2xl font-bold text-slate-900 dark:text-white">
                             <IconHistory size={28} className="text-primary-500" />
-                            Shift Kasir
+                            {t('Shift Kasir')}
                         </h1>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                            Buka shift, pantau shift aktif, dan review cash closing.
+                            {t('Buka shift, pantau shift aktif, dan review cash closing.')}
                         </p>
                     </div>
                     {activeShift && (
@@ -101,7 +103,7 @@ export default function Index({
                             className="inline-flex items-center gap-2 rounded-xl bg-primary-500 px-4 py-2.5 text-sm font-medium text-white shadow-lg shadow-primary-500/30 transition-colors hover:bg-primary-600"
                         >
                             <IconEye size={18} />
-                            <span>Lihat Shift Aktif</span>
+                            <span>{t('Lihat Shift Aktif')}</span>
                         </Link>
                     )}
                 </div>
@@ -110,17 +112,17 @@ export default function Index({
                     <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
                         <div className="mb-4">
                             <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-                                Buka Shift Baru
+                                {t('Buka Shift Baru')}
                             </h2>
                             <p className="text-sm text-slate-500 dark:text-slate-400">
-                                Shift aktif diperlukan sebelum kasir dapat memproses transaksi.
+                                {t('Shift aktif diperlukan sebelum kasir dapat memproses transaksi.')}
                             </p>
                         </div>
 
                         <form onSubmit={handleOpenShift} className="grid gap-4 md:grid-cols-4">
                             <div>
                                 <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Modal Awal
+                                    {t('Modal Awal')}
                                 </label>
                                 <input
                                     type="number"
@@ -136,7 +138,7 @@ export default function Index({
                             </div>
                             <div>
                                 <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Gudang / Cabang
+                                    {t('Gudang / Cabang')}
                                 </label>
                                 <select
                                     value={warehouseId}
@@ -152,14 +154,14 @@ export default function Index({
                             </div>
                             <div className="md:col-span-2">
                                 <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Catatan
+                                    {t('Catatan')}
                                 </label>
                                 <input
                                     type="text"
                                     value={notes}
                                     onChange={(event) => setNotes(event.target.value)}
                                     className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
-                                    placeholder="Opsional"
+                                    placeholder={t('Opsional')}
                                 />
                             </div>
                             <div className="md:col-span-4">
@@ -168,7 +170,7 @@ export default function Index({
                                     className="inline-flex items-center gap-2 rounded-xl bg-primary-500 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-primary-600"
                                 >
                                     <IconCashBanknote size={18} />
-                                    <span>Buka Shift</span>
+                                    <span>{t('Buka Shift')}</span>
                                 </button>
                             </div>
                         </form>
@@ -179,7 +181,7 @@ export default function Index({
                     <div className="grid gap-4 md:grid-cols-4">
                         <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 dark:border-emerald-900/50 dark:bg-emerald-950/30">
                             <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
-                                Shift Aktif
+                                {t('Shift Aktif')}
                             </p>
                             <p className="mt-2 text-lg font-semibold text-emerald-900 dark:text-emerald-100">
                                 {activeShift.user?.name}
@@ -195,7 +197,7 @@ export default function Index({
                         </div>
                         <div className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
                             <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                                Modal Awal
+                                {t('Modal Awal')}
                             </p>
                             <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-white">
                                 {formatCurrency(activeShift.opening_cash)}
@@ -203,7 +205,7 @@ export default function Index({
                         </div>
                         <div className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
                             <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                                Expected Cash
+                                {t('Expected Cash')}
                             </p>
                             <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-white">
                                 {formatCurrency(activeShift.expected_cash)}
@@ -211,7 +213,7 @@ export default function Index({
                         </div>
                         <div className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
                             <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                                Total Transaksi
+                                {t('Total Transaksi')}
                             </p>
                             <p className="mt-2 text-lg font-semibold text-slate-900 dark:text-white">
                                 {activeShift.transactions_count}
@@ -227,7 +229,7 @@ export default function Index({
                             onChange={(event) => handleFilterChange("cashier_id", event.target.value)}
                             className="h-11 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                         >
-                            <option value="">Semua Kasir</option>
+                            <option value="">{t('Semua Kasir')}</option>
                             {cashiers.map((cashier) => (
                                 <option key={cashier.id} value={cashier.id}>
                                     {cashier.name}
@@ -245,10 +247,10 @@ export default function Index({
                         onChange={(event) => handleFilterChange("status", event.target.value)}
                         className="h-11 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                     >
-                        <option value="">Semua Status</option>
-                        <option value="open">Open</option>
-                        <option value="closed">Closed</option>
-                        <option value="force_closed">Force Closed</option>
+                        <option value="">{t('Semua Status')}</option>
+                        <option value="open">{t('Open')}</option>
+                        <option value="closed">{t('Closed')}</option>
+                        <option value="force_closed">{t('Force Closed')}</option>
                     </select>
                     <input
                         type="date"
@@ -264,17 +266,17 @@ export default function Index({
                     />
                 </div>
 
-                <Table.Card title="Histori Shift Kasir">
+                <Table.Card title={t('Histori Shift Kasir')}>
                     <Table>
                         <Table.Thead>
                             <tr>
-                                <Table.Th>Kasir</Table.Th>
-                                <Table.Th>Status</Table.Th>
-                                <Table.Th>Buka</Table.Th>
-                                <Table.Th>Tutup</Table.Th>
-                                <Table.Th>Expected Cash</Table.Th>
-                                <Table.Th>Selisih</Table.Th>
-                                <Table.Th className="w-24 text-center">Aksi</Table.Th>
+                                <Table.Th>{t('Kasir')}</Table.Th>
+                                <Table.Th>{t('Status')}</Table.Th>
+                                <Table.Th>{t('Buka')}</Table.Th>
+                                <Table.Th>{t('Tutup')}</Table.Th>
+                                <Table.Th>{t('Expected Cash')}</Table.Th>
+                                <Table.Th>{t('Selisih')}</Table.Th>
+                                <Table.Th className="w-24 text-center">{t('Aksi')}</Table.Th>
                             </tr>
                         </Table.Thead>
                         <Table.Tbody>
@@ -287,7 +289,7 @@ export default function Index({
                                                     {shift.user?.name || "-"}
                                                 </p>
                                                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                                                    Modal {formatCurrency(shift.opening_cash)}
+                                                    {t('Modal')} {formatCurrency(shift.opening_cash)}
                                                 </p>
                                             </div>
                                         </Table.Td>
@@ -302,10 +304,10 @@ export default function Index({
                                                 }`}
                                             >
                                                 {shift.status === "open"
-                                                    ? "Open"
+                                                    ? t('Open')
                                                     : shift.status === "force_closed"
-                                                      ? "Force Closed"
-                                                      : "Closed"}
+                                                      ? t('Force Closed')
+                                                      : t('Closed')}
                                             </span>
                                         </Table.Td>
                                         <Table.Td>{formatDateTime(shift.opened_at)}</Table.Td>
@@ -331,7 +333,7 @@ export default function Index({
                                     colSpan={7}
                                     message={
                                         <div className="text-slate-500 dark:text-slate-400">
-                                            Belum ada histori shift kasir.
+                                            {t('Belum ada histori shift kasir.')}
                                         </div>
                                     }
                                 >

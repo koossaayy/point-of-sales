@@ -7,8 +7,10 @@ import {
     IconCalendar,
     IconInvoice,
 } from "@tabler/icons-react";
+import { useTranslation } from '@/i18n';
 
 export default function ShippingLabel({ transaction, store = {} }) {
+    const { t } = useTranslation();
     const formatPrice = (price = 0) =>
         Number(price || 0).toLocaleString("id-ID", {
             style: "currency",
@@ -45,7 +47,7 @@ export default function ShippingLabel({ transaction, store = {} }) {
         );
     };
 
-    const storeName = store?.name || "TOKO";
+    const storeName = store?.name || t('TOKO');
     const storeInitial = storeName?.[0] || "T";
     const storeLogo = store?.logo;
     const customer = transaction?.customer || {};
@@ -114,7 +116,7 @@ export default function ShippingLabel({ transaction, store = {} }) {
                         </div>
 
                         <div className="text-right border-l pl-4 border-slate-200">
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">No. Invoice</span>
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">{t('No. Invoice')}</span>
                             <p className="text-xl font-black text-primary-600 tabular-nums">{transaction?.invoice}</p>
                             <p className="text-xs text-slate-500 font-medium">{formatDate(transaction?.created_at)}</p>
                         </div>
@@ -126,7 +128,7 @@ export default function ShippingLabel({ transaction, store = {} }) {
                         <div className="space-y-3">
                             <div className="flex items-center gap-2 text-primary-600">
                                 <IconUser size={18} />
-                                <span className="text-xs font-bold uppercase tracking-wider">Penerima</span>
+                                <span className="text-xs font-bold uppercase tracking-wider">{t('Penerima')}</span>
                             </div>
                             <div className="pl-1">
                                 <h3 className="text-lg font-bold text-slate-900">{customer.name || "Pelanggan Umum"}</h3>
@@ -149,14 +151,14 @@ export default function ShippingLabel({ transaction, store = {} }) {
                         <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
                             <div className="flex items-center gap-2 text-slate-500 mb-3">
                                 <IconPackage size={18} />
-                                <span className="text-xs font-bold uppercase tracking-wider">Isi Paket</span>
+                                <span className="text-xs font-bold uppercase tracking-wider">{t('Isi Paket')}</span>
                             </div>
                             <div className="space-y-2">
                                 <div className="text-[11px] text-slate-600 line-clamp-3 font-medium leading-relaxed">
                                     {transaction?.details?.map(item => `${item.product?.title} (x${item.qty})`).join(", ")}
                                 </div>
                                 <div className="pt-2 border-t border-slate-200 flex justify-between items-center">
-                                    <span className="text-[10px] font-bold text-slate-400 uppercase">Total Bayar</span>
+                                    <span className="text-[10px] font-bold text-slate-400 uppercase">{t('Total Bayar')}</span>
                                     <span className="text-sm font-black text-slate-900">{formatPrice(transaction?.grand_total)}</span>
                                 </div>
                             </div>
@@ -167,7 +169,7 @@ export default function ShippingLabel({ transaction, store = {} }) {
                 {/* Footer Barcode */}
                 <div className="flex justify-between items-end mt-4 pt-4 border-t-2 border-slate-100">
                     <div className="text-[10px] text-slate-400 font-medium italic">
-                        Dicetak pada: {new Date().toLocaleString('id-ID')}
+                        {t('Dicetak pada:')} {new Date().toLocaleString('id-ID')}
                     </div>
                     <div className="flex flex-col items-end">
                         <SimpleBarcode value={transaction?.invoice} />

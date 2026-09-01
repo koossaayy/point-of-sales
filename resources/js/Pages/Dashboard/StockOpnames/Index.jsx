@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from '@/i18n';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, router } from "@inertiajs/react";
 import Button from "@/Components/Dashboard/Button";
@@ -22,6 +23,7 @@ function formatDateTime(value) {
 }
 
 export default function Index({ stockOpnames, filters, warehouses = [] }) {
+    const { t } = useTranslation();
     const { can } = useAuthorization();
     const canCreateStockOpnames = can("stock-opnames-create");
 
@@ -41,15 +43,15 @@ export default function Index({ stockOpnames, filters, warehouses = [] }) {
 
     return (
         <>
-            <Head title="Stock Opname" />
+            <Head title={t('Stock Opname')} />
 
             <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                        Stock Opname
+                        {t('Stock Opname')}
                     </h1>
                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                        Kelola sesi audit stok fisik dan finalisasi adjustment stok.
+                        {t('Kelola sesi audit stok fisik dan finalisasi adjustment stok.')}
                     </p>
                 </div>
                 {canCreateStockOpnames && (
@@ -58,7 +60,7 @@ export default function Index({ stockOpnames, filters, warehouses = [] }) {
                         href={route("stock-opnames.create")}
                         icon={<IconCirclePlus size={18} strokeWidth={1.5} />}
                         className="bg-primary-500 hover:bg-primary-600 text-white shadow-lg shadow-primary-500/30"
-                        label="Buat Sesi Opname"
+                        label={t('Buat Sesi Opname')}
                     />
                 )}
             </div>
@@ -71,7 +73,7 @@ export default function Index({ stockOpnames, filters, warehouses = [] }) {
                         onChange={(event) =>
                             handleFilterChange("search", event.target.value)
                         }
-                        placeholder="Cari kode sesi..."
+                        placeholder={t('Cari kode sesi...')}
                         className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 pr-11 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                     />
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400">
@@ -86,9 +88,9 @@ export default function Index({ stockOpnames, filters, warehouses = [] }) {
                     }
                     className="h-11 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                 >
-                    <option value="">Semua Status</option>
-                    <option value="draft">Draft</option>
-                    <option value="finalized">Finalized</option>
+                    <option value="">{t('Semua Status')}</option>
+                    <option value="draft">{t('Draft')}</option>
+                    <option value="finalized">{t('Finalized')}</option>
                 </select>
 
                 <select
@@ -96,7 +98,7 @@ export default function Index({ stockOpnames, filters, warehouses = [] }) {
                     onChange={(event) => handleFilterChange("warehouse_id", event.target.value)}
                     className="h-11 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                 >
-                    <option value="">Semua Gudang</option>
+                    <option value="">{t('Semua Gudang')}</option>
                     {warehouses.map((w) => (
                         <option key={w.id} value={w.id}>{w.code} — {w.name}</option>
                     ))}
@@ -122,16 +124,16 @@ export default function Index({ stockOpnames, filters, warehouses = [] }) {
                 </div>
             </div>
 
-            <Table.Card title="Daftar Sesi Stock Opname">
+            <Table.Card title={t('Daftar Sesi Stock Opname')}>
                 <Table>
                     <Table.Thead>
                         <tr>
-                            <Table.Th>Kode</Table.Th>
-                            <Table.Th>Status</Table.Th>
-                            <Table.Th>Jumlah Item</Table.Th>
-                            <Table.Th>Dibuat Oleh</Table.Th>
-                            <Table.Th>Finalized</Table.Th>
-                            <Table.Th className="w-24 text-center">Aksi</Table.Th>
+                            <Table.Th>{t('Kode')}</Table.Th>
+                            <Table.Th>{t('Status')}</Table.Th>
+                            <Table.Th>{t('Jumlah Item')}</Table.Th>
+                            <Table.Th>{t('Dibuat Oleh')}</Table.Th>
+                            <Table.Th>{t('Finalized')}</Table.Th>
+                            <Table.Th className="w-24 text-center">{t('Aksi')}</Table.Th>
                         </tr>
                     </Table.Thead>
                     <Table.Tbody>
@@ -160,8 +162,8 @@ export default function Index({ stockOpnames, filters, warehouses = [] }) {
                                             }`}
                                         >
                                             {stockOpname.status === "finalized"
-                                                ? "Finalized"
-                                                : "Draft"}
+                                                ? t('Finalized')
+                                                : t('Draft')}
                                         </span>
                                     </Table.Td>
                                     <Table.Td>{stockOpname.items_count}</Table.Td>
@@ -186,7 +188,7 @@ export default function Index({ stockOpnames, filters, warehouses = [] }) {
                                 colSpan={6}
                                 message={
                                     <div className="text-slate-500 dark:text-slate-400">
-                                        Belum ada sesi stock opname.
+                                        {t('Belum ada sesi stock opname.')}
                                     </div>
                                 }
                             >

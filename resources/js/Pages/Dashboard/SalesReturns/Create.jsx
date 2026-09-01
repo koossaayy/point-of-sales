@@ -1,10 +1,12 @@
 import React from "react";
+import { useTranslation } from '@/i18n';
 import SalesReturnForm from "./Form";
 
 export default function Create({ transaction }) {
+    const { t } = useTranslation();
     return (
         <SalesReturnForm
-            title="Buat Retur Penjualan"
+            title={t('Buat Retur Penjualan')}
             transaction={transaction}
             submitRoute={route("sales-returns.store", transaction.id)}
             submitMethod="post"

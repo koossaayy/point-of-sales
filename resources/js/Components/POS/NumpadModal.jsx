@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { IconBackspace, IconX, IconCheck } from "@tabler/icons-react";
+import { useTranslation } from '@/i18n';
 
 /**
  * Numpad Modal for POS - Touch-friendly number input
@@ -23,6 +24,7 @@ export default function NumpadModal({
     maxValue = 999999999,
     isCurrency = false,
 }) {
+    const { t } = useTranslation();
     const [value, setValue] = useState(String(initialValue || ""));
 
     // Reset value when modal opens
@@ -151,7 +153,7 @@ export default function NumpadModal({
                                 onClick={() => handleQuickAmount(amount)}
                                 className="py-2 px-2 text-xs font-medium rounded-xl bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400 hover:bg-primary-100 dark:hover:bg-primary-900/50 transition-colors"
                             >
-                                +{amount / 1000}rb
+                                +{amount / 1000}{t('rb')}
                             </button>
                         ))}
                     </div>
@@ -207,7 +209,7 @@ export default function NumpadModal({
                         }`}
                     >
                         <IconCheck size={22} />
-                        Konfirmasi
+                        {t('Konfirmasi')}
                     </button>
                 </div>
             </div>

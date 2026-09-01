@@ -56,9 +56,9 @@ class ProductsImport implements ToModel, WithBatchInserts, WithChunkReading, Wit
     public function customValidationMessages()
     {
         return [
-            'barcode.required' => 'Barcode wajib diisi.',
-            'barcode.unique' => 'Barcode sudah terdaftar.',
-            'nama.required' => 'Nama produk wajib diisi.',
+            'barcode.required' => __('Barcode wajib diisi.'),
+            'barcode.unique' => __('Barcode sudah terdaftar.'),
+            'nama.required' => __('Nama produk wajib diisi.'),
         ];
     }
 

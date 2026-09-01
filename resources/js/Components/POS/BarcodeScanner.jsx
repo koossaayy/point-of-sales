@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { IconCamera, IconBarcode, IconX } from "@tabler/icons-react";
+import { useTranslation } from '@/i18n';
 
 export default function BarcodeScanner({ onScan, onClose }) {
+    const { t } = useTranslation();
     const scannerRef = useRef(null);
     const [scanning, setScanning] = useState(false);
     const [error, setError] = useState("");
@@ -34,7 +36,7 @@ export default function BarcodeScanner({ onScan, onClose }) {
                 );
             } catch (err) {
                 if (mounted) {
-                    setError(err?.message || "Kamera tidak tersedia atau ditolak.");
+                    setError(err?.message || t('Kamera tidak tersedia atau ditolak.'));
                     setScanning(false);
                 }
             }
@@ -54,7 +56,7 @@ export default function BarcodeScanner({ onScan, onClose }) {
         <div className="fixed inset-0 z-50 bg-black/90 flex flex-col">
             <div className="flex items-center justify-between p-4 text-white">
                 <span className="text-sm font-medium">
-                    {scanning ? "Arahkan ke barcode" : "Memulai kamera..."}
+                    {scanning ? t('Arahkan ke barcode') : t('Memulai kamera...')}
                 </span>
                 <button
                     type="button"
@@ -80,13 +82,13 @@ export default function BarcodeScanner({ onScan, onClose }) {
                         onClick={onClose}
                         className="px-6 py-2.5 rounded-xl bg-white/10 text-white text-sm font-medium hover:bg-white/20"
                     >
-                        Tutup
+                        {t('Tutup')}
                     </button>
                 </div>
             )}
 
             <div className="p-4 text-center text-xs text-white/50">
-                Atau tutup untuk input manual
+                {t('Atau tutup untuk input manual')}
             </div>
         </div>
     );

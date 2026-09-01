@@ -1,13 +1,15 @@
 import React from 'react'
 import { Listbox } from '@headlessui/react'
 import { IconChevronDown, IconCircle, IconCircleFilled } from '@tabler/icons-react'
+import { useTranslation } from '@/i18n';
 export default function ListBox({ selected, data, setSelected, label, errors }) {
+    const { t } = useTranslation();
 
     const preview = selected.length ?
         selected.length >= 4 ? `jumlah hak akses terpilih ${selected.length}` :
             selected.map((item) => item.name).join(', ')
         :
-        'Pilh Hak Akses'
+        t('Pilh Hak Akses')
 
     return (
         <div className='flex flex-col gap-2'>

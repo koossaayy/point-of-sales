@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, useForm } from "@inertiajs/react";
 import { IconDeviceFloppy, IconGift, IconMedal } from "@tabler/icons-react";
@@ -6,6 +7,7 @@ import toast from "react-hot-toast";
 const formatNumber = (value) => String(value ?? 0);
 
 export default function Loyalty({ settings }) {
+    const { t } = useTranslation();
     const { data, setData, post, processing, errors } = useForm({
         enable_earn: Boolean(settings.enable_earn),
         enable_redeem: Boolean(settings.enable_redeem),
@@ -21,22 +23,22 @@ export default function Loyalty({ settings }) {
         event.preventDefault();
         post(route("settings.loyalty.update"), {
             preserveScroll: true,
-            onSuccess: () => toast.success("Pengaturan loyalty disimpan"),
-            onError: () => toast.error("Gagal menyimpan pengaturan loyalty"),
+            onSuccess: () => toast.success(t('Pengaturan loyalty disimpan')),
+            onError: () => toast.error(t('Gagal menyimpan pengaturan loyalty')),
         });
     };
 
     return (
         <>
-            <Head title="Pengaturan Loyalty" />
+            <Head title={t('Pengaturan Loyalty')} />
 
             <div className="space-y-6">
                 <div>
                     <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                        Loyalty Settings
+                        {t('Loyalty Settings')}
                     </h1>
                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                        Atur earn rate, redeem value, dan threshold tier member.
+                        {t('Atur earn rate, redeem value, dan threshold tier member.')}
                     </p>
                 </div>
 
@@ -52,10 +54,10 @@ export default function Loyalty({ settings }) {
                                 </div>
                                 <div>
                                     <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-                                        Earn & Redeem
+                                        {t('Earn & Redeem')}
                                     </h2>
                                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                                        Kontrol perolehan dan penggunaan poin.
+                                        {t('Kontrol perolehan dan penggunaan poin.')}
                                     </p>
                                 </div>
                             </div>
@@ -63,7 +65,7 @@ export default function Loyalty({ settings }) {
                             <div className="space-y-4">
                                 <label className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm dark:border-slate-700 dark:bg-slate-800">
                                     <span className="font-medium text-slate-700 dark:text-slate-200">
-                                        Aktifkan earn points
+                                        {t('Aktifkan earn points')}
                                     </span>
                                     <input
                                         type="checkbox"
@@ -76,7 +78,7 @@ export default function Loyalty({ settings }) {
                                 </label>
                                 <label className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm dark:border-slate-700 dark:bg-slate-800">
                                     <span className="font-medium text-slate-700 dark:text-slate-200">
-                                        Aktifkan redeem points
+                                        {t('Aktifkan redeem points')}
                                     </span>
                                     <input
                                         type="checkbox"
@@ -93,7 +95,7 @@ export default function Loyalty({ settings }) {
 
                                 <div>
                                     <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                        Nominal belanja untuk 1 poin
+                                        {t('Nominal belanja untuk 1 poin')}
                                     </label>
                                     <input
                                         type="number"
@@ -116,7 +118,7 @@ export default function Loyalty({ settings }) {
 
                                 <div>
                                     <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                        Nilai rupiah per 1 poin redeem
+                                        {t('Nilai rupiah per 1 poin redeem')}
                                     </label>
                                     <input
                                         type="number"
@@ -146,10 +148,10 @@ export default function Loyalty({ settings }) {
                                 </div>
                                 <div>
                                     <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-                                        Threshold Tier
+                                        {t('Threshold Tier')}
                                     </h2>
                                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                                        Threshold ini akan menentukan upgrade dan downgrade tier.
+                                        {t('Threshold ini akan menentukan upgrade dan downgrade tier.')}
                                     </p>
                                 </div>
                             </div>
@@ -188,7 +190,7 @@ export default function Loyalty({ settings }) {
                             className="inline-flex items-center gap-2 rounded-xl bg-primary-500 px-5 py-2.5 font-medium text-white transition-colors hover:bg-primary-600 disabled:opacity-50"
                         >
                             <IconDeviceFloppy size={18} />
-                            {processing ? "Menyimpan..." : "Simpan Pengaturan"}
+                            {processing ? t('Menyimpan...') : t('Simpan Pengaturan')}
                         </button>
                     </div>
                 </form>

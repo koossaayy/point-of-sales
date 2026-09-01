@@ -3,10 +3,12 @@ import { Menu, Transition } from "@headlessui/react";
 import { Link, usePage } from "@inertiajs/react";
 import { IconLogout, IconUserCog } from "@tabler/icons-react";
 import { useForm } from "@inertiajs/react";
+import { useTranslation } from '@/i18n';
 import MenuLink from "@/Utils/Menu";
 import LinkItem from "./LinkItem";
 import LinkItemDropdown from "./LinkItemDropdown";
 export default function AuthDropdown({ auth, isMobile }) {
+    const { t } = useTranslation();
     // define usefrom
     const { post } = useForm();
     // define url from usepage
@@ -97,7 +99,7 @@ export default function AuthDropdown({ auth, isMobile }) {
                                             strokeWidth={"1.5"}
                                             size={"20"}
                                         />
-                                        Logout
+                                        {t('Logout')}
                                     </button>
                                 </Menu.Item>
                             </div>

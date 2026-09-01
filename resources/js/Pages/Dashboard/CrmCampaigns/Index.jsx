@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from '@/i18n';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, router } from "@inertiajs/react";
 import Button from "@/Components/Dashboard/Button";
@@ -19,6 +20,7 @@ const statusBadge = (status) => {
 };
 
 export default function Index({ campaigns, filters }) {
+    const { t } = useTranslation();
     const { can } = useAuthorization();
     const handleFilterChange = (key, value) => {
         router.get(route("crm-campaigns.index"), { ...filters, [key]: value }, { preserveState: true, replace: true });
@@ -26,13 +28,13 @@ export default function Index({ campaigns, filters }) {
 
     return (
         <>
-            <Head title="CRM Campaigns" />
+            <Head title={t('CRM Campaigns')} />
             <div className="w-full">
                 <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">CRM Campaigns</h1>
+                        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{t('CRM Campaigns')}</h1>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                            Kelola promo broadcast, reminder, dan share invoice berbasis audience CRM.
+                            {t('Kelola promo broadcast, reminder, dan share invoice berbasis audience CRM.')}
                         </p>
                     </div>
                     {can("crm-campaigns-create") && (
@@ -41,7 +43,7 @@ export default function Index({ campaigns, filters }) {
                             href={route("crm-campaigns.create")}
                             icon={<IconCirclePlus size={18} />}
                             className="bg-primary-500 text-white hover:bg-primary-600 shadow-lg shadow-primary-500/30"
-                            label="Buat Campaign"
+                            label={t('Buat Campaign')}
                         />
                     )}
                 </div>
@@ -53,35 +55,35 @@ export default function Index({ campaigns, filters }) {
                             onChange={(event) => handleFilterChange("type", event.target.value)}
                             className="h-11 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                         >
-                            <option value="">Semua Tipe</option>
-                            <option value="promo_broadcast">Promo Broadcast</option>
-                            <option value="invoice_share">Invoice Share</option>
-                            <option value="due_date_reminder">Due Date Reminder</option>
-                            <option value="repeat_order_reminder">Repeat Order Reminder</option>
+                            <option value="">{t('Semua Tipe')}</option>
+                            <option value="promo_broadcast">{t('Promo Broadcast')}</option>
+                            <option value="invoice_share">{t('Invoice Share')}</option>
+                            <option value="due_date_reminder">{t('Due Date Reminder')}</option>
+                            <option value="repeat_order_reminder">{t('Repeat Order Reminder')}</option>
                         </select>
                         <select
                             value={filters.status || ""}
                             onChange={(event) => handleFilterChange("status", event.target.value)}
                             className="h-11 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                         >
-                            <option value="">Semua Status</option>
-                            <option value="draft">Draft</option>
-                            <option value="ready">Ready</option>
-                            <option value="processed">Processed</option>
-                            <option value="cancelled">Cancelled</option>
+                            <option value="">{t('Semua Status')}</option>
+                            <option value="draft">{t('Draft')}</option>
+                            <option value="ready">{t('Ready')}</option>
+                            <option value="processed">{t('Processed')}</option>
+                            <option value="cancelled">{t('Cancelled')}</option>
                         </select>
                     </div>
                 </div>
 
-                <Table.Card title="Daftar CRM Campaign">
+                <Table.Card title={t('Daftar CRM Campaign')}>
                     <Table>
                         <Table.Thead>
                             <tr>
-                                <Table.Th>Campaign</Table.Th>
-                                <Table.Th>Tipe</Table.Th>
-                                <Table.Th>Status</Table.Th>
-                                <Table.Th>Log</Table.Th>
-                                <Table.Th className="w-36 text-center">Aksi</Table.Th>
+                                <Table.Th>{t('Campaign')}</Table.Th>
+                                <Table.Th>{t('Tipe')}</Table.Th>
+                                <Table.Th>{t('Status')}</Table.Th>
+                                <Table.Th>{t('Log')}</Table.Th>
+                                <Table.Th className="w-36 text-center">{t('Aksi')}</Table.Th>
                             </tr>
                         </Table.Thead>
                         <Table.Tbody>
@@ -93,7 +95,7 @@ export default function Index({ campaigns, filters }) {
                                                 {campaign.name}
                                             </Link>
                                             <p className="text-xs text-slate-500 dark:text-slate-400">
-                                                Dibuat oleh {campaign.creator?.name || "-"}
+                                                {t('Dibuat oleh')} {campaign.creator?.name || "-"}
                                             </p>
                                         </Table.Td>
                                         <Table.Td>{campaign.type}</Table.Td>

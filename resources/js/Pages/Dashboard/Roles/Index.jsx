@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from '@/i18n';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, useForm, usePage } from "@inertiajs/react";
 import Button from "@/Components/Dashboard/Button";
@@ -20,6 +21,7 @@ import {
 
 // Role Card Component
 function RoleCard({ role, onEdit, onDelete, canUpdate, canDelete }) {
+    const { t } = useTranslation();
     return (
         <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-lg transition-all">
             {/* Header */}
@@ -53,7 +55,7 @@ function RoleCard({ role, onEdit, onDelete, canUpdate, canDelete }) {
                     ))}
                     {role.permissions.length > 8 && (
                         <span className="px-2 py-0.5 text-xs font-medium text-slate-500">
-                            +{role.permissions.length - 8} lainnya
+                            +{role.permissions.length - 8} {t('lainnya')}
                         </span>
                     )}
                 </div>
@@ -68,7 +70,7 @@ function RoleCard({ role, onEdit, onDelete, canUpdate, canDelete }) {
                             className="flex-1 flex items-center justify-center gap-1.5 py-3 text-warning-600 hover:bg-warning-50 dark:hover:bg-warning-950/50 text-sm font-medium transition-colors"
                         >
                             <IconPencilCog size={16} />
-                            <span>Edit</span>
+                            <span>{t('Edit')}</span>
                         </button>
                     )}
                     {canUpdate && canDelete && (
@@ -80,7 +82,7 @@ function RoleCard({ role, onEdit, onDelete, canUpdate, canDelete }) {
                             className="flex-1 flex items-center justify-center gap-1.5 py-3 text-danger-600 hover:bg-danger-50 dark:hover:bg-danger-950/50 text-sm font-medium transition-colors"
                         >
                             <IconTrash size={16} />
-                            <span>Hapus</span>
+                            <span>{t('Hapus')}</span>
                         </button>
                     )}
                 </div>
@@ -90,6 +92,7 @@ function RoleCard({ role, onEdit, onDelete, canUpdate, canDelete }) {
 }
 
 export default function Index() {
+    const { t } = useTranslation();
     const { roles, permissions, errors } = usePage().props;
     const { can } = useAuthorization();
     const canCreateRoles = can("roles-create");
@@ -154,14 +157,14 @@ export default function Index() {
     };
 
     const handleDelete = (roleId) => {
-        if (confirm("Hapus role ini?")) {
+        if (confirm(t('Hapus role ini?'))) {
             destroy(route("roles.destroy", roleId));
         }
     };
 
     return (
         <>
-            <Head title="Akses Group" />
+            <Head title={t('Akses Group')} />
 
             {/* Header */}
             <div className="mb-6">
@@ -172,7 +175,7 @@ export default function Index() {
                                 size={28}
                                 className="text-primary-500"
                             />
-                            Akses Group
+                            {t('Akses Group')}
                         </h1>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
                             {roles.total || roles.data?.length || 0} group
@@ -191,7 +194,7 @@ export default function Index() {
                             className={
                                 "bg-primary-500 hover:bg-primary-600 text-white shadow-lg shadow-primary-500/30"
                             }
-                            label={"Tambah Group"}
+                            label={t('Tambah Group')}
                             onClick={() => setData("isOpen", true)}
                         />
                     )}
@@ -202,7 +205,7 @@ export default function Index() {
             <div className="mb-4 w-full sm:w-80">
                 <Search
                     url={route("roles.index")}
-                    placeholder="Cari akses group..."
+                    placeholder={t('Cari akses group...')}
                 />
             </div>
 
@@ -219,16 +222,16 @@ export default function Index() {
                     })
                 }
                 title={
-                    data.isUpdate ? "Ubah Akses Group" : "Tambah Akses Group"
+                    data.isUpdate ? t('Ubah Akses Group') : t('Tambah Akses Group')
                 }
                 icon={<IconUserShield size={20} strokeWidth={1.5} />}
             >
                 <form onSubmit={data.isUpdate ? updateRole : saveRole}>
                     <div className="mb-4">
                         <Input
-                            label={"Nama group"}
+                            label={t('Nama group')}
                             type={"text"}
-                            placeholder={"Masukan nama group"}
+                            placeholder={t('Masukan nama group')}
                             value={data.name}
                             onChange={(e) => setData("name", e.target.value)}
                             errors={errors.name}
@@ -236,7 +239,7 @@ export default function Index() {
                     </div>
                     <div className="mb-4">
                         <ListBox
-                            label={"Pilih hak akses"}
+                            label={t('Pilih hak akses')}
                             data={permissions}
                             selected={data.selectedPermission}
                             setSelected={setSelectedPermission}
@@ -249,7 +252,7 @@ export default function Index() {
                         className={
                             "bg-primary-500 hover:bg-primary-600 text-white w-full justify-center"
                         }
-                        label={"Simpan"}
+                        label={t('Simpan')}
                     />
                 </form>
             </Modal>
@@ -278,10 +281,10 @@ export default function Index() {
                         />
                     </div>
                     <h3 className="text-lg font-medium text-slate-800 dark:text-slate-200 mb-1">
-                        Belum Ada Group
+                        {t('Belum Ada Group')}
                     </h3>
                     <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
-                        Tambahkan group akses pertama.
+                        {t('Tambahkan group akses pertama.')}
                     </p>
                     <Button
                         type={"button"}
@@ -289,7 +292,7 @@ export default function Index() {
                         className={
                             "bg-primary-500 hover:bg-primary-600 text-white"
                         }
-                        label={"Tambah Group"}
+                        label={t('Tambah Group')}
                         onClick={() => setData("isOpen", true)}
                     />
                 </div>

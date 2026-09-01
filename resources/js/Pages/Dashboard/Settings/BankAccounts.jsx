@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Head, usePage, router, Link } from "@inertiajs/react";
+import { useTranslation } from '@/i18n';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import {
     IconBuildingBank,
@@ -12,6 +13,7 @@ import toast from "react-hot-toast";
 import { useAuthorization } from "@/Utils/authorization";
 
 export default function BankAccounts({ bankAccounts = [] }) {
+    const { t } = useTranslation();
     const { flash } = usePage().props;
     const { can } = useAuthorization();
     const canUpdatePaymentSettings = can("payment-settings-update");
@@ -33,15 +35,15 @@ export default function BankAccounts({ bankAccounts = [] }) {
 
     return (
         <>
-            <Head title="Pengaturan Rekening Bank" />
+            <Head title={t('Pengaturan Rekening Bank')} />
 
             <div className="mb-6">
                 <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <IconBuildingBank size={28} className="text-primary-500" />
-                    Rekening Bank
+                    {t('Rekening Bank')}
                 </h1>
                 <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                    Kelola rekening bank untuk pembayaran transfer
+                    {t('Kelola rekening bank untuk pembayaran transfer')}
                 </p>
             </div>
 
@@ -49,7 +51,7 @@ export default function BankAccounts({ bankAccounts = [] }) {
                 <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
                     <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
                         <h3 className="font-semibold text-slate-800 dark:text-white">
-                            Daftar Rekening ({bankAccounts.length})
+                            {t('Daftar Rekening (')}{bankAccounts.length})
                         </h3>
                         {canUpdatePaymentSettings && (
                             <Link
@@ -57,7 +59,7 @@ export default function BankAccounts({ bankAccounts = [] }) {
                                 className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium transition-colors"
                             >
                                 <IconPlus size={18} />
-                                Tambah Bank
+                                {t('Tambah Bank')}
                             </Link>
                         )}
                     </div>
@@ -107,7 +109,7 @@ export default function BankAccounts({ bankAccounts = [] }) {
                                                             : "bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400"
                                                     }`}
                                                 >
-                                                    {bank.is_active ? "Aktif" : "Nonaktif"}
+                                                    {bank.is_active ? t('Aktif') : t('Nonaktif')}
                                                 </button>
                                                 <Link
                                                     href={route("settings.bank-accounts.edit", bank.id)}
@@ -134,7 +136,7 @@ export default function BankAccounts({ bankAccounts = [] }) {
                                 className="mx-auto text-slate-300 dark:text-slate-600 mb-3"
                             />
                             <p className="text-slate-500 dark:text-slate-400">
-                                Belum ada rekening bank
+                                {t('Belum ada rekening bank')}
                             </p>
                         </div>
                     )}

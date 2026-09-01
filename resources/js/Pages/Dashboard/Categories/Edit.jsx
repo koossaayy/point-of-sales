@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from '@/i18n';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, useForm, usePage, Link } from "@inertiajs/react";
 import Input from "@/Components/Dashboard/Input";
@@ -12,6 +13,7 @@ import {
 } from "@tabler/icons-react";
 
 export default function Edit({ category }) {
+    const { t } = useTranslation();
     const { errors } = usePage().props;
 
     const { data, setData, post, processing } = useForm({
@@ -37,14 +39,14 @@ export default function Edit({ category }) {
     const submit = (e) => {
         e.preventDefault();
         post(route("categories.update", category.id), {
-            onSuccess: () => toast.success("Kategori berhasil diperbarui"),
-            onError: () => toast.error("Gagal memperbarui kategori"),
+            onSuccess: () => toast.success(t('Kategori berhasil diperbarui')),
+            onError: () => toast.error(t('Gagal memperbarui kategori')),
         });
     };
 
     return (
         <>
-            <Head title="Edit Kategori" />
+            <Head title={t('Edit Kategori')} />
 
             <div className="mb-6">
                 <Link
@@ -52,11 +54,11 @@ export default function Edit({ category }) {
                     className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-primary-600 mb-3"
                 >
                     <IconArrowLeft size={16} />
-                    Kembali ke Kategori
+                    {t('Kembali ke Kategori')}
                 </Link>
                 <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <IconCategory size={28} className="text-primary-500" />
-                    Edit Kategori
+                    {t('Edit Kategori')}
                 </h1>
                 <p className="text-sm text-slate-500 mt-1">{category.name}</p>
             </div>
@@ -68,13 +70,13 @@ export default function Edit({ category }) {
                             <div>
                                 <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-2">
                                     <IconPhoto size={16} />
-                                    Gambar
+                                    {t('Gambar')}
                                 </h3>
                                 <div className="aspect-video rounded-xl bg-slate-100 dark:bg-slate-800 border-2 border-dashed border-slate-300 dark:border-slate-700 flex items-center justify-center overflow-hidden mb-3">
                                     {imagePreview ? (
                                         <img
                                             src={imagePreview}
-                                            alt="Preview"
+                                            alt={t('Preview')}
                                             className="w-full h-full object-cover"
                                         />
                                     ) : (
@@ -95,8 +97,8 @@ export default function Edit({ category }) {
                             <div className="space-y-4">
                                 <Input
                                     type="text"
-                                    label="Nama Kategori"
-                                    placeholder="Masukkan nama"
+                                    label={t('Nama Kategori')}
+                                    placeholder={t('Masukkan nama')}
                                     errors={errors.name}
                                     onChange={(e) =>
                                         setData("name", e.target.value)
@@ -104,8 +106,8 @@ export default function Edit({ category }) {
                                     value={data.name}
                                 />
                                 <Textarea
-                                    label="Deskripsi"
-                                    placeholder="Deskripsi kategori"
+                                    label={t('Deskripsi')}
+                                    placeholder={t('Deskripsi kategori')}
                                     errors={errors.description}
                                     onChange={(e) =>
                                         setData("description", e.target.value)
@@ -121,7 +123,7 @@ export default function Edit({ category }) {
                                 href={route("categories.index")}
                                 className="px-5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium transition-colors"
                             >
-                                Batal
+                                {t('Batal')}
                             </Link>
                             <button
                                 type="submit"
@@ -130,8 +132,8 @@ export default function Edit({ category }) {
                             >
                                 <IconDeviceFloppy size={18} />
                                 {processing
-                                    ? "Menyimpan..."
-                                    : "Simpan Perubahan"}
+                                    ? t('Menyimpan...')
+                                    : t('Simpan Perubahan')}
                             </button>
                         </div>
                     </div>

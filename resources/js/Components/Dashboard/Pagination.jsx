@@ -5,6 +5,7 @@ import {
     IconChevronLeft,
     IconDots,
 } from "@tabler/icons-react";
+import { useTranslation } from '@/i18n';
 
 /**
  * Pagination — robust & responsive.
@@ -12,6 +13,7 @@ import {
  * disabled states, and wraps gracefully on mobile.
  */
 export default function Pagination({ links }) {
+    const { t } = useTranslation();
     if (!links || links.length <= 3) return null;
 
     const [perPage, setPerPage] = useState(
@@ -56,28 +58,28 @@ export default function Pagination({ links }) {
 
     return (
         <nav
-            aria-label="Pagination"
+            aria-label={t('Pagination')}
             className="mt-4 lg:mt-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
         >
             <div className="order-2 sm:order-1 flex items-center gap-3 flex-wrap">
                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                    Halaman <span className="font-medium text-slate-700 dark:text-slate-200">{current}</span> dari{" "}
+                    {t('Halaman')} <span className="font-medium text-slate-700 dark:text-slate-200">{current}</span> {t('dari')}{" "}
                     <span className="font-medium text-slate-700 dark:text-slate-200">{total}</span>
                 </p>
 
                 <label className="flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400">
-                    <span className="hidden sm:inline">Tampilkan</span>
+                    <span className="hidden sm:inline">{t('Tampilkan')}</span>
                     <select
                         value={perPage}
                         onChange={(e) => changePerPage(e.target.value)}
                         className="py-1 px-2 rounded-lg text-sm border bg-white text-slate-700 dark:bg-slate-950 dark:text-slate-300 dark:border-slate-800 border-slate-200 focus:outline-none focus:ring-0"
-                        aria-label="Jumlah data per halaman"
+                        aria-label={t('Jumlah data per halaman')}
                     >
                         <option value="10">10</option>
                         <option value="25">25</option>
                         <option value="50">50</option>
                     </select>
-                    <span className="hidden sm:inline">per halaman</span>
+                    <span className="hidden sm:inline">{t('per halaman')}</span>
                 </label>
             </div>
 
@@ -89,7 +91,7 @@ export default function Pagination({ links }) {
                                 key={i}
                                 href={item.url}
                                 className={baseBtn}
-                                aria-label="Halaman sebelumnya"
+                                aria-label={t('Halaman sebelumnya')}
                             >
                                 <IconChevronLeft size={18} strokeWidth={1.5} />
                             </Link>
@@ -98,7 +100,7 @@ export default function Pagination({ links }) {
                                 key={i}
                                 className={`${baseBtn} ${disabledBtn}`}
                                 aria-disabled="true"
-                                aria-label="Halaman sebelumnya"
+                                aria-label={t('Halaman sebelumnya')}
                             >
                                 <IconChevronLeft size={18} strokeWidth={1.5} />
                             </span>
@@ -111,7 +113,7 @@ export default function Pagination({ links }) {
                                 key={i}
                                 href={item.url}
                                 className={baseBtn}
-                                aria-label="Halaman berikutnya"
+                                aria-label={t('Halaman berikutnya')}
                             >
                                 <IconChevronRight size={18} strokeWidth={1.5} />
                             </Link>
@@ -120,7 +122,7 @@ export default function Pagination({ links }) {
                                 key={i}
                                 className={`${baseBtn} ${disabledBtn}`}
                                 aria-disabled="true"
-                                aria-label="Halaman berikutnya"
+                                aria-label={t('Halaman berikutnya')}
                             >
                                 <IconChevronRight size={18} strokeWidth={1.5} />
                             </span>

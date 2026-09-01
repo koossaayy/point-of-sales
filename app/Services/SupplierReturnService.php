@@ -95,7 +95,7 @@ class SupplierReturnService
                     qty: $item->qty_returned,
                     stockBefore: $stockBefore,
                     stockAfter: (int) $product->stock,
-                    notes: $item->reason ?? 'Retur barang ke supplier',
+                    notes: $item->reason ?? __('Retur barang ke supplier'),
                     userId: $return->created_by,
                 );
             }

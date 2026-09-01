@@ -9,6 +9,7 @@ import {
     IconChevronDown,
     IconUserPlus,
 } from "@tabler/icons-react";
+import { useTranslation } from '@/i18n';
 import { CustomerHistoryButton } from "./CustomerHistoryPanel";
 import AddCustomerModal from "./AddCustomerModal";
 
@@ -22,6 +23,7 @@ export default function CustomerSelect({
     onCustomerAdded,
     tierOptions = [],
 }) {
+    const { t } = useTranslation();
     const [isOpen, setIsOpen] = useState(false);
     const [search, setSearch] = useState("");
     const [showAddModal, setShowAddModal] = useState(false);
@@ -161,7 +163,7 @@ export default function CustomerSelect({
                                     <p className="text-[11px] text-primary-500 dark:text-primary-300 truncate">
                                         {selected.is_loyalty_member
                                             ? `${selected.loyalty_tier} • ${selected.loyalty_points || 0} poin`
-                                            : "Non-member"}
+                                            : t('Non-member')}
                                     </p>
                                 </>
                             ) : (
@@ -191,11 +193,11 @@ export default function CustomerSelect({
                             type="button"
                             onClick={handleUpgradeMember}
                             className="h-12 px-3 rounded-xl border border-primary-200 bg-primary-50 text-primary-600 hover:bg-primary-100 dark:border-primary-800 dark:bg-primary-950/30 dark:text-primary-300"
-                            title="Upgrade pelanggan menjadi member"
+                            title={t('Upgrade pelanggan menjadi member')}
                         >
                             <span className="hidden sm:inline-flex items-center gap-2 text-sm font-semibold">
                                 <IconCrown size={16} />
-                                Upgrade
+                                {t('Upgrade')}
                             </span>
                             <span className="inline-flex sm:hidden">
                                 <IconCrown size={18} />
@@ -210,7 +212,7 @@ export default function CustomerSelect({
                         className="h-12 w-12 rounded-xl border-2 border-dashed border-primary-300 dark:border-primary-700
                             text-primary-500 hover:bg-primary-50 dark:hover:bg-primary-950/30
                             flex items-center justify-center transition-colors"
-                        title="Tambah pelanggan baru"
+                        title={t('Tambah pelanggan baru')}
                     >
                         <IconUserPlus size={20} />
                     </button>
@@ -236,7 +238,7 @@ export default function CustomerSelect({
                                     type="text"
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}
-                                    placeholder="Cari nama/telepon/nomor anggota..."
+                                    placeholder={t('Cari nama/telepon/nomor anggota...')}
                                     className="w-full h-10 pl-10 pr-4 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500 transition-all"
                                 />
                             </div>
@@ -302,7 +304,7 @@ export default function CustomerSelect({
                                                     <p className="text-[11px] text-primary-500 dark:text-primary-300 truncate">
                                                         {customer.is_loyalty_member
                                                             ? `${customer.loyalty_tier} • ${customer.loyalty_points || 0} poin`
-                                                            : "Non-member"}
+                                                            : t('Non-member')}
                                                     </p>
                                                 </div>
                                             </button>
@@ -316,7 +318,7 @@ export default function CustomerSelect({
                                         className="mx-auto mb-2 opacity-50"
                                     />
                                     <p className="text-sm">
-                                        Pelanggan tidak ditemukan
+                                        {t('Pelanggan tidak ditemukan')}
                                     </p>
                                     <button
                                         type="button"
@@ -326,7 +328,7 @@ export default function CustomerSelect({
                                         }}
                                         className="mt-2 text-sm text-primary-500 hover:text-primary-600 font-medium"
                                     >
-                                        + Tambah pelanggan baru
+                                        {t('+ Tambah pelanggan baru')}
                                     </button>
                                 </div>
                             )}

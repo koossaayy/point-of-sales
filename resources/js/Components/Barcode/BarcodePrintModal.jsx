@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { useTranslation } from '@/i18n';
 import { BarcodeLabelGrid } from "./BarcodeLabel";
 import {
     IconX,
@@ -16,6 +17,7 @@ export default function BarcodePrintModal({
     products = [],
     singleProduct = null,
 }) {
+    const { t } = useTranslation();
     const [size, setSize] = useState("70x50");
     const [showPrice, setShowPrice] = useState(true);
     const [showOngkir, setShowOngkir] = useState(false);
@@ -103,7 +105,7 @@ export default function BarcodePrintModal({
                     <div className="flex items-center gap-2">
                         <IconBarcode size={24} className="text-primary-500" />
                         <h2 className="text-lg font-bold text-slate-800 dark:text-white">
-                            Cetak Barcode
+                            {t('Cetak Barcode')}
                         </h2>
                         <span className="px-2 py-0.5 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 text-xs font-medium rounded-full">
                             {productsToPrint.length} produk
@@ -123,23 +125,23 @@ export default function BarcodePrintModal({
                         {/* Size */}
                         <div>
                             <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
-                                Ukuran Label
+                                {t('Ukuran Label')}
                             </label>
                             <select
                                 value={size}
                                 onChange={(e) => setSize(e.target.value)}
                                 className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm"
                             >
-                                <option value="50x30">50 x 30 mm</option>
-                                <option value="70x50">70 x 50 mm</option>
-                                <option value="100x50">100 x 50 mm</option>
+                                <option value="50x30">{t('50 x 30 mm')}</option>
+                                <option value="70x50">{t('70 x 50 mm')}</option>
+                                <option value="100x50">{t('100 x 50 mm')}</option>
                             </select>
                         </div>
 
                         {/* Copies */}
                         <div>
                             <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
-                                Jumlah per Produk
+                                {t('Jumlah per Produk')}
                             </label>
                             <input
                                 type="number"
@@ -166,7 +168,7 @@ export default function BarcodePrintModal({
                                 htmlFor="showPrice"
                                 className="text-sm text-slate-700 dark:text-slate-300"
                             >
-                                Tampilkan Harga
+                                {t('Tampilkan Harga')}
                             </label>
                         </div>
 
@@ -185,7 +187,7 @@ export default function BarcodePrintModal({
                                 htmlFor="showOngkir"
                                 className="text-sm text-slate-700 dark:text-slate-300"
                             >
-                                Tampilkan Ongkir
+                                {t('Tampilkan Ongkir')}
                             </label>
                         </div>
                     </div>
@@ -195,7 +197,7 @@ export default function BarcodePrintModal({
                         <div className="mt-3">
                             <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
                                 <IconTruck size={14} className="inline mr-1" />
-                                Nominal Ongkir
+                                {t('Nominal Ongkir')}
                             </label>
                             <input
                                 type="number"
@@ -204,7 +206,7 @@ export default function BarcodePrintModal({
                                 onChange={(e) =>
                                     setOngkirAmount(Number(e.target.value))
                                 }
-                                placeholder="Contoh: 15000"
+                                placeholder={t('Contoh: 15000')}
                                 className="w-48 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm"
                             />
                         </div>
@@ -216,7 +218,7 @@ export default function BarcodePrintModal({
                     className="p-4 overflow-auto"
                     style={{ maxHeight: "400px" }}
                 >
-                    <p className="text-xs text-slate-500 mb-3">Preview:</p>
+                    <p className="text-xs text-slate-500 mb-3">{t('Preview:')}</p>
                     <div
                         ref={printRef}
                         className="bg-white p-4 border border-dashed border-slate-300 rounded-lg"
@@ -238,14 +240,14 @@ export default function BarcodePrintModal({
                         onClick={onClose}
                         className="px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 text-sm font-medium transition-colors"
                     >
-                        Batal
+                        {t('Batal')}
                     </button>
                     <button
                         onClick={handlePrint}
                         className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium transition-colors"
                     >
                         <IconPrinter size={18} />
-                        Cetak
+                        {t('Cetak')}
                     </button>
                 </div>
             </div>

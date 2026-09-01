@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from '@/i18n';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, router } from "@inertiajs/react";
 import Button from "@/Components/Dashboard/Button";
@@ -13,6 +14,7 @@ import {
     IconTrash,
 } from "@tabler/icons-react";
 import { useAuthorization } from "@/Utils/authorization";
+import i18next from 'i18next';
 
 const formatPrice = (value = 0) =>
     Number(value || 0).toLocaleString("id-ID", {
@@ -24,7 +26,7 @@ const formatPrice = (value = 0) =>
 const statusBadge = (voucher) => {
     if (voucher.is_used) {
         return {
-            label: "Sudah Dipakai",
+            get label() { return i18next.t('Sudah Dipakai'); },
             className:
                 "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
         };
@@ -36,7 +38,7 @@ const statusBadge = (voucher) => {
 
     if (!voucher.is_active) {
         return {
-            label: "Nonaktif",
+            get label() { return i18next.t('Nonaktif'); },
             className:
                 "bg-rose-100 text-rose-700 dark:bg-rose-950/40 dark:text-rose-300",
         };
@@ -44,7 +46,7 @@ const statusBadge = (voucher) => {
 
     if (startsAt && startsAt > now) {
         return {
-            label: "Terjadwal",
+            get label() { return i18next.t('Terjadwal'); },
             className:
                 "bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300",
         };
@@ -52,20 +54,21 @@ const statusBadge = (voucher) => {
 
     if (expiresAt && expiresAt < now) {
         return {
-            label: "Expired",
+            get label() { return i18next.t('Expired'); },
             className:
                 "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
         };
     }
 
     return {
-        label: "Aktif",
+        get label() { return i18next.t('Aktif'); },
         className:
             "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300",
     };
 };
 
 export default function Index({ vouchers, filters = {} }) {
+    const { t } = useTranslation();
     const { can } = useAuthorization();
     const hasData = vouchers.data.length > 0;
 
@@ -79,16 +82,16 @@ export default function Index({ vouchers, filters = {} }) {
 
     return (
         <>
-            <Head title="Voucher Customer" />
+            <Head title={t('Voucher Customer')} />
 
             <div className="w-full">
                 <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                            Voucher Customer
+                            {t('Voucher Customer')}
                         </h1>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                            Voucher personal untuk promosi retensi dan reward pelanggan.
+                            {t('Voucher personal untuk promosi retensi dan reward pelanggan.')}
                         </p>
                     </div>
                     {can("customer-vouchers-create") && (
@@ -97,7 +100,7 @@ export default function Index({ vouchers, filters = {} }) {
                             href={route("customer-vouchers.create")}
                             icon={<IconCirclePlus size={18} />}
                             className="bg-primary-500 text-white hover:bg-primary-600 shadow-lg shadow-primary-500/30"
-                            label="Buat Voucher"
+                            label={t('Buat Voucher')}
                         />
                     )}
                 </div>
@@ -106,7 +109,7 @@ export default function Index({ vouchers, filters = {} }) {
                     <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_220px]">
                         <Search
                             url={route("customer-vouchers.index")}
-                            placeholder="Cari kode, voucher, pelanggan..."
+                            placeholder={t('Cari kode, voucher, pelanggan...')}
                             query={filters.search || ""}
                         />
                         <select
@@ -116,26 +119,26 @@ export default function Index({ vouchers, filters = {} }) {
                             }
                             className="h-11 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                         >
-                            <option value="">Semua Status</option>
-                            <option value="active">Aktif</option>
-                            <option value="scheduled">Terjadwal</option>
-                            <option value="expired">Expired</option>
-                            <option value="used">Sudah Dipakai</option>
-                            <option value="inactive">Nonaktif</option>
+                            <option value="">{t('Semua Status')}</option>
+                            <option value="active">{t('Aktif')}</option>
+                            <option value="scheduled">{t('Terjadwal')}</option>
+                            <option value="expired">{t('Expired')}</option>
+                            <option value="used">{t('Sudah Dipakai')}</option>
+                            <option value="inactive">{t('Nonaktif')}</option>
                         </select>
                     </div>
                 </div>
 
-                <Table.Card title="Daftar Voucher">
+                <Table.Card title={t('Daftar Voucher')}>
                     <Table>
                         <Table.Thead>
                             <tr>
-                                <Table.Th>Kode</Table.Th>
-                                <Table.Th>Pelanggan</Table.Th>
-                                <Table.Th>Benefit</Table.Th>
-                                <Table.Th>Status</Table.Th>
-                                <Table.Th>Kedaluwarsa</Table.Th>
-                                <Table.Th className="w-28 text-center">Aksi</Table.Th>
+                                <Table.Th>{t('Kode')}</Table.Th>
+                                <Table.Th>{t('Pelanggan')}</Table.Th>
+                                <Table.Th>{t('Benefit')}</Table.Th>
+                                <Table.Th>{t('Status')}</Table.Th>
+                                <Table.Th>{t('Kedaluwarsa')}</Table.Th>
+                                <Table.Th className="w-28 text-center">{t('Aksi')}</Table.Th>
                             </tr>
                         </Table.Thead>
                         <Table.Tbody>
@@ -177,7 +180,7 @@ export default function Index({ vouchers, filters = {} }) {
                                                     : formatPrice(voucher.discount_value)}
                                             </p>
                                             <p className="text-xs text-slate-500 dark:text-slate-400">
-                                                Min. {formatPrice(voucher.minimum_order)}
+                                                {t('Min.')} {formatPrice(voucher.minimum_order)}
                                             </p>
                                         </Table.Td>
                                         <Table.Td>

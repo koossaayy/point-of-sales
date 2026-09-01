@@ -2,8 +2,10 @@ import React from "react";
 import { usePage, useForm } from "@inertiajs/react";
 import { IconLanguage } from "@tabler/icons-react";
 import { Menu, Transition } from "@headlessui/react";
+import { useTranslation } from '@/i18n';
 
 export default function LanguageSwitcher() {
+    const { t } = useTranslation();
     const { locale } = usePage().props;
     const { post, processing } = useForm({
         locale: locale?.current || "id",
@@ -29,7 +31,7 @@ export default function LanguageSwitcher() {
         <Menu as="div" className="relative">
             <Menu.Button
                 className="flex items-center gap-2 p-2.5 rounded-xl text-slate-500 hover:text-slate-700 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800 transition-colors"
-                title="Change Language"
+                title={t('Change Language')}
             >
                 <IconLanguage size={20} strokeWidth={1.5} />
                 <span className="hidden lg:inline text-sm font-medium">{currentLang.code.toUpperCase()}</span>
@@ -46,7 +48,7 @@ export default function LanguageSwitcher() {
                 <Menu.Items className="absolute right-0 mt-2 w-48 origin-top-right rounded-xl bg-white dark:bg-slate-800 shadow-lg ring-1 ring-slate-200 dark:ring-slate-700 focus:outline-none overflow-hidden">
                     <div className="p-1">
                         <div className="px-3 py-2 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                            Select Language
+                            {t('Select Language')}
                         </div>
                         {languages.map((lang) => (
                             <Menu.Item key={lang.code}>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from '@/i18n';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, usePage, router, useForm } from "@inertiajs/react";
 import Button from "@/Components/Dashboard/Button";
@@ -16,6 +17,7 @@ import { useAuthorization } from "@/Utils/authorization";
 import toast from "react-hot-toast";
 
 export default function Index({ areas }) {
+    const { t } = useTranslation();
     const { can } = useAuthorization();
     const canCreate = can("dine-tables-create");
     const canUpdate = can("dine-tables-access");
@@ -48,10 +50,10 @@ export default function Index({ areas }) {
     const submit = (e) => {
         e.preventDefault();
         const onSuccess = () => {
-            toast.success(editingArea ? "Area berhasil diperbarui." : "Area berhasil ditambahkan.");
+            toast.success(editingArea ? t('Area berhasil diperbarui.') : t('Area berhasil ditambahkan.'));
             setModalOpen(false);
         };
-        const onError = () => toast.error("Gagal menyimpan area.");
+        const onError = () => toast.error(t('Gagal menyimpan area.'));
 
         if (editingArea) {
             patch(route("dine-areas.update", editingArea.id), { onSuccess, onError });
@@ -63,20 +65,20 @@ export default function Index({ areas }) {
     const handleDelete = (area) => {
         if (!confirm(`Hapus area "${area.name}"?`)) return;
         router.delete(route("dine-areas.destroy", area.id), {
-            onSuccess: () => toast.success("Area berhasil dihapus."),
-            onError: () => toast.error("Gagal menghapus area."),
+            onSuccess: () => toast.success(t('Area berhasil dihapus.')),
+            onError: () => toast.error(t('Gagal menghapus area.')),
         });
     };
 
     return (
         <>
-            <Head title="Area Dine-In" />
+            <Head title={t('Area Dine-In')} />
 
             <div className="mb-6">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
                         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                            Area Dine-In
+                            {t('Area Dine-In')}
                         </h1>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
                             {areas.length} area terdaftar
@@ -89,7 +91,7 @@ export default function Index({ areas }) {
                             className={
                                 "bg-primary-500 hover:bg-primary-600 text-white shadow-lg shadow-primary-500/30"
                             }
-                            label={"Tambah Area"}
+                            label={t('Tambah Area')}
                             onClick={openCreate}
                         />
                     )}
@@ -97,14 +99,14 @@ export default function Index({ areas }) {
             </div>
 
             {areas.length > 0 ? (
-                <Table.Card title={"Data Area"}>
+                <Table.Card title={t('Data Area')}>
                     <Table>
                         <Table.Thead>
                             <tr>
-                                <Table.Th className="w-10">No</Table.Th>
-                                <Table.Th>Nama Area</Table.Th>
-                                <Table.Th>Jumlah Meja</Table.Th>
-                                <Table.Th>Status</Table.Th>
+                                <Table.Th className="w-10">{t('No')}</Table.Th>
+                                <Table.Th>{t('Nama Area')}</Table.Th>
+                                <Table.Th>{t('Jumlah Meja')}</Table.Th>
+                                <Table.Th>{t('Status')}</Table.Th>
                                 <Table.Th></Table.Th>
                             </tr>
                         </Table.Thead>
@@ -133,7 +135,7 @@ export default function Index({ areas }) {
                                                     : "bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400"
                                             }`}
                                         >
-                                            {area.is_active ? "Aktif" : "Nonaktif"}
+                                            {area.is_active ? t('Aktif') : t('Nonaktif')}
                                         </span>
                                     </Table.Td>
                                     <Table.Td>
@@ -171,17 +173,17 @@ export default function Index({ areas }) {
                         <IconDatabaseOff size={32} className="text-slate-400" strokeWidth={1.5} />
                     </div>
                     <h3 className="text-lg font-medium text-slate-800 dark:text-slate-200 mb-1">
-                        Belum Ada Area
+                        {t('Belum Ada Area')}
                     </h3>
                     <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
-                        Tambahkan area dine-in pertama Anda.
+                        {t('Tambahkan area dine-in pertama Anda.')}
                     </p>
                     {canCreate && (
                         <Button
                             type={"link"}
                             icon={<IconCirclePlus size={18} />}
                             className={"bg-primary-500 hover:bg-primary-600 text-white"}
-                            label={"Tambah Area"}
+                            label={t('Tambah Area')}
                             onClick={openCreate}
                         />
                     )}
@@ -191,19 +193,19 @@ export default function Index({ areas }) {
             <Modal
                 open={modalOpen}
                 onClose={() => setModalOpen(false)}
-                title={editingArea ? "Edit Area" : "Tambah Area"}
+                title={editingArea ? t('Edit Area') : t('Tambah Area')}
             >
                 <form onSubmit={submit} className="space-y-4">
                     <Input
-                        label="Nama Area"
+                        label={t('Nama Area')}
                         value={data.name}
                         onChange={(e) => setData("name", e.target.value)}
                         error={errors.name}
-                        placeholder="Contoh: Indoor, Outdoor, VIP"
+                        placeholder={t('Contoh: Indoor, Outdoor, VIP')}
                         required
                     />
                     <Input
-                        label="Urutan"
+                        label={t('Urutan')}
                         type="number"
                         min="0"
                         value={data.sort_order}
@@ -218,18 +220,18 @@ export default function Index({ areas }) {
                             className="w-4 h-4 rounded border-slate-300 text-primary-500 focus:ring-primary-500"
                         />
                         <span className="text-sm text-slate-700 dark:text-slate-300">
-                            Area aktif
+                            {t('Area aktif')}
                         </span>
                     </label>
                     <div className="flex justify-end gap-3 pt-2">
                         <Button
                             type={"button"}
-                            label={"Batal"}
+                            label={t('Batal')}
                             onClick={() => setModalOpen(false)}
                         />
                         <Button
                             type={"submit"}
-                            label={editingArea ? "Perbarui" : "Simpan"}
+                            label={editingArea ? t('Perbarui') : t('Simpan')}
                             processing={processing}
                             className={"bg-primary-500 hover:bg-primary-600 text-white"}
                         />

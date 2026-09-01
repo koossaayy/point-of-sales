@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { Head, Link, router, usePage } from "@inertiajs/react";
+import { useTranslation } from '@/i18n';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import {
     IconArrowLeft,
@@ -41,6 +42,7 @@ function MetricCard({ title, value, icon: Icon }) {
 }
 
 export default function Show({ cashierShift, canForceClose = false }) {
+    const { t } = useTranslation();
     const { auth, errors } = usePage().props;
     const { can } = useAuthorization();
     const [actualCash, setActualCash] = useState(
@@ -82,7 +84,7 @@ export default function Show({ cashierShift, canForceClose = false }) {
 
     return (
         <>
-            <Head title={`Shift #${cashierShift.id}`} />
+            <Head title={t('Shift #{{0}}', { 0: cashierShift.id })} />
 
             <div className="space-y-6">
                 <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -92,13 +94,13 @@ export default function Show({ cashierShift, canForceClose = false }) {
                             className="mb-3 inline-flex items-center gap-2 text-sm font-medium text-slate-500 transition hover:text-primary-600 dark:text-slate-400 dark:hover:text-primary-400"
                         >
                             <IconArrowLeft size={16} />
-                            <span>Kembali ke histori shift</span>
+                            <span>{t('Kembali ke histori shift')}</span>
                         </Link>
                         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                            Shift Kasir {cashierShift.user?.name || "-"}
+                            {t('Shift Kasir')} {cashierShift.user?.name || "-"}
                         </h1>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                            Dibuka {formatDateTime(cashierShift.opened_at)}
+                            {t('Dibuka')} {formatDateTime(cashierShift.opened_at)}
                         </p>
                     </div>
                     <span
@@ -111,71 +113,71 @@ export default function Show({ cashierShift, canForceClose = false }) {
                         }`}
                     >
                         {cashierShift.status === "open"
-                            ? "Shift Aktif"
+                            ? t('Shift Aktif')
                             : cashierShift.status === "force_closed"
-                              ? "Force Closed"
-                              : "Shift Closed"}
+                              ? t('Force Closed')
+                              : t('Shift Closed')}
                     </span>
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                    <MetricCard title="Modal Awal" value={formatCurrency(cashierShift.opening_cash)} icon={IconWallet} />
-                    <MetricCard title="Expected Cash" value={formatCurrency(cashierShift.expected_cash)} icon={IconCashBanknote} />
-                    <MetricCard title="Penjualan Tunai" value={formatCurrency(cashierShift.cash_sales_total)} icon={IconReceipt} />
-                    <MetricCard title="Refund Tunai" value={formatCurrency(cashierShift.cash_refund_total)} icon={IconRotateClockwise2} />
+                    <MetricCard title={t('Modal Awal')} value={formatCurrency(cashierShift.opening_cash)} icon={IconWallet} />
+                    <MetricCard title={t('Expected Cash')} value={formatCurrency(cashierShift.expected_cash)} icon={IconCashBanknote} />
+                    <MetricCard title={t('Penjualan Tunai')} value={formatCurrency(cashierShift.cash_sales_total)} icon={IconReceipt} />
+                    <MetricCard title={t('Refund Tunai')} value={formatCurrency(cashierShift.cash_refund_total)} icon={IconRotateClockwise2} />
                 </div>
 
                 <div className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
                     <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
                         <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-                            Ringkasan Shift
+                            {t('Ringkasan Shift')}
                         </h2>
                         <div className="mt-5 grid gap-4 md:grid-cols-2">
                             <div>
-                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Kasir</p>
+                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t('Kasir')}</p>
                                 <p className="mt-2 text-sm text-slate-900 dark:text-white">{cashierShift.user?.name || "-"}</p>
                             </div>
                             <div>
-                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Gudang / Cabang</p>
+                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t('Gudang / Cabang')}</p>
                                 <p className="mt-2 text-sm text-slate-900 dark:text-white">{cashierShift.warehouse?.name || "-"}</p>
                             </div>
                             <div>
-                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Dibuka Oleh</p>
+                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t('Dibuka Oleh')}</p>
                                 <p className="mt-2 text-sm text-slate-900 dark:text-white">{cashierShift.opened_by?.name || "-"}</p>
                             </div>
                             <div>
-                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Waktu Tutup</p>
+                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t('Waktu Tutup')}</p>
                                 <p className="mt-2 text-sm text-slate-900 dark:text-white">{formatDateTime(cashierShift.closed_at)}</p>
                             </div>
                             <div>
-                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Ditutup Oleh</p>
+                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t('Ditutup Oleh')}</p>
                                 <p className="mt-2 text-sm text-slate-900 dark:text-white">{cashierShift.closed_by?.name || "-"}</p>
                             </div>
                             <div>
-                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Total Transaksi</p>
+                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t('Total Transaksi')}</p>
                                 <p className="mt-2 text-sm text-slate-900 dark:text-white">{cashierShift.transactions_count}</p>
                             </div>
                             <div>
-                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Total Retur</p>
+                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t('Total Retur')}</p>
                                 <p className="mt-2 text-sm text-slate-900 dark:text-white">{cashierShift.sales_returns_count}</p>
                             </div>
                             <div>
-                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Penjualan Non Tunai</p>
+                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t('Penjualan Non Tunai')}</p>
                                 <p className="mt-2 text-sm text-slate-900 dark:text-white">{formatCurrency(cashierShift.non_cash_sales_total)}</p>
                             </div>
                             <div>
-                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Refund Non Tunai</p>
+                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t('Refund Non Tunai')}</p>
                                 <p className="mt-2 text-sm text-slate-900 dark:text-white">{formatCurrency(cashierShift.non_cash_refund_total)}</p>
                             </div>
                         </div>
 
                         <div className="mt-5 grid gap-4 md:grid-cols-2">
                             <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
-                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Catatan Shift</p>
+                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t('Catatan Shift')}</p>
                                 <p className="mt-2 text-sm text-slate-700 dark:text-slate-300">{cashierShift.notes || "Tidak ada catatan pembukaan."}</p>
                             </div>
                             <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
-                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Catatan Closing</p>
+                                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">{t('Catatan Closing')}</p>
                                 <p className="mt-2 text-sm text-slate-700 dark:text-slate-300">{cashierShift.close_notes || "Tidak ada catatan penutupan."}</p>
                             </div>
                         </div>
@@ -184,21 +186,21 @@ export default function Show({ cashierShift, canForceClose = false }) {
                     <div className="space-y-6">
                         <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
                             <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-                                Cash Closing
+                                {t('Cash Closing')}
                             </h2>
                             <div className="mt-4 space-y-3">
                                 <div className="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3 dark:bg-slate-800/60">
-                                    <span className="text-sm text-slate-500 dark:text-slate-400">Expected Cash</span>
+                                    <span className="text-sm text-slate-500 dark:text-slate-400">{t('Expected Cash')}</span>
                                     <span className="font-semibold text-slate-900 dark:text-white">{formatCurrency(cashierShift.expected_cash)}</span>
                                 </div>
                                 <div className="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3 dark:bg-slate-800/60">
-                                    <span className="text-sm text-slate-500 dark:text-slate-400">Actual Cash</span>
+                                    <span className="text-sm text-slate-500 dark:text-slate-400">{t('Actual Cash')}</span>
                                     <span className="font-semibold text-slate-900 dark:text-white">
                                         {cashierShift.actual_cash === null ? "-" : formatCurrency(cashierShift.actual_cash)}
                                     </span>
                                 </div>
                                 <div className="flex items-center justify-between rounded-xl bg-slate-50 px-4 py-3 dark:bg-slate-800/60">
-                                    <span className="text-sm text-slate-500 dark:text-slate-400">Selisih</span>
+                                    <span className="text-sm text-slate-500 dark:text-slate-400">{t('Selisih')}</span>
                                     <span className="font-semibold text-slate-900 dark:text-white">
                                         {cashierShift.cash_difference === null ? "-" : formatCurrency(cashierShift.cash_difference)}
                                     </span>
@@ -209,14 +211,14 @@ export default function Show({ cashierShift, canForceClose = false }) {
                         {canCloseShift && (
                             <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
                                 <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-                                    Tutup Shift
+                                    {t('Tutup Shift')}
                                 </h2>
                                 <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                                    Input kas fisik akhir untuk finalisasi cash closing.
+                                    {t('Input kas fisik akhir untuk finalisasi cash closing.')}
                                 </p>
                                 <form onSubmit={handleCloseShift} className="mt-4 space-y-4">
                                     <div>
-                                        <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">Kas Fisik Aktual</label>
+                                        <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">{t('Kas Fisik Aktual')}</label>
                                         <input
                                             type="number"
                                             min="0"
@@ -229,13 +231,13 @@ export default function Show({ cashierShift, canForceClose = false }) {
                                         )}
                                     </div>
                                     <div>
-                                        <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">Catatan Closing</label>
+                                        <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">{t('Catatan Closing')}</label>
                                         <textarea
                                             rows={4}
                                             value={closeNotes}
                                             onChange={(event) => setCloseNotes(event.target.value)}
                                             className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
-                                            placeholder="Opsional"
+                                            placeholder={t('Opsional')}
                                         />
                                     </div>
                                     {difference !== null && (
@@ -246,7 +248,7 @@ export default function Show({ cashierShift, canForceClose = false }) {
                                                     : "bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-300"
                                             }`}
                                         >
-                                            Selisih closing: {formatCurrency(difference)}
+                                            {t('Selisih closing:')} {formatCurrency(difference)}
                                         </div>
                                     )}
                                     <button
@@ -254,7 +256,7 @@ export default function Show({ cashierShift, canForceClose = false }) {
                                         className="inline-flex items-center gap-2 rounded-xl bg-primary-500 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-primary-600"
                                     >
                                         <IconCashBanknote size={18} />
-                                        <span>Finalisasi Closing</span>
+                                        <span>{t('Finalisasi Closing')}</span>
                                     </button>
                                 </form>
                             </div>

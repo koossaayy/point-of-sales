@@ -1,4 +1,5 @@
 import { Head, Link } from "@inertiajs/react";
+import { useTranslation } from '@/i18n';
 import PublicLayout from "@/Layouts/PublicLayout";
 import {
     IconShoppingCart,
@@ -17,68 +18,69 @@ import {
     IconDeviceMobile,
     IconTerminal2,
 } from "@tabler/icons-react";
+import i18next from 'i18next';
 
 const GITHUB_URL = "https://github.com/aryadwiputra/point-of-sales";
 const DOCS_URL = `${GITHUB_URL}/blob/main/docs/getting-started.md`;
 const GALLERY_URL = `${GITHUB_URL}/blob/main/docs/screenshots.md`;
 
 const stats = [
-    { value: "200+", label: "GitHub Stars" },
-    { value: "44+", label: "Fitur Lengkap" },
-    { value: "MIT", label: "100% Gratis" },
-    { value: "8", label: "Modul Terintegrasi" },
+    { value: "200+", get label() { return i18next.t('GitHub Stars'); } },
+    { value: "44+", get label() { return i18next.t('Fitur Lengkap'); } },
+    { value: "MIT", get label() { return i18next.t('100% Gratis'); } },
+    { value: "8", get label() { return i18next.t('Modul Terintegrasi'); } },
 ];
 
 const features = [
     {
         icon: IconShoppingCart,
-        title: "POS Cepat & Mudah",
-        desc: "Cari produk via barcode atau keyboard, scan pakai kamera (PWA), cart hold/resume, dan checkout dalam hitungan detik.",
+        get title() { return i18next.t('POS Cepat & Mudah'); },
+        get desc() { return i18next.t('Cari produk via barcode atau keyboard, scan pakai kamera (PWA), cart hold/resume, dan checkout dalam hitungan detik.'); },
     },
     {
         icon: IconWallet,
         title: "Multi-Payment",
-        desc: "Tunai, transfer bank, QRIS (Midtrans), Xendit, hingga pay later (piutang) — semua dalam satu kasir.",
+        get desc() { return i18next.t('Tunai, transfer bank, QRIS (Midtrans), Xendit, hingga pay later (piutang) — semua dalam satu kasir.'); },
     },
     {
         icon: IconBuildingWarehouse,
         title: "Multi-Warehouse",
-        desc: "Stok terpisah per gudang/cabang, transfer antar gudang, stock opname, dan tracking batch/expiry (FEFO).",
+        get desc() { return i18next.t('Stok terpisah per gudang/cabang, transfer antar gudang, stock opname, dan tracking batch/expiry (FEFO).'); },
     },
     {
         icon: IconReceiptTax,
-        title: "PPN & Pajak",
-        desc: "Dukungan PPN 11% (exclusive/inclusive), data NPWP pelanggan, dan laporan pajak yang rapi.",
+        get title() { return i18next.t('PPN & Pajak'); },
+        get desc() { return i18next.t('Dukungan PPN 11% (exclusive/inclusive), data NPWP pelanggan, dan laporan pajak yang rapi.'); },
     },
     {
         icon: IconChartBar,
-        title: "Laporan & Insight",
-        desc: "Laporan penjualan, profit & margin, performa per kasir, jam sibuk, dan repeat customer.",
+        get title() { return i18next.t('Laporan & Insight'); },
+        get desc() { return i18next.t('Laporan penjualan, profit & margin, performa per kasir, jam sibuk, dan repeat customer.'); },
     },
     {
         icon: IconReportMoney,
-        title: "Piutang & Hutang",
-        desc: "Kelola piutang pelanggan & hutang supplier dengan aging analysis dan partial payment.",
+        get title() { return i18next.t('Piutang & Hutang'); },
+        get desc() { return i18next.t('Kelola piutang pelanggan & hutang supplier dengan aging analysis dan partial payment.'); },
     },
     {
         icon: IconUsers,
-        title: "CRM & Loyalty",
-        desc: "Member tiers, poin loyalty, voucher, segmentasi pelanggan otomatis, dan campaign marketing.",
+        get title() { return i18next.t('CRM & Loyalty'); },
+        get desc() { return i18next.t('Member tiers, poin loyalty, voucher, segmentasi pelanggan otomatis, dan campaign marketing.'); },
     },
     {
         icon: IconBrandWhatsapp,
-        title: "WhatsApp Gateway",
-        desc: "Kirim struk, reminder piutang, dan promo otomatis ke pelanggan via WhatsApp (whatsapp-web.js).",
+        get title() { return i18next.t('WhatsApp Gateway'); },
+        get desc() { return i18next.t('Kirim struk, reminder piutang, dan promo otomatis ke pelanggan via WhatsApp (whatsapp-web.js).'); },
     },
     {
         icon: IconShieldLock,
-        title: "RBAC & Audit Log",
-        desc: "Kontrol akses per role (admin/kasir), persetujuan diskon, dan jejak audit before/after setiap perubahan.",
+        get title() { return i18next.t('RBAC & Audit Log'); },
+        get desc() { return i18next.t('Kontrol akses per role (admin/kasir), persetujuan diskon, dan jejak audit before/after setiap perubahan.'); },
     },
     {
         icon: IconCloudOff,
-        title: "Offline Mode",
-        desc: "Tetap bisa jualan saat internet mati — transaksi masuk antrean dan tersinkron otomatis saat online.",
+        get title() { return i18next.t('Offline Mode'); },
+        get desc() { return i18next.t('Tetap bisa jualan saat internet mati — transaksi masuk antrean dan tersinkron otomatis saat online.'); },
     },
 ];
 
@@ -92,33 +94,33 @@ const techStack = [
 ];
 
 const screenshots = [
-    { src: "/screenshots/01-dashboard.png", title: "Dashboard", span: "col-span-2 row-span-2" },
-    { src: "/screenshots/02-pos-checkout.png", title: "POS Checkout" },
-    { src: "/screenshots/06-stock-opnames.png", title: "Stock Opname" },
-    { src: "/screenshots/12-receivables.png", title: "Receivables" },
-    { src: "/screenshots/15-sales-report.png", title: "Sales Report" },
+    { src: "/screenshots/01-dashboard.png", get title() { return i18next.t('Dashboard'); }, span: "col-span-2 row-span-2" },
+    { src: "/screenshots/02-pos-checkout.png", get title() { return i18next.t('POS Checkout'); } },
+    { src: "/screenshots/06-stock-opnames.png", get title() { return i18next.t('Stock Opname'); } },
+    { src: "/screenshots/12-receivables.png", get title() { return i18next.t('Receivables'); } },
+    { src: "/screenshots/15-sales-report.png", get title() { return i18next.t('Sales Report'); } },
 ];
 
 const faqs = [
     {
-        q: "Apakah Dikasir benar-benar gratis?",
-        a: "Ya. Dikasir dirilis di bawah lisensi MIT — bebas digunakan, dimodifikasi, dan didistribusikan, termasuk untuk kepentingan komersial. Tidak ada biaya lisensi atau langganan.",
+        get q() { return i18next.t('Apakah Dikasir benar-benar gratis?'); },
+        get a() { return i18next.t('Ya. Dikasir dirilis di bawah lisensi MIT — bebas digunakan, dimodifikasi, dan didistribusikan, termasuk untuk kepentingan komersial. Tidak ada biaya lisensi atau langganan.'); },
     },
     {
-        q: "Bisakah dipakai untuk bisnis multi-cabang?",
-        a: "Bisa. Dikasir mendukung multi-warehouse dengan stok terpisah per gudang/cabang, transfer stok antar gudang, dan laporan per gudang.",
+        get q() { return i18next.t('Bisakah dipakai untuk bisnis multi-cabang?'); },
+        get a() { return i18next.t('Bisa. Dikasir mendukung multi-warehouse dengan stok terpisah per gudang/cabang, transfer stok antar gudang, dan laporan per gudang.'); },
     },
     {
-        q: "Bagaimana kalau internet di toko mati?",
-        a: "Dikasir punya offline mode: transaksi tetap bisa diproses dan masuk antrean lokal, lalu tersinkron otomatis saat koneksi kembali.",
+        get q() { return i18next.t('Bagaimana kalau internet di toko mati?'); },
+        get a() { return i18next.t('Dikasir punya offline mode: transaksi tetap bisa diproses dan masuk antrean lokal, lalu tersinkron otomatis saat koneksi kembali.'); },
     },
     {
-        q: "Apa saja yang dibutuhkan untuk instalasi?",
-        a: "PHP 8.3+, MySQL, Composer, dan Node.js 20+. Semua panduan lengkap ada di dokumentasi getting-started.",
+        get q() { return i18next.t('Apa saja yang dibutuhkan untuk instalasi?'); },
+        get a() { return i18next.t('PHP 8.3+, MySQL, Composer, dan Node.js 20+. Semua panduan lengkap ada di dokumentasi getting-started.'); },
     },
     {
-        q: "Bagaimana cara berkontribusi?",
-        a: "Fork repository, buat branch dari development (feature/nama-fitur), lalu buat Pull Request ke development. Pastikan php artisan test lulus sebelum submit.",
+        get q() { return i18next.t('Bagaimana cara berkontribusi?'); },
+        get a() { return i18next.t('Fork repository, buat branch dari development (feature/nama-fitur), lalu buat Pull Request ke development. Pastikan php artisan test lulus sebelum submit.'); },
     },
 ];
 
@@ -135,9 +137,10 @@ npm run dev
 php artisan serve`;
 
 export default function Welcome() {
+    const { t } = useTranslation();
     return (
         <PublicLayout>
-            <Head title="Dikasir — Sistem Kasir Open Source untuk UMKM" />
+            <Head title={t('Dikasir — Sistem Kasir Open Source untuk UMKM')} />
 
             {/* ============ HERO ============ */}
             <section className="pt-28 pb-16 px-6">
@@ -145,20 +148,18 @@ export default function Welcome() {
                     <div className="text-center max-w-4xl mx-auto">
                         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-50 dark:bg-primary-950/50 text-primary-600 dark:text-primary-400 text-sm font-medium mb-6 border border-primary-100 dark:border-primary-900">
                             <IconBrandGithub size={16} />
-                            Open Source · MIT License · 200+ Stars
+                            {t('Open Source · MIT License · 200+ Stars')}
                         </div>
 
                         <h1 className="text-5xl md:text-6xl font-extrabold text-slate-900 dark:text-white leading-tight">
-                            Sistem Kasir Modern
+                            {t('Sistem Kasir Modern')}
                             <span className="block mt-2 bg-gradient-to-r from-primary-500 to-primary-600 bg-clip-text text-transparent">
-                                Gratis &amp; Open Source
+                                {t('Gratis &amp; Open Source')}
                             </span>
                         </h1>
 
                         <p className="mt-6 text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                            Dikasir adalah aplikasi point of sale lengkap untuk warung, toko, dan
-                            UMKM Indonesia — multi-warehouse, PPN, loyalty &amp; CRM, WhatsApp
-                            gateway, hingga offline mode. Self-hosted, data 100% milik Anda.
+                            {t('Dikasir adalah aplikasi point of sale lengkap untuk warung, toko, dan UMKM Indonesia — multi-warehouse, PPN, loyalty &amp; CRM, WhatsApp gateway, hingga offline mode. Self-hosted, data 100% milik Anda.')}
                         </p>
 
                         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -169,7 +170,7 @@ export default function Welcome() {
                                 className="w-full sm:w-auto px-8 py-4 text-base font-semibold text-white bg-gradient-to-r from-primary-500 to-primary-600 rounded-2xl hover:from-primary-600 hover:to-primary-700 shadow-xl shadow-primary-500/30 transition-all flex items-center justify-center gap-2"
                             >
                                 <IconStar size={20} />
-                                Star di GitHub
+                                {t('Star di GitHub')}
                                 <IconArrowRight size={18} />
                             </a>
                             <Link
@@ -177,7 +178,7 @@ export default function Welcome() {
                                 className="w-full sm:w-auto px-8 py-4 text-base font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl hover:border-primary-300 dark:hover:border-primary-700 transition-all flex items-center justify-center gap-2"
                             >
                                 <IconDeviceMobile size={20} />
-                                Coba Demo
+                                {t('Coba Demo')}
                             </Link>
                         </div>
                     </div>
@@ -198,7 +199,7 @@ export default function Welcome() {
                             </div>
                             <img
                                 src="/media/revamp-pos.png"
-                                alt="Preview POS Dikasir"
+                                alt={t('Preview POS Dikasir')}
                                 className="w-full"
                                 loading="lazy"
                             />
@@ -228,11 +229,10 @@ export default function Welcome() {
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-14">
                         <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white">
-                            Tampilan Aplikasi
+                            {t('Tampilan Aplikasi')}
                         </h2>
                         <p className="mt-4 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                            Dari kasir harian hingga laporan manajemen — semua dalam satu aplikasi
-                            yang rapi dan cepat.
+                            {t('Dari kasir harian hingga laporan manajemen — semua dalam satu aplikasi yang rapi dan cepat.')}
                         </p>
                     </div>
 
@@ -264,7 +264,7 @@ export default function Welcome() {
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 transition-colors"
                         >
-                            Lihat galeri lengkap (33 screenshot)
+                            {t('Lihat galeri lengkap (33 screenshot)')}
                             <IconArrowRight size={16} />
                         </a>
                     </div>
@@ -276,11 +276,10 @@ export default function Welcome() {
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white">
-                            Fitur Lengkap untuk Bisnis Nyata
+                            {t('Fitur Lengkap untuk Bisnis Nyata')}
                         </h2>
                         <p className="mt-4 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                            44+ modul terintegrasi — dari transaksi harian sampai analitik
-                            lanjutan, dirancang untuk kebutuhan UMKM Indonesia.
+                            {t('44+ modul terintegrasi — dari transaksi harian sampai analitik lanjutan, dirancang untuk kebutuhan UMKM Indonesia.')}
                         </p>
                     </div>
 
@@ -308,7 +307,7 @@ export default function Welcome() {
                             href="/fitur"
                             className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-primary-600 dark:text-primary-400 border border-primary-200 dark:border-primary-800 rounded-xl hover:bg-primary-50 dark:hover:bg-primary-950/40 transition-colors"
                         >
-                            Jelajahi semua fitur
+                            {t('Jelajahi semua fitur')}
                             <IconArrowRight size={16} />
                         </Link>
                     </div>
@@ -319,10 +318,10 @@ export default function Welcome() {
             <section className="py-16 px-6">
                 <div className="max-w-4xl mx-auto text-center">
                     <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">
-                        Tech Stack Modern
+                        {t('Tech Stack Modern')}
                     </h2>
                     <p className="text-slate-600 dark:text-slate-400 mb-10">
-                        Dibangun dengan teknologi yang teruji, cepat, dan mudah dikembangkan
+                        {t('Dibangun dengan teknologi yang teruji, cepat, dan mudah dikembangkan')}
                     </p>
                     <div className="flex flex-wrap justify-center gap-4">
                         {techStack.map((tech) => (
@@ -345,18 +344,17 @@ export default function Welcome() {
                 <div className="max-w-4xl mx-auto">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white">
-                            Instalasi dalam Hitungan Menit
+                            {t('Instalasi dalam Hitungan Menit')}
                         </h2>
                         <p className="mt-4 text-slate-600 dark:text-slate-400">
-                            Clone, install, dan kasir Anda langsung jalan. Data contoh sudah
-                            termasuk.
+                            {t('Clone, install, dan kasir Anda langsung jalan. Data contoh sudah termasuk.')}
                         </p>
                     </div>
 
                     <div className="bg-slate-900 dark:bg-slate-800 rounded-2xl p-6 overflow-hidden">
                         <div className="flex items-center gap-2 mb-4">
                             <IconTerminal2 size={16} className="text-slate-500" />
-                            <span className="text-xs font-mono text-slate-500">bash</span>
+                            <span className="text-xs font-mono text-slate-500">{t('bash')}</span>
                         </div>
                         <pre className="text-sm text-slate-300 font-mono overflow-x-auto leading-relaxed">
                             {quickStart}
@@ -370,7 +368,7 @@ export default function Welcome() {
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 transition-colors"
                         >
-                            Baca dokumentasi lengkap
+                            {t('Baca dokumentasi lengkap')}
                             <IconArrowRight size={16} />
                         </a>
                     </div>
@@ -382,33 +380,32 @@ export default function Welcome() {
                 <div className="max-w-3xl mx-auto">
                     <div className="rounded-2xl border border-primary-200 dark:border-primary-900 bg-primary-50/50 dark:bg-primary-950/30 p-8 text-center">
                         <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-2">
-                            Ingin Coba Langsung?
+                            {t('Ingin Coba Langsung?')}
                         </h2>
                         <p className="text-slate-600 dark:text-slate-400 mb-6">
-                            Demo berisi data contoh lengkap — produk, transaksi, dan laporan.
-                            Gunakan akun demo berikut:
+                            {t('Demo berisi data contoh lengkap — produk, transaksi, dan laporan. Gunakan akun demo berikut:')}
                         </p>
                         <div className="grid sm:grid-cols-2 gap-4 mb-8 text-left">
                             <div className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700">
                                 <div className="text-xs font-semibold text-primary-600 dark:text-primary-400 mb-2 uppercase tracking-wide">
-                                    Admin
+                                    {t('Admin')}
                                 </div>
                                 <div className="font-mono text-sm text-slate-700 dark:text-slate-300">
                                     arya@gmail.com
                                 </div>
                                 <div className="font-mono text-sm text-slate-500 dark:text-slate-400">
-                                    password
+                                    {t('password')}
                                 </div>
                             </div>
                             <div className="bg-white dark:bg-slate-800 rounded-xl p-4 border border-slate-200 dark:border-slate-700">
                                 <div className="text-xs font-semibold text-primary-600 dark:text-primary-400 mb-2 uppercase tracking-wide">
-                                    Kasir
+                                    {t('Kasir')}
                                 </div>
                                 <div className="font-mono text-sm text-slate-700 dark:text-slate-300">
                                     cashier@gmail.com
                                 </div>
                                 <div className="font-mono text-sm text-slate-500 dark:text-slate-400">
-                                    password
+                                    {t('password')}
                                 </div>
                             </div>
                         </div>
@@ -416,7 +413,7 @@ export default function Welcome() {
                             href="/login"
                             className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary-500 to-primary-600 text-white font-semibold rounded-2xl hover:from-primary-600 hover:to-primary-700 shadow-lg shadow-primary-500/25 transition-all"
                         >
-                            Buka Demo
+                            {t('Buka Demo')}
                             <IconArrowRight size={18} />
                         </Link>
                     </div>
@@ -428,7 +425,7 @@ export default function Welcome() {
                 <div className="max-w-3xl mx-auto">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white">
-                            Pertanyaan Umum
+                            {t('Pertanyaan Umum')}
                         </h2>
                     </div>
                     <div className="space-y-4">
@@ -459,11 +456,10 @@ export default function Welcome() {
                 <div className="max-w-4xl mx-auto">
                     <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-3xl p-12 text-center text-white">
                         <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                            Siap Kelola Bisnis dengan Dikasir?
+                            {t('Siap Kelola Bisnis dengan Dikasir?')}
                         </h2>
                         <p className="text-lg opacity-90 mb-8 max-w-xl mx-auto">
-                            Gratis selamanya, open source, dan data sepenuhnya milik Anda.
-                            Mulai dengan satu klik di GitHub.
+                            {t('Gratis selamanya, open source, dan data sepenuhnya milik Anda. Mulai dengan satu klik di GitHub.')}
                         </p>
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                             <a
@@ -473,13 +469,13 @@ export default function Welcome() {
                                 className="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary-600 font-semibold rounded-2xl hover:bg-slate-50 transition-colors"
                             >
                                 <IconBrandGithub size={20} />
-                                Star di GitHub
+                                {t('Star di GitHub')}
                             </a>
                             <Link
                                 href="/login"
                                 className="inline-flex items-center gap-2 px-8 py-4 border border-white/40 text-white font-semibold rounded-2xl hover:bg-white/10 transition-colors"
                             >
-                                Coba Demo
+                                {t('Coba Demo')}
                                 <IconArrowRight size={18} />
                             </Link>
                         </div>

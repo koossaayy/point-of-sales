@@ -1,11 +1,13 @@
 import React from "react";
 import { usePage } from "@inertiajs/react";
 import { IconLayoutGrid } from "@tabler/icons-react";
+import { useTranslation } from '@/i18n';
 import LinkItem from "@/Components/Dashboard/LinkItem";
 import LinkItemDropdown from "@/Components/Dashboard/LinkItemDropdown";
 import Menu from "@/Utils/Menu";
 
 export default function Sidebar({ sidebarOpen }) {
+    const { t } = useTranslation();
     const { auth, storeProfile, appVersion } = usePage().props;
     const menuNavigation = Menu();
 
@@ -130,7 +132,7 @@ export default function Sidebar({ sidebarOpen }) {
             {sidebarOpen && (
                 <div className="p-4 border-t border-slate-100 dark:border-slate-800">
                     <p className="text-[10px] text-slate-400 dark:text-slate-600 text-center">
-                        Point of Sales {appVersion}
+                        {t('Point of Sales')} {appVersion}
                     </p>
                 </div>
             )}

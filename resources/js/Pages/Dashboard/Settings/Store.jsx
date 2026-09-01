@@ -1,3 +1,4 @@
+import { useTranslation } from '@/i18n';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, useForm } from "@inertiajs/react";
 import Input from "@/Components/Dashboard/Input";
@@ -17,6 +18,7 @@ import {
 } from "@tabler/icons-react";
 
 export default function Store({ settings }) {
+    const { t } = useTranslation();
     const { data, setData, post, processing, errors, reset } = useForm({
         store_name: settings.store_name || "",
         store_logo: null,
@@ -45,24 +47,24 @@ export default function Store({ settings }) {
         post(route("settings.store.update"), {
             preserveScroll: true,
             onSuccess: () => {
-                toast.success("Profil toko disimpan");
+                toast.success(t('Profil toko disimpan'));
                 reset("store_logo");
             },
-            onError: () => toast.error("Gagal menyimpan profil toko"),
+            onError: () => toast.error(t('Gagal menyimpan profil toko')),
         });
     };
 
     return (
         <>
-            <Head title="Profil Toko" />
+            <Head title={t('Profil Toko')} />
 
             <div className="space-y-6">
                 <div>
                     <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                        Pengaturan Toko
+                        {t('Pengaturan Toko')}
                     </h1>
                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                        Atur identitas toko yang muncul di struk dan laporan.
+                        {t('Atur identitas toko yang muncul di struk dan laporan.')}
                     </p>
                 </div>
 
@@ -72,7 +74,7 @@ export default function Store({ settings }) {
                         <div className="lg:w-1/3">
                             <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-2">
                                 <IconPhoto size={18} />
-                                Logo Toko
+                                {t('Logo Toko')}
                             </label>
                             <div className="w-32 h-32 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 flex items-center justify-center overflow-hidden mb-3">
                                 {logoPreview ? (
@@ -80,7 +82,7 @@ export default function Store({ settings }) {
                                         src={logoPreview.startsWith("http") || logoPreview.startsWith("/storage")
                                             ? logoPreview
                                             : `/storage/${logoPreview}`}
-                                        alt="Logo"
+                                        alt={t('Logo')}
                                         className="w-full h-full object-cover"
                                     />
                                 ) : (
@@ -108,14 +110,14 @@ export default function Store({ settings }) {
                         {/* Info */}
                         <div className="lg:flex-1 space-y-4">
                             <Input
-                                label="Nama Toko"
+                                label={t('Nama Toko')}
                                 value={data.store_name}
                                 errors={errors.store_name}
                                 onChange={(e) => setData("store_name", e.target.value)}
-                                placeholder="Nama toko"
+                                placeholder={t('Nama toko')}
                             />
                             <Textarea
-                                label="Alamat Lengkap"
+                                label={t('Alamat Lengkap')}
                                 value={data.store_address}
                                 errors={errors.store_address}
                                 onChange={(e) => setData("store_address", e.target.value)}
@@ -127,21 +129,21 @@ export default function Store({ settings }) {
                                     value={data.store_city}
                                     errors={errors.store_city}
                                     onChange={(e) => setData("store_city", e.target.value)}
-                                    placeholder="contoh: Surabaya"
+                                    placeholder={t('contoh: Surabaya')}
                                     icon={<IconMapPin size={16} />}
                                 />
                                 <Input
-                                    label="Nomor Telepon"
+                                    label={t('Nomor Telepon')}
                                     value={data.store_phone}
                                     errors={errors.store_phone}
                                     onChange={(e) => setData("store_phone", e.target.value)}
-                                    placeholder="0812xxxxxxx"
+                                    placeholder={t('0812xxxxxxx')}
                                     icon={<IconPhone size={16} />}
                                 />
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <Input
-                                    label="Email"
+                                    label={t('Email')}
                                     type="email"
                                     value={data.store_email}
                                     errors={errors.store_email}
@@ -150,7 +152,7 @@ export default function Store({ settings }) {
                                     icon={<IconMail size={16} />}
                                 />
                                 <Input
-                                    label="Website / Sosial Media"
+                                    label={t('Website / Sosial Media')}
                                     value={data.store_website}
                                     errors={errors.store_website}
                                     onChange={(e) => setData("store_website", e.target.value)}
@@ -165,28 +167,28 @@ export default function Store({ settings }) {
                     <div className="border-t border-slate-100 dark:border-slate-800 pt-6">
                         <h2 className="text-lg font-semibold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
                             <IconReceiptTax size={20} className="text-primary-500" />
-                            Informasi Pajak & Legal
+                            {t('Informasi Pajak & Legal')}
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <Input
-                                label="NPWP Toko"
+                                label={t('NPWP Toko')}
                                 value={data.store_npwp}
                                 errors={errors.store_npwp}
                                 onChange={(e) => setData("store_npwp", e.target.value)}
-                                placeholder="XX.XXX.XXX.X-XXX.XXX"
+                                placeholder={t('XX.XXX.XXX.X-XXX.XXX')}
                                 icon={<IconFileCertificate size={16} />}
                             />
                             <Input
-                                label="NIB"
+                                label={t('NIB')}
                                 value={data.store_nib}
                                 errors={errors.store_nib}
                                 onChange={(e) => setData("store_nib", e.target.value)}
-                                placeholder="Nomor Induk Berusaha"
+                                placeholder={t('Nomor Induk Berusaha')}
                             />
                         </div>
                         <div className="mt-4">
                             <Input
-                                label="Tarif PPN Default (%)"
+                                label={t('Tarif PPN Default (%)')}
                                 type="number"
                                 step="0.01"
                                 min="0"
@@ -197,7 +199,7 @@ export default function Store({ settings }) {
                                 placeholder="11.00"
                             />
                             <p className="mt-1 text-xs text-slate-400">
-                                Tarif default untuk produk baru. Dapat diubah per produk.
+                                {t('Tarif default untuk produk baru. Dapat diubah per produk.')}
                             </p>
                         </div>
                     </div>
@@ -209,7 +211,7 @@ export default function Store({ settings }) {
                             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary-500 hover:bg-primary-600 text-white font-medium transition-colors disabled:opacity-50"
                         >
                             <IconDeviceFloppy size={18} />
-                            {processing ? "Menyimpan..." : "Simpan Profil"}
+                            {processing ? t('Menyimpan...') : t('Simpan Profil')}
                         </button>
                     </div>
                 </form>

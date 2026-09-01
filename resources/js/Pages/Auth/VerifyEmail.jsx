@@ -1,4 +1,5 @@
 import { Head, Link, useForm } from "@inertiajs/react";
+import { useTranslation } from '@/i18n';
 import AuthBotGuardFields from "@/Components/AuthBotGuardFields";
 import {
     IconShoppingCart,
@@ -9,6 +10,7 @@ import {
 } from "@tabler/icons-react";
 
 export default function VerifyEmail({ status, botGuard }) {
+    const { t } = useTranslation();
     const honeypotField = botGuard?.honeypot_field || "company_website";
     const tokenField = botGuard?.token_field || "bot_guard_token";
     const { data, setData, post, processing, errors } = useForm({
@@ -23,7 +25,7 @@ export default function VerifyEmail({ status, botGuard }) {
 
     return (
         <>
-            <Head title="Verifikasi Email" />
+            <Head title={t('Verifikasi Email')} />
 
             <div className="min-h-screen flex bg-slate-50 dark:bg-slate-950">
                 <div className="flex-1 flex items-center justify-center p-8">
@@ -40,7 +42,7 @@ export default function VerifyEmail({ status, botGuard }) {
                                     />
                                 </div>
                                 <span className="text-2xl font-bold text-slate-900 dark:text-white">
-                                    Aplikasi Kasir
+                                    {t('Aplikasi Kasir')}
                                 </span>
                             </Link>
 
@@ -52,26 +54,22 @@ export default function VerifyEmail({ status, botGuard }) {
                             </div>
 
                             <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
-                                Verifikasi Email Anda
+                                {t('Verifikasi Email Anda')}
                             </h1>
                             <p className="mt-2 text-slate-600 dark:text-slate-400 leading-relaxed">
-                                Sebelum masuk ke dashboard, klik link verifikasi
-                                yang sudah kami kirim ke email Anda. Jika email
-                                belum diterima, kirim ulang dari halaman ini.
+                                {t('Sebelum masuk ke dashboard, klik link verifikasi yang sudah kami kirim ke email Anda. Jika email belum diterima, kirim ulang dari halaman ini.')}
                             </p>
                         </div>
 
                         {status === "verification-link-sent" && (
                             <div className="mb-6 p-4 rounded-xl bg-success-50 dark:bg-success-950/50 text-success-700 dark:text-success-400 text-sm">
-                                Link verifikasi baru sudah dikirim ke email
-                                Anda.
+                                {t('Link verifikasi baru sudah dikirim ke email Anda.')}
                             </div>
                         )}
 
                         <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm">
                             <div className="mb-5 rounded-xl bg-slate-50 dark:bg-slate-800/80 p-4 text-sm text-slate-600 dark:text-slate-300">
-                                Pastikan juga memeriksa folder spam atau
-                                promotion jika email belum terlihat di inbox.
+                                {t('Pastikan juga memeriksa folder spam atau promotion jika email belum terlihat di inbox.')}
                             </div>
                             {errors.human && (
                                 <div className="mb-5 rounded-xl bg-danger-50 px-4 py-3 text-sm text-danger-600 dark:bg-danger-950/40 dark:text-danger-300">
@@ -96,12 +94,12 @@ export default function VerifyEmail({ status, botGuard }) {
                                                 size={20}
                                                 className="animate-spin"
                                             />
-                                            Mengirim ulang...
+                                            {t('Mengirim ulang...')}
                                         </>
                                     ) : (
                                         <>
                                             <IconRefresh size={18} />
-                                            Kirim Ulang Email Verifikasi
+                                            {t('Kirim Ulang Email Verifikasi')}
                                         </>
                                     )}
                                 </button>
@@ -113,7 +111,7 @@ export default function VerifyEmail({ status, botGuard }) {
                                     className="w-full h-12 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold hover:bg-slate-50 dark:hover:bg-slate-700 transition-all flex items-center justify-center gap-2"
                                 >
                                     <IconLogout size={18} />
-                                    Keluar
+                                    {t('Keluar')}
                                 </Link>
                             </form>
                         </div>
@@ -126,12 +124,10 @@ export default function VerifyEmail({ status, botGuard }) {
                             <IconMailCheck size={48} />
                         </div>
                         <h2 className="text-3xl font-bold mb-4">
-                            Aktivasi Akun Lebih Aman
+                            {t('Aktivasi Akun Lebih Aman')}
                         </h2>
                         <p className="text-lg opacity-90">
-                            Verifikasi email membantu memastikan hanya akun yang
-                            valid yang dapat mengakses dashboard dan data
-                            operasional toko.
+                            {t('Verifikasi email membantu memastikan hanya akun yang valid yang dapat mengakses dashboard dan data operasional toko.')}
                         </p>
                         <div className="mt-8 flex flex-wrap justify-center gap-3">
                             {[

@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from '@/i18n';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, usePage } from "@inertiajs/react";
 import {
@@ -9,6 +10,7 @@ import {
     IconReceipt,
     IconTruck,
 } from "@tabler/icons-react";
+import i18next from 'i18next';
 
 const formatCurrency = (value = 0) =>
     new Intl.NumberFormat("id-ID", {
@@ -30,12 +32,12 @@ const formatDate = (value) => {
 
 const agingBucketLabel = (bucket) => {
     const map = {
-        current: "Belum Jatuh Tempo",
-        "0-30": "1-30 Hari",
-        "31-60": "31-60 Hari",
-        "61-90": "61-90 Hari",
-        "90+": "90+ Hari",
-        paid: "Lunas",
+        get current() { return i18next.t('Belum Jatuh Tempo'); },
+        get "0-30"() { return i18next.t('1-30 Hari'); },
+        get "31-60"() { return i18next.t('31-60 Hari'); },
+        get "61-90"() { return i18next.t('61-90 Hari'); },
+        get "90+"() { return i18next.t('90+ Hari'); },
+        get paid() { return i18next.t('Lunas'); },
     };
     return map[bucket] || bucket;
 };
@@ -53,6 +55,7 @@ const agingBucketColor = (bucket) => {
 };
 
 export default function AgingIndex() {
+    const { t } = useTranslation();
     const { payableAgingSummary, receivableAgingSummary, payableNotifications, receivableNotifications } = usePage().props;
 
     const payableTotalOutstanding = payableAgingSummary?.reduce((s, b) => s + (b.remaining || 0), 0) || 0;
@@ -63,15 +66,15 @@ export default function AgingIndex() {
 
     return (
         <>
-            <Head title="Aging & Pengingat" />
+            <Head title={t('Aging & Pengingat')} />
             <div className="space-y-6">
                 <div>
                     <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                         <IconChartBar size={28} className="text-primary-500" />
-                        Aging & Pengingat
+                        {t('Aging & Pengingat')}
                     </h1>
                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                        Ringkasan piutang dan hutang berdasarkan aging bucket, plus pengingat jatuh tempo.
+                        {t('Ringkasan piutang dan hutang berdasarkan aging bucket, plus pengingat jatuh tempo.')}
                     </p>
                 </div>
 
@@ -82,7 +85,7 @@ export default function AgingIndex() {
                             <div className="p-2 rounded-lg bg-rose-50 dark:bg-rose-950/30">
                                 <IconTruck size={20} className="text-rose-500" />
                             </div>
-                            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Total Hutang</p>
+                            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">{t('Total Hutang')}</p>
                         </div>
                         <p className="text-2xl font-bold text-slate-900 dark:text-white">
                             {formatCurrency(payableTotalOutstanding)}
@@ -95,7 +98,7 @@ export default function AgingIndex() {
                             <div className="p-2 rounded-lg bg-primary-50 dark:bg-primary-950/30">
                                 <IconReceipt size={20} className="text-primary-500" />
                             </div>
-                            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Total Piutang</p>
+                            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">{t('Total Piutang')}</p>
                         </div>
                         <p className="text-2xl font-bold text-slate-900 dark:text-white">
                             {formatCurrency(receivableTotalOutstanding)}
@@ -108,7 +111,7 @@ export default function AgingIndex() {
                             <div className="p-2 rounded-lg bg-amber-50 dark:bg-amber-950/30">
                                 <IconAlertTriangle size={20} className="text-amber-500" />
                             </div>
-                            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Hutang Overdue</p>
+                            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">{t('Hutang Overdue')}</p>
                         </div>
                         <p className="text-2xl font-bold text-amber-600">
                             {formatCurrency(
@@ -116,7 +119,7 @@ export default function AgingIndex() {
                                 (payableAgingSummary?.find((b) => b.bucket === "61-90")?.remaining || 0)
                             )}
                         </p>
-                        <p className="text-xs text-slate-500 mt-1">61+ hari</p>
+                        <p className="text-xs text-slate-500 mt-1">{t('61+ hari')}</p>
                     </div>
 
                     <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
@@ -124,7 +127,7 @@ export default function AgingIndex() {
                             <div className="p-2 rounded-lg bg-rose-50 dark:bg-rose-950/30">
                                 <IconReceipt size={20} className="text-rose-500" />
                             </div>
-                            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Piutang Overdue</p>
+                            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">{t('Piutang Overdue')}</p>
                         </div>
                         <p className="text-2xl font-bold text-rose-600">
                             {formatCurrency(
@@ -132,7 +135,7 @@ export default function AgingIndex() {
                                 (receivableAgingSummary?.find((b) => b.bucket === "61-90")?.remaining || 0)
                             )}
                         </p>
-                        <p className="text-xs text-slate-500 mt-1">61+ hari</p>
+                        <p className="text-xs text-slate-500 mt-1">{t('61+ hari')}</p>
                     </div>
                 </div>
 
@@ -142,7 +145,7 @@ export default function AgingIndex() {
                         <div className="px-5 py-4 border-b border-slate-100 dark:border-slate-800">
                             <h2 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                                 <IconTruck size={20} className="text-rose-500" />
-                                Aging Hutang Supplier
+                                {t('Aging Hutang Supplier')}
                             </h2>
                         </div>
                         <div className="p-5">
@@ -166,7 +169,7 @@ export default function AgingIndex() {
                                 <div>
                                     <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-3 flex items-center gap-1.5">
                                         <IconClock size={16} className="text-warning-500" />
-                                        Akan Jatuh Tempo
+                                        {t('Akan Jatuh Tempo')}
                                     </h3>
                                     <div className="space-y-2">
                                         {payableNotifications.map((item) => (
@@ -195,7 +198,7 @@ export default function AgingIndex() {
                         <div className="px-5 py-4 border-b border-slate-100 dark:border-slate-800">
                             <h2 className="text-lg font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                                 <IconReceipt size={20} className="text-primary-500" />
-                                Aging Piutang Pelanggan
+                                {t('Aging Piutang Pelanggan')}
                             </h2>
                         </div>
                         <div className="p-5">
@@ -219,7 +222,7 @@ export default function AgingIndex() {
                                 <div>
                                     <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-3 flex items-center gap-1.5">
                                         <IconClock size={16} className="text-warning-500" />
-                                        Akan Jatuh Tempo
+                                        {t('Akan Jatuh Tempo')}
                                     </h3>
                                     <div className="space-y-2">
                                         {receivableNotifications.map((item) => (

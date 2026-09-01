@@ -30,13 +30,13 @@ class DineOrderController extends Controller
     {
         $this->service->accept($dineOrder);
 
-        return back()->with('success', 'Pesanan diterima dan siap diproses di kasir.');
+        return back()->with('success', __('Pesanan diterima dan siap diproses di kasir.'));
     }
 
     public function reject(Request $request, DineOrder $dineOrder)
     {
         $this->service->reject($dineOrder, $request->input('reason'));
 
-        return back()->with('success', 'Pesanan ditolak.');
+        return back()->with('success', __('Pesanan ditolak.'));
     }
 }

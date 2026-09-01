@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Head, Link, router, usePage } from "@inertiajs/react";
+import { useTranslation } from '@/i18n';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { IconArrowLeft, IconTrash, IconPlus } from "@tabler/icons-react";
 import toast from "react-hot-toast";
@@ -7,6 +8,7 @@ import toast from "react-hot-toast";
 const formatPrice = (v = 0) => Number(v).toLocaleString("id-ID");
 
 export default function PriceListItems({ priceList, products }) {
+    const { t } = useTranslation();
     const { flash } = usePage().props;
     const [search, setSearch] = useState("");
     if (flash?.success) toast.success(flash.success);
@@ -27,7 +29,7 @@ export default function PriceListItems({ priceList, products }) {
 
     return (
         <>
-            <Head title={`Price List: ${priceList.name}`} />
+            <Head title={t('Price List: {{0}}', { 0: priceList.name })} />
             <div className="space-y-6">
                 <div className="flex items-center gap-4">
                     <Link href={route("price-lists.index")} className="p-2 rounded-lg text-slate-500 hover:bg-slate-100"><IconArrowLeft size={20} /></Link>
@@ -38,8 +40,8 @@ export default function PriceListItems({ priceList, products }) {
                 </div>
 
                 <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5">
-                    <h3 className="font-semibold mb-3">Tambah Harga</h3>
-                    <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Cari produk..." className="h-11 w-full rounded-xl border border-slate-200 px-4 text-sm mb-3" />
+                    <h3 className="font-semibold mb-3">{t('Tambah Harga')}</h3>
+                    <input value={search} onChange={e => setSearch(e.target.value)} placeholder={t('Cari produk...')} className="h-11 w-full rounded-xl border border-slate-200 px-4 text-sm mb-3" />
                     {search && filtered.filter(p => !existingProductIds.includes(p.id)).slice(0, 10).map(p => (
                         <button key={p.id} type="button" onClick={() => addPrice(p)} className="flex w-full items-center justify-between px-4 py-3 rounded-lg hover:bg-slate-50 text-sm transition">
                             <span>{p.title} <span className="text-slate-400">({p.sku || "-"})</span></span>
@@ -63,7 +65,7 @@ export default function PriceListItems({ priceList, products }) {
                             ))}
                         </div>
                     ) : (
-                        <div className="p-8 text-center text-slate-400">Belum ada item. Cari produk di atas untuk menambah.</div>
+                        <div className="p-8 text-center text-slate-400">{t('Belum ada item. Cari produk di atas untuk menambah.')}</div>
                     )}
                 </div>
             </div>

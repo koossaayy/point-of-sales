@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Head, router } from "@inertiajs/react";
+import { useTranslation } from '@/i18n';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import InputSelect from "@/Components/Dashboard/InputSelect";
 import Button from "@/Components/Dashboard/Button";
@@ -63,6 +64,7 @@ const castFilterString = (value) =>
     typeof value === "number" ? String(value) : value ?? "";
 
 const Sales = ({ transactions, summary, filters, cashiers, customers, warehouses = [] }) => {
+    const { t } = useTranslation();
     const [showFilters, setShowFilters] = useState(false);
     const [filterData, setFilterData] = useState({
         ...defaultFilterState,
@@ -170,14 +172,14 @@ const Sales = ({ transactions, summary, filters, cashiers, customers, warehouses
 
     const summaryCards = [
         {
-            title: "Pendapatan Bersih",
+            title: t('Pendapatan Bersih'),
             value: formatCurrency(safeSummary.revenue_total),
-            description: "Total setelah diskon",
+            description: t('Total setelah diskon'),
             icon: <IconReceipt2 />,
             gradient: "from-primary-500 to-primary-700",
         },
         {
-            title: "Total Profit",
+            title: t('Total Profit'),
             value: formatCurrency(safeSummary.profit_total),
             description: `Rata-rata ${formatCurrency(
                 safeSummary.average_order
@@ -186,16 +188,16 @@ const Sales = ({ transactions, summary, filters, cashiers, customers, warehouses
             gradient: "from-success-500 to-success-700",
         },
         {
-            title: "Item Terjual",
+            title: t('Item Terjual'),
             value: safeSummary.items_sold.toLocaleString("id-ID"),
             description: `${safeSummary.orders_count} transaksi`,
             icon: <IconShoppingBag />,
             gradient: "from-accent-500 to-accent-700",
         },
         {
-            title: "Diskon Diberikan",
+            title: t('Diskon Diberikan'),
             value: formatCurrency(safeSummary.discount_total),
-            description: "Akumulasi promo",
+            description: t('Akumulasi promo'),
             icon: <IconDiscount2 />,
             gradient: "from-warning-500 to-warning-600",
         },
@@ -203,7 +205,7 @@ const Sales = ({ transactions, summary, filters, cashiers, customers, warehouses
 
     return (
         <>
-            <Head title="Laporan Penjualan" />
+            <Head title={t('Laporan Penjualan')} />
 
             <div className="space-y-6">
                 {/* Header */}
@@ -214,10 +216,10 @@ const Sales = ({ transactions, summary, filters, cashiers, customers, warehouses
                                 size={28}
                                 className="text-primary-500"
                             />
-                            Laporan Penjualan
+                            {t('Laporan Penjualan')}
                         </h1>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                            Analisis dan ringkasan penjualan
+                            {t('Analisis dan ringkasan penjualan')}
                         </p>
                     </div>
                     <button
@@ -229,7 +231,7 @@ const Sales = ({ transactions, summary, filters, cashiers, customers, warehouses
                         }`}
                     >
                         <IconFilter size={18} />
-                        <span>Filter</span>
+                        <span>{t('Filter')}</span>
                         {hasActiveFilters && (
                             <span className="w-2 h-2 rounded-full bg-primary-500"></span>
                         )}
@@ -250,7 +252,7 @@ const Sales = ({ transactions, summary, filters, cashiers, customers, warehouses
                             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
                                 <div>
                                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                        Tanggal Mulai
+                                        {t('Tanggal Mulai')}
                                     </label>
                                     <input
                                         type="date"
@@ -266,7 +268,7 @@ const Sales = ({ transactions, summary, filters, cashiers, customers, warehouses
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                        Tanggal Akhir
+                                        {t('Tanggal Akhir')}
                                     </label>
                                     <input
                                         type="date"
@@ -282,11 +284,11 @@ const Sales = ({ transactions, summary, filters, cashiers, customers, warehouses
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                        Invoice
+                                        {t('Invoice')}
                                     </label>
                                     <input
                                         type="text"
-                                        placeholder="TRX-..."
+                                        placeholder={t('TRX-...')}
                                         value={filterData.invoice}
                                         onChange={(e) =>
                                             handleChange(
@@ -298,19 +300,19 @@ const Sales = ({ transactions, summary, filters, cashiers, customers, warehouses
                                     />
                                 </div>
                                 <InputSelect
-                                    label="Kasir"
+                                    label={t('Kasir')}
                                     data={cashiers}
                                     selected={selectedCashier}
                                     setSelected={handleSelectCashier}
-                                    placeholder="Semua kasir"
+                                    placeholder={t('Semua kasir')}
                                     searchable
                                 />
                                 <InputSelect
-                                    label="Pelanggan"
+                                    label={t('Pelanggan')}
                                     data={customers}
                                     selected={selectedCustomer}
                                     setSelected={handleSelectCustomer}
-                                    placeholder="Semua pelanggan"
+                                    placeholder={t('Semua pelanggan')}
                                     searchable
                                 />
                             </div>
@@ -329,7 +331,7 @@ const Sales = ({ transactions, summary, filters, cashiers, customers, warehouses
                                     className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-primary-500 hover:bg-primary-600 text-white font-medium transition-colors"
                                 >
                                     <IconSearch size={18} />
-                                    Terapkan
+                                    {t('Terapkan')}
                                 </button>
                             </div>
                         </form>
@@ -344,28 +346,28 @@ const Sales = ({ transactions, summary, filters, cashiers, customers, warehouses
                                 <thead>
                                     <tr className="border-b border-slate-100 dark:border-slate-800">
                                         <th className="px-4 py-4 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">
-                                            No
+                                            {t('No')}
                                         </th>
                                         <th className="px-4 py-4 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">
-                                            Invoice
+                                            {t('Invoice')}
                                         </th>
                                         <th className="px-4 py-4 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">
-                                            Tanggal
+                                            {t('Tanggal')}
                                         </th>
                                         <th className="px-4 py-4 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">
-                                            Pelanggan
+                                            {t('Pelanggan')}
                                         </th>
                                         <th className="px-4 py-4 text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">
-                                            Kasir
+                                            {t('Kasir')}
                                         </th>
                                         <th className="px-4 py-4 text-center text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">
-                                            Item
+                                            {t('Item')}
                                         </th>
                                         <th className="px-4 py-4 text-right text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">
-                                            Total
+                                            {t('Total')}
                                         </th>
                                         <th className="px-4 py-4 text-right text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase">
-                                            Profit
+                                            {t('Profit')}
                                         </th>
                                     </tr>
                                 </thead>
@@ -422,10 +424,10 @@ const Sales = ({ transactions, summary, filters, cashiers, customers, warehouses
                             />
                         </div>
                         <h3 className="text-lg font-medium text-slate-800 dark:text-slate-200 mb-1">
-                            Tidak Ada Data
+                            {t('Tidak Ada Data')}
                         </h3>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                            Tidak ada transaksi sesuai filter.
+                            {t('Tidak ada transaksi sesuai filter.')}
                         </p>
                     </div>
                 )}

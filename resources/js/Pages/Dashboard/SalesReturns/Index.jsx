@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Head, Link, router } from "@inertiajs/react";
+import { useTranslation } from '@/i18n';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import Pagination from "@/Components/Dashboard/Pagination";
 
@@ -18,6 +19,7 @@ const formatDate = (value) =>
         : "-";
 
 export default function Index({ salesReturns, filters }) {
+    const { t } = useTranslation();
     const [form, setForm] = useState({
         code: filters.code || "",
         invoice: filters.invoice || "",
@@ -48,15 +50,15 @@ export default function Index({ salesReturns, filters }) {
 
     return (
         <>
-            <Head title="Retur Penjualan" />
+            <Head title={t('Retur Penjualan')} />
 
             <div className="space-y-6">
                 <div>
                     <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                        Retur Penjualan
+                        {t('Retur Penjualan')}
                     </h1>
                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                        Histori retur penjualan berdasarkan transaksi asal.
+                        {t('Histori retur penjualan berdasarkan transaksi asal.')}
                     </p>
                 </div>
 
@@ -73,7 +75,7 @@ export default function Index({ salesReturns, filters }) {
                                 code: event.target.value,
                             }))
                         }
-                        placeholder="Kode retur"
+                        placeholder={t('Kode retur')}
                         className="h-11 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm dark:border-slate-700 dark:bg-slate-800"
                     />
                     <input
@@ -85,7 +87,7 @@ export default function Index({ salesReturns, filters }) {
                                 invoice: event.target.value,
                             }))
                         }
-                        placeholder="Invoice transaksi"
+                        placeholder={t('Invoice transaksi')}
                         className="h-11 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm dark:border-slate-700 dark:bg-slate-800"
                     />
                     <input
@@ -121,15 +123,15 @@ export default function Index({ salesReturns, filters }) {
                             }
                             className="h-11 flex-1 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm dark:border-slate-700 dark:bg-slate-800"
                         >
-                            <option value="">Semua metode</option>
-                            <option value="refund_cash">Refund Tunai</option>
-                            <option value="store_credit">Saldo Toko</option>
+                            <option value="">{t('Semua metode')}</option>
+                            <option value="refund_cash">{t('Refund Tunai')}</option>
+                            <option value="store_credit">{t('Saldo Toko')}</option>
                         </select>
                         <button
                             type="submit"
                             className="inline-flex h-11 items-center justify-center rounded-xl bg-primary-500 px-4 text-sm font-medium text-white hover:bg-primary-600"
                         >
-                            Filter
+                            {t('Filter')}
                         </button>
                     </div>
                 </form>
@@ -138,14 +140,14 @@ export default function Index({ salesReturns, filters }) {
                     <table className="w-full text-sm">
                         <thead className="border-b border-slate-100 bg-slate-50 dark:border-slate-800 dark:bg-slate-950">
                             <tr>
-                                <th className="px-4 py-3 text-left">Kode</th>
-                                <th className="px-4 py-3 text-left">Invoice</th>
-                                <th className="px-4 py-3 text-left">Tanggal</th>
-                                <th className="px-4 py-3 text-left">Pelanggan</th>
-                                <th className="px-4 py-3 text-left">Metode</th>
-                                <th className="px-4 py-3 text-right">Nominal</th>
-                                <th className="px-4 py-3 text-center">Status</th>
-                                <th className="px-4 py-3 text-center">Aksi</th>
+                                <th className="px-4 py-3 text-left">{t('Kode')}</th>
+                                <th className="px-4 py-3 text-left">{t('Invoice')}</th>
+                                <th className="px-4 py-3 text-left">{t('Tanggal')}</th>
+                                <th className="px-4 py-3 text-left">{t('Pelanggan')}</th>
+                                <th className="px-4 py-3 text-left">{t('Metode')}</th>
+                                <th className="px-4 py-3 text-right">{t('Nominal')}</th>
+                                <th className="px-4 py-3 text-center">{t('Status')}</th>
+                                <th className="px-4 py-3 text-center">{t('Aksi')}</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -166,8 +168,8 @@ export default function Index({ salesReturns, filters }) {
                                         </td>
                                         <td className="px-4 py-4">
                                             {item.return_type === "store_credit"
-                                                ? "Saldo Toko"
-                                                : "Refund Tunai"}
+                                                ? t('Saldo Toko')
+                                                : t('Refund Tunai')}
                                         </td>
                                         <td className="px-4 py-4 text-right font-medium text-slate-900 dark:text-white">
                                             {formatCurrency(
@@ -183,8 +185,8 @@ export default function Index({ salesReturns, filters }) {
                                                 }`}
                                             >
                                                 {item.status === "completed"
-                                                    ? "Completed"
-                                                    : "Draft"}
+                                                    ? t('Completed')
+                                                    : t('Draft')}
                                             </span>
                                         </td>
                                         <td className="px-4 py-4 text-center">
@@ -195,7 +197,7 @@ export default function Index({ salesReturns, filters }) {
                                                 )}
                                                 className="inline-flex rounded-lg bg-primary-50 px-3 py-2 text-xs font-semibold text-primary-700 hover:bg-primary-100 dark:bg-primary-950/40 dark:text-primary-300"
                                             >
-                                                Lihat
+                                                {t('Lihat')}
                                             </Link>
                                         </td>
                                     </tr>
@@ -206,7 +208,7 @@ export default function Index({ salesReturns, filters }) {
                                         colSpan={8}
                                         className="px-4 py-16 text-center text-slate-500 dark:text-slate-400"
                                     >
-                                        Belum ada retur penjualan.
+                                        {t('Belum ada retur penjualan.')}
                                     </td>
                                 </tr>
                             )}

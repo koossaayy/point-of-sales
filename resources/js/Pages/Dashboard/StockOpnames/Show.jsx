@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { useTranslation } from '@/i18n';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, router, useForm } from "@inertiajs/react";
 import Button from "@/Components/Dashboard/Button";
@@ -49,6 +50,7 @@ export default function Show({
     availableProducts,
     productFilters,
 }) {
+    const { t } = useTranslation();
     const { can } = useAuthorization();
     const canEditStockOpname = can("stock-opnames-create");
     const canFinalizeStockOpname = can("stock-opnames-finalize");
@@ -147,8 +149,8 @@ export default function Show({
 
         notesForm.patch(route("stock-opnames.update", stockOpname.id), {
             preserveScroll: true,
-            onSuccess: () => toast.success("Catatan sesi diperbarui"),
-            onError: () => toast.error("Gagal memperbarui catatan sesi"),
+            onSuccess: () => toast.success(t('Catatan sesi diperbarui')),
+            onError: () => toast.error(t('Gagal memperbarui catatan sesi')),
         });
     };
 
@@ -160,9 +162,9 @@ export default function Show({
                 preserveScroll: true,
                 onSuccess: () => {
                     setShowProductModal(false);
-                    toast.success("Produk ditambahkan ke sesi");
+                    toast.success(t('Produk ditambahkan ke sesi'));
                 },
-                onError: () => toast.error("Gagal menambahkan produk"),
+                onError: () => toast.error(t('Gagal menambahkan produk')),
             }
         );
     };
@@ -218,8 +220,8 @@ export default function Show({
             },
             {
                 preserveScroll: true,
-                onSuccess: () => toast.success("Item opname diperbarui"),
-                onError: () => toast.error("Gagal memperbarui item opname"),
+                onSuccess: () => toast.success(t('Item opname diperbarui')),
+                onError: () => toast.error(t('Gagal memperbarui item opname')),
                 onFinish: () => setSavingItemId(null),
             }
         );
@@ -231,9 +233,9 @@ export default function Show({
             {},
             {
                 preserveScroll: true,
-                onSuccess: () => toast.success("Stock opname difinalisasi"),
+                onSuccess: () => toast.success(t('Stock opname difinalisasi')),
                 onError: () =>
-                    toast.error("Gagal finalize. Periksa item yang belum valid."),
+                    toast.error(t('Gagal finalize. Periksa item yang belum valid.')),
             }
         );
     };
@@ -248,7 +250,7 @@ export default function Show({
                     className="mb-3 inline-flex items-center gap-2 text-sm text-slate-500 hover:text-primary-600"
                 >
                     <IconArrowLeft size={16} />
-                    Kembali ke daftar stock opname
+                    {t('Kembali ke daftar stock opname')}
                 </Link>
 
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
@@ -264,16 +266,16 @@ export default function Show({
                                         : "bg-success-100 text-success-700 dark:bg-success-950/30 dark:text-success-400"
                                 }`}
                             >
-                                {isDraft ? "Draft" : "Finalized"}
+                                {isDraft ? t('Draft') : t('Finalized')}
                             </span>
                         </div>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                            Dibuat oleh {stockOpname.creator?.name || "-"} •{" "}
+                            {t('Dibuat oleh')} {stockOpname.creator?.name || "-"} •{" "}
                             {formatDateTime(stockOpname.created_at)}
                         </p>
                         {!isDraft && (
                             <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                                Difinalisasi oleh {stockOpname.finalizer?.name || "-"} •{" "}
+                                {t('Difinalisasi oleh')} {stockOpname.finalizer?.name || "-"} •{" "}
                                 {formatDateTime(stockOpname.finalized_at)}
                             </p>
                         )}
@@ -284,7 +286,7 @@ export default function Show({
                             type="button"
                             icon={<IconCheck size={18} />}
                             className="bg-success-500 hover:bg-success-600 text-white shadow-lg shadow-success-500/20 disabled:opacity-50"
-                            label="Finalize Stock Opname"
+                            label={t('Finalize Stock Opname')}
                             onClick={finalize}
                             disabled={
                                 localItems.length === 0 || summary.hasMissingReasons
@@ -295,19 +297,19 @@ export default function Show({
             </div>
 
             <div className="mb-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                <SummaryCard label="Total Item" value={summary.totalItems} />
+                <SummaryCard label={t('Total Item')} value={summary.totalItems} />
                 <SummaryCard
-                    label="Item Sesuai"
+                    label={t('Item Sesuai')}
                     value={summary.matchedItems}
                     tone="success"
                 />
                 <SummaryCard
-                    label="Item Selisih"
+                    label={t('Item Selisih')}
                     value={summary.differentItems}
                     tone="warning"
                 />
                 <SummaryCard
-                    label="Total Adjustment"
+                    label={t('Total Adjustment')}
                     value={
                         summary.totalAdjustment > 0
                             ? `+${summary.totalAdjustment}`
@@ -322,14 +324,14 @@ export default function Show({
                     <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
                         <div className="mb-4 flex items-center justify-between">
                             <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-                                Item Stock Opname
+                                {t('Item Stock Opname')}
                             </h2>
                             {canManageDraft && (
                                 <Button
                                     type="button"
                                     icon={<IconPlus size={18} />}
                                     className="bg-primary-500 hover:bg-primary-600 text-white"
-                                    label="Tambah Produk"
+                                    label={t('Tambah Produk')}
                                     onClick={() => setShowProductModal(true)}
                                 />
                             )}
@@ -338,12 +340,12 @@ export default function Show({
                         <Table>
                             <Table.Thead>
                                 <tr>
-                                    <Table.Th>Produk</Table.Th>
-                                    <Table.Th>Stok Sistem</Table.Th>
-                                    <Table.Th>Stok Fisik</Table.Th>
-                                    <Table.Th>Selisih</Table.Th>
-                                    <Table.Th>Alasan</Table.Th>
-                                    <Table.Th className="w-24 text-center">Simpan</Table.Th>
+                                    <Table.Th>{t('Produk')}</Table.Th>
+                                    <Table.Th>{t('Stok Sistem')}</Table.Th>
+                                    <Table.Th>{t('Stok Fisik')}</Table.Th>
+                                    <Table.Th>{t('Selisih')}</Table.Th>
+                                    <Table.Th>{t('Alasan')}</Table.Th>
+                                    <Table.Th className="w-24 text-center">{t('Simpan')}</Table.Th>
                                 </tr>
                             </Table.Thead>
                             <Table.Tbody>
@@ -399,7 +401,7 @@ export default function Show({
                                                         }`}
                                                     >
                                                         {item.physical_stock === null
-                                                            ? "Belum dihitung"
+                                                            ? t('Belum dihitung')
                                                             : difference > 0
                                                               ? `+${difference}`
                                                               : difference}
@@ -419,8 +421,8 @@ export default function Show({
                                                         }
                                                         placeholder={
                                                             isDifferent
-                                                                ? "Wajib isi alasan"
-                                                                : "Tidak perlu"
+                                                                ? t('Wajib isi alasan')
+                                                                : t('Tidak perlu')
                                                         }
                                                         className="h-10 w-full min-w-48 rounded-lg border border-slate-200 bg-slate-50 px-3 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                                                     />
@@ -447,7 +449,7 @@ export default function Show({
                                         colSpan={6}
                                         message={
                                             <div className="text-slate-500 dark:text-slate-400">
-                                                Belum ada produk pada sesi ini.
+                                                {t('Belum ada produk pada sesi ini.')}
                                             </div>
                                         }
                                     >
@@ -467,7 +469,7 @@ export default function Show({
                         className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900"
                     >
                         <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
-                            Catatan Sesi
+                            {t('Catatan Sesi')}
                         </h2>
                         <textarea
                             value={notesForm.data.notes}
@@ -477,7 +479,7 @@ export default function Show({
                             }
                             rows={4}
                             className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
-                            placeholder="Catatan sesi stock opname"
+                            placeholder={t('Catatan sesi stock opname')}
                         />
                         {canManageDraft && (
                             <div className="mt-4 flex justify-end">
@@ -485,7 +487,7 @@ export default function Show({
                                     type="submit"
                                     icon={<IconDeviceFloppy size={18} />}
                                     className="bg-primary-500 hover:bg-primary-600 text-white"
-                                    label="Simpan Catatan"
+                                    label={t('Simpan Catatan')}
                                 />
                             </div>
                         )}
@@ -493,18 +495,18 @@ export default function Show({
 
                     <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
                         <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
-                            Informasi Sesi
+                            {t('Informasi Sesi')}
                         </h2>
                         <div className="space-y-3 text-sm text-slate-500 dark:text-slate-400">
                             <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800">
                                 <p className="font-medium text-slate-700 dark:text-slate-200">
-                                    Cara penggunaan
+                                    {t('Cara penggunaan')}
                                 </p>
                                 <ul className="mt-2 space-y-2">
-                                    <li>1. Tambahkan produk ke sesi stock opname.</li>
-                                    <li>2. Input stok fisik hasil hitung lapangan.</li>
-                                    <li>3. Isi alasan jika terdapat selisih stok.</li>
-                                    <li>4. Finalize setelah semua item valid.</li>
+                                    <li>{t('1. Tambahkan produk ke sesi stock opname.')}</li>
+                                    <li>{t('2. Input stok fisik hasil hitung lapangan.')}</li>
+                                    <li>{t('3. Isi alasan jika terdapat selisih stok.')}</li>
+                                    <li>{t('4. Finalize setelah semua item valid.')}</li>
                                 </ul>
                             </div>
                         </div>
@@ -518,7 +520,7 @@ export default function Show({
                 title={
                     <div className="flex items-center gap-2">
                         <IconClipboardCheck size={18} />
-                        Cari Produk untuk Stock Opname
+                        {t('Cari Produk untuk Stock Opname')}
                     </div>
                 }
                 maxWidth="2xl"
@@ -532,7 +534,7 @@ export default function Show({
                             onChange={(event) =>
                                 setProductSearchInput(event.target.value)
                             }
-                            placeholder="Cari nama produk, barcode, atau SKU..."
+                            placeholder={t('Cari nama produk, barcode, atau SKU...')}
                             className="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 pr-11 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                         />
                         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400">
@@ -542,7 +544,7 @@ export default function Show({
 
                     {isWaitingSearch ? (
                         <div className="rounded-xl border border-dashed border-slate-200 p-6 text-center text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">
-                            Menunggu input selesai, pencarian akan dijalankan dalam 1-2 detik.
+                            {t('Menunggu input selesai, pencarian akan dijalankan dalam 1-2 detik.')}
                         </div>
                     ) : filters.product_search ? (
                         availableProducts.length > 0 ? (
@@ -562,23 +564,23 @@ export default function Show({
                                                 {product.category?.name || "-"} • {product.barcode || product.sku || "-"}
                                             </p>
                                             <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                                                Stok sistem: {product.stock}
+                                                {t('Stok sistem:')} {product.stock}
                                             </p>
                                         </div>
                                         <span className="inline-flex rounded-lg bg-primary-500 px-3 py-2 text-xs font-semibold text-white">
-                                            Tambah
+                                            {t('Tambah')}
                                         </span>
                                     </button>
                                 ))}
                             </div>
                         ) : (
                             <div className="rounded-xl border border-dashed border-slate-200 p-6 text-center text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">
-                                Tidak ada produk yang cocok dengan kata kunci pencarian.
+                                {t('Tidak ada produk yang cocok dengan kata kunci pencarian.')}
                             </div>
                         )
                     ) : (
                         <div className="rounded-xl border border-dashed border-slate-200 p-6 text-center text-sm text-slate-500 dark:border-slate-700 dark:text-slate-400">
-                            Ketik kata kunci, lalu tunggu sebentar untuk menampilkan hasil pencarian produk.
+                            {t('Ketik kata kunci, lalu tunggu sebentar untuk menampilkan hasil pencarian produk.')}
                         </div>
                     )}
                 </div>

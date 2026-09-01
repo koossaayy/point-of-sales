@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from '@/i18n';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import Textarea from "@/Components/Dashboard/TextArea";
@@ -7,6 +8,7 @@ import { IconArrowLeft, IconClipboardCheck } from "@tabler/icons-react";
 import toast from "react-hot-toast";
 
 export default function Create({ warehouses = [] }) {
+    const { t } = useTranslation();
     const { errors } = usePage().props;
     const { data, setData, post, processing } = useForm({
         notes: "",
@@ -17,13 +19,13 @@ export default function Create({ warehouses = [] }) {
         event.preventDefault();
 
         post(route("stock-opnames.store"), {
-            onError: () => toast.error("Gagal membuat sesi stock opname"),
+            onError: () => toast.error(t('Gagal membuat sesi stock opname')),
         });
     };
 
     return (
         <>
-            <Head title="Buat Stock Opname" />
+            <Head title={t('Buat Stock Opname')} />
 
             <div className="mb-6">
                 <Link
@@ -31,11 +33,11 @@ export default function Create({ warehouses = [] }) {
                     className="mb-3 inline-flex items-center gap-2 text-sm text-slate-500 hover:text-primary-600"
                 >
                     <IconArrowLeft size={16} />
-                    Kembali ke daftar stock opname
+                    {t('Kembali ke daftar stock opname')}
                 </Link>
                 <h1 className="flex items-center gap-2 text-2xl font-bold text-slate-900 dark:text-white">
                     <IconClipboardCheck size={28} className="text-primary-500" />
-                    Buat Sesi Stock Opname
+                    {t('Buat Sesi Stock Opname')}
                 </h1>
             </div>
 
@@ -43,7 +45,7 @@ export default function Create({ warehouses = [] }) {
                 <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
                     <div className="mb-4">
                         <label className="mb-1 block text-sm font-semibold text-slate-700 dark:text-slate-200">
-                            Gudang / Cabang
+                            {t('Gudang / Cabang')}
                         </label>
                         <select
                             value={data.warehouse_id}
@@ -59,8 +61,8 @@ export default function Create({ warehouses = [] }) {
                     </div>
 
                     <Textarea
-                        label="Catatan Sesi"
-                        placeholder="Contoh: opname bulanan gudang depan"
+                        label={t('Catatan Sesi')}
+                        placeholder={t('Contoh: opname bulanan gudang depan')}
                         value={data.notes}
                         onChange={(event) => setData("notes", event.target.value)}
                         errors={errors.notes}
@@ -72,7 +74,7 @@ export default function Create({ warehouses = [] }) {
                             type="submit"
                             icon={<IconClipboardCheck size={18} />}
                             className="bg-primary-500 hover:bg-primary-600 text-white shadow-lg shadow-primary-500/30"
-                            label={processing ? "Menyimpan..." : "Buat Sesi"}
+                            label={processing ? t('Menyimpan...') : t('Buat Sesi')}
                             disabled={processing}
                         />
                     </div>

@@ -1,87 +1,89 @@
 import { Head } from "@inertiajs/react";
+import { useTranslation } from '@/i18n';
 import PublicLayout from "@/Layouts/PublicLayout";
 import { IconBook2, IconArrowRight, IconBrandGithub } from "@tabler/icons-react";
+import i18next from 'i18next';
 
 const GITHUB_URL = "https://github.com/aryadwiputra/point-of-sales";
 const DOCS_BASE = `${GITHUB_URL}/blob/main/docs`;
 
 const categories = [
     {
-        title: "Mulai Cepat",
+        get title() { return i18next.t('Mulai Cepat'); },
         docs: [
-            { file: "getting-started.md", title: "Getting Started", desc: "Panduan setup lengkap dari nol sampai bisa login & mengakses dashboard." },
-            { file: "configuration.md", title: "Konfigurasi", desc: "Environment, payment gateway, pajak, printer thermal, dan WhatsApp." },
-            { file: "architecture-overview.md", title: "Arsitektur", desc: "Struktur kode, service layer, middleware, dan Node service." },
-            { file: "feature-index.md", title: "Indeks Fitur", desc: "Daftar semua 44+ modul dan statusnya." },
+            { file: "getting-started.md", get title() { return i18next.t('Getting Started'); }, get desc() { return i18next.t('Panduan setup lengkap dari nol sampai bisa login & mengakses dashboard.'); } },
+            { file: "configuration.md", get title() { return i18next.t('Konfigurasi'); }, get desc() { return i18next.t('Environment, payment gateway, pajak, printer thermal, dan WhatsApp.'); } },
+            { file: "architecture-overview.md", get title() { return i18next.t('Arsitektur'); }, get desc() { return i18next.t('Struktur kode, service layer, middleware, dan Node service.'); } },
+            { file: "feature-index.md", get title() { return i18next.t('Indeks Fitur'); }, get desc() { return i18next.t('Daftar semua 44+ modul dan statusnya.'); } },
         ],
     },
     {
-        title: "POS & Transaksi",
+        get title() { return i18next.t('POS & Transaksi'); },
         docs: [
-            { file: "features/pos-transactions.md", title: "Transaksi POS", desc: "Alur cart, checkout, hold/resume, dan multi-payment." },
-            { file: "features/cashier-shifts.md", title: "Shift Kasir", desc: "Buka/tutup shift dan rekap kas per shift." },
-            { file: "features/sales-returns.md", title: "Retur Penjualan", desc: "Proses retur dari transaksi yang sudah jadi." },
-            { file: "features/mobile-pos.md", title: "Mobile POS (PWA)", desc: "Gunakan kasir dari HP — installable dan offline-ready." },
-            { file: "features/thermal-printer.md", title: "Printer Thermal", desc: "Cetak struk 58/80mm via WebUSB." },
+            { file: "features/pos-transactions.md", get title() { return i18next.t('Transaksi POS'); }, get desc() { return i18next.t('Alur cart, checkout, hold/resume, dan multi-payment.'); } },
+            { file: "features/cashier-shifts.md", get title() { return i18next.t('Shift Kasir'); }, get desc() { return i18next.t('Buka/tutup shift dan rekap kas per shift.'); } },
+            { file: "features/sales-returns.md", get title() { return i18next.t('Retur Penjualan'); }, get desc() { return i18next.t('Proses retur dari transaksi yang sudah jadi.'); } },
+            { file: "features/mobile-pos.md", get title() { return i18next.t('Mobile POS (PWA)'); }, get desc() { return i18next.t('Gunakan kasir dari HP — installable dan offline-ready.'); } },
+            { file: "features/thermal-printer.md", get title() { return i18next.t('Printer Thermal'); }, get desc() { return i18next.t('Cetak struk 58/80mm via WebUSB.'); } },
         ],
     },
     {
-        title: "Inventory & Warehouse",
+        get title() { return i18next.t('Inventory & Warehouse'); },
         docs: [
-            { file: "features/inventory-stock.md", title: "Inventory & Stok", desc: "Produk, kategori, stock opname, dan mutasi stok." },
-            { file: "features/multi-warehouse.md", title: "Multi-Warehouse", desc: "Stok per gudang dan transfer antar gudang." },
-            { file: "features/unit-conversion.md", title: "Multi-Satuan", desc: "Konversi satuan produk (pcs, box, kg, karton)." },
+            { file: "features/inventory-stock.md", get title() { return i18next.t('Inventory & Stok'); }, get desc() { return i18next.t('Produk, kategori, stock opname, dan mutasi stok.'); } },
+            { file: "features/multi-warehouse.md", title: "Multi-Warehouse", get desc() { return i18next.t('Stok per gudang dan transfer antar gudang.'); } },
+            { file: "features/unit-conversion.md", title: "Multi-Satuan", get desc() { return i18next.t('Konversi satuan produk (pcs, box, kg, karton).'); } },
         ],
     },
     {
-        title: "Purchasing & Finance",
+        get title() { return i18next.t('Purchasing & Finance'); },
         docs: [
-            { file: "features/purchasing-chain.md", title: "Rantai Pengadaan", desc: "Purchase order, goods receiving, dan supplier return." },
-            { file: "features/payables-suppliers.md", title: "Supplier & Payables", desc: "Kelola supplier dan hutang." },
-            { file: "features/receivables.md", title: "Receivables", desc: "Piutang pelanggan dan pembayaran parsial." },
-            { file: "features/tax-management.md", title: "Manajemen Pajak", desc: "PPN, NPWP, dan NIB." },
-            { file: "features/customer-portal.md", title: "Customer Portal", desc: "Portal self-service: lihat invoice & bayar online." },
+            { file: "features/purchasing-chain.md", get title() { return i18next.t('Rantai Pengadaan'); }, get desc() { return i18next.t('Purchase order, goods receiving, dan supplier return.'); } },
+            { file: "features/payables-suppliers.md", get title() { return i18next.t('Supplier & Payables'); }, get desc() { return i18next.t('Kelola supplier dan hutang.'); } },
+            { file: "features/receivables.md", get title() { return i18next.t('Receivables'); }, get desc() { return i18next.t('Piutang pelanggan dan pembayaran parsial.'); } },
+            { file: "features/tax-management.md", get title() { return i18next.t('Manajemen Pajak'); }, get desc() { return i18next.t('PPN, NPWP, dan NIB.'); } },
+            { file: "features/customer-portal.md", get title() { return i18next.t('Customer Portal'); }, get desc() { return i18next.t('Portal self-service: lihat invoice & bayar online.'); } },
         ],
     },
     {
-        title: "CRM & Loyalty",
+        get title() { return i18next.t('CRM & Loyalty'); },
         docs: [
-            { file: "features/crm-segments.md", title: "Segmen & Campaign", desc: "Segmentasi otomatis dan campaign marketing." },
-            { file: "features/member-management.md", title: "Member Management", desc: "Tier member dan poin loyalty." },
-            { file: "features/promotions-loyalty.md", title: "Promo & Loyalty", desc: "Pricing rules, voucher, dan program loyalty." },
+            { file: "features/crm-segments.md", get title() { return i18next.t('Segmen & Campaign'); }, get desc() { return i18next.t('Segmentasi otomatis dan campaign marketing.'); } },
+            { file: "features/member-management.md", get title() { return i18next.t('Member Management'); }, get desc() { return i18next.t('Tier member dan poin loyalty.'); } },
+            { file: "features/promotions-loyalty.md", get title() { return i18next.t('Promo & Loyalty'); }, get desc() { return i18next.t('Pricing rules, voucher, dan program loyalty.'); } },
         ],
     },
     {
-        title: "Admin & Tools",
+        get title() { return i18next.t('Admin & Tools'); },
         docs: [
-            { file: "features/rbac-users-roles.md", title: "RBAC", desc: "User, role, dan permission." },
-            { file: "features/audit-logs.md", title: "Audit Log", desc: "Jejak perubahan before/after." },
-            { file: "features/settings-payments.md", title: "Payment Settings", desc: "Midtrans, Xendit, dan bank accounts." },
-            { file: "features/import-export.md", title: "Import/Export", desc: "Produk & customer via Excel." },
-            { file: "features/reports-documents.md", title: "Reports & Documents", desc: "Laporan dan dokumen PDF." },
-            { file: "features/whatsapp-gateway.md", title: "WhatsApp Gateway", desc: "Integrasi whatsapp-web.js." },
+            { file: "features/rbac-users-roles.md", get title() { return i18next.t('RBAC'); }, get desc() { return i18next.t('User, role, dan permission.'); } },
+            { file: "features/audit-logs.md", get title() { return i18next.t('Audit Log'); }, get desc() { return i18next.t('Jejak perubahan before/after.'); } },
+            { file: "features/settings-payments.md", get title() { return i18next.t('Payment Settings'); }, get desc() { return i18next.t('Midtrans, Xendit, dan bank accounts.'); } },
+            { file: "features/import-export.md", title: "Import/Export", get desc() { return i18next.t('Produk & customer via Excel.'); } },
+            { file: "features/reports-documents.md", get title() { return i18next.t('Reports & Documents'); }, get desc() { return i18next.t('Laporan dan dokumen PDF.'); } },
+            { file: "features/whatsapp-gateway.md", get title() { return i18next.t('WhatsApp Gateway'); }, get desc() { return i18next.t('Integrasi whatsapp-web.js.'); } },
         ],
     },
 ];
 
 export default function Documentation() {
+    const { t } = useTranslation();
     return (
         <PublicLayout active="/dokumentasi">
-            <Head title="Dokumentasi — Dikasir" />
+            <Head title={t('Dokumentasi — Dikasir')} />
 
             {/* Header */}
             <section className="pt-20 pb-14 px-6 bg-gradient-to-b from-primary-50 dark:from-primary-950/40 to-transparent">
                 <div className="max-w-4xl mx-auto text-center">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-50 dark:bg-primary-950/50 text-primary-600 dark:text-primary-400 text-sm font-medium mb-5 border border-primary-100 dark:border-primary-900">
                         <IconBook2 size={16} />
-                        Dokumentasi
+                        {t('Dokumentasi')}
                     </div>
                     <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white">
-                        Dokumentasi Lengkap
+                        {t('Dokumentasi Lengkap')}
                     </h1>
                     <p className="mt-5 text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                        Semua panduan tersedia di repository GitHub — selalu terbaru, ikut
-                        berkembang bersama kode.
+                        {t('Semua panduan tersedia di repository GitHub — selalu terbaru, ikut berkembang bersama kode.')}
                     </p>
                 </div>
             </section>
@@ -126,11 +128,10 @@ export default function Documentation() {
                 <div className="max-w-3xl mx-auto">
                     <div className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/60 p-8 text-center">
                         <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
-                            Dokumentasi kurang jelas?
+                            {t('Dokumentasi kurang jelas?')}
                         </h2>
                         <p className="text-slate-600 dark:text-slate-400 mb-6">
-                            Dokumentasi juga open source — perbaiki dan buat PR, atau tanya di
-                            GitHub Discussions.
+                            {t('Dokumentasi juga open source — perbaiki dan buat PR, atau tanya di GitHub Discussions.')}
                         </p>
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                             <a
@@ -140,7 +141,7 @@ export default function Documentation() {
                                 className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white font-semibold rounded-xl hover:from-primary-600 hover:to-primary-700 transition-all"
                             >
                                 <IconBrandGithub size={18} />
-                                Lihat semua docs di GitHub
+                                {t('Lihat semua docs di GitHub')}
                             </a>
                             <a
                                 href={`${GITHUB_URL}/discussions`}
@@ -148,7 +149,7 @@ export default function Documentation() {
                                 rel="noopener noreferrer"
                                 className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-primary-300 transition-colors"
                             >
-                                Tanya di Discussions
+                                {t('Tanya di Discussions')}
                             </a>
                         </div>
                     </div>

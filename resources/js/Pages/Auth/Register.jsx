@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Head, Link, useForm } from "@inertiajs/react";
+import { useTranslation } from '@/i18n';
 import AuthBotGuardFields from "@/Components/AuthBotGuardFields";
 import {
     IconShoppingCart,
@@ -13,6 +14,7 @@ import {
 } from "@tabler/icons-react";
 
 export default function Register({ botGuard }) {
+    const { t } = useTranslation();
     const honeypotField = botGuard?.honeypot_field || "company_website";
     const tokenField = botGuard?.token_field || "bot_guard_token";
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -37,7 +39,7 @@ export default function Register({ botGuard }) {
 
     return (
         <>
-            <Head title="Daftar" />
+            <Head title={t('Daftar')} />
 
             <div className="min-h-screen flex bg-slate-50 dark:bg-slate-950">
                 {/* Left - Decoration */}
@@ -47,11 +49,10 @@ export default function Register({ botGuard }) {
                             <IconShoppingCart size={48} />
                         </div>
                         <h2 className="text-3xl font-bold mb-4">
-                            Bergabung Bersama Kami
+                            {t('Bergabung Bersama Kami')}
                         </h2>
                         <p className="text-lg opacity-90">
-                            Mulai kelola bisnis Anda dengan sistem Point of Sale
-                            yang modern, cepat, dan mudah digunakan.
+                            {t('Mulai kelola bisnis Anda dengan sistem Point of Sale yang modern, cepat, dan mudah digunakan.')}
                         </p>
                         <div className="mt-8 space-y-3">
                             {[
@@ -90,14 +91,14 @@ export default function Register({ botGuard }) {
                                     />
                                 </div>
                                 <span className="text-2xl font-bold text-slate-900 dark:text-white">
-                                    Aplikasi Kasir
+                                    {t('Aplikasi Kasir')}
                                 </span>
                             </Link>
                             <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
-                                Buat Akun Baru
+                                {t('Buat Akun Baru')}
                             </h1>
                             <p className="mt-2 text-slate-600 dark:text-slate-400">
-                                Daftarkan bisnis Anda sekarang
+                                {t('Daftarkan bisnis Anda sekarang')}
                             </p>
                         </div>
 
@@ -116,7 +117,7 @@ export default function Register({ botGuard }) {
                             {/* Name */}
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                    Nama Lengkap
+                                    {t('Nama Lengkap')}
                                 </label>
                                 <div className="relative">
                                     <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
@@ -128,7 +129,7 @@ export default function Register({ botGuard }) {
                                         onChange={(e) =>
                                             setData("name", e.target.value)
                                         }
-                                        placeholder="Nama Anda"
+                                        placeholder={t('Nama Anda')}
                                         className={`w-full h-12 pl-12 pr-4 rounded-xl border-2 ${
                                             errors.name
                                                 ? "border-danger-500 focus:border-danger-500"
@@ -146,7 +147,7 @@ export default function Register({ botGuard }) {
                             {/* Email */}
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                    Email
+                                    {t('Email')}
                                 </label>
                                 <div className="relative">
                                     <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
@@ -176,7 +177,7 @@ export default function Register({ botGuard }) {
                             {/* Password */}
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                    Password
+                                    {t('Password')}
                                 </label>
                                 <div className="relative">
                                     <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
@@ -190,7 +191,7 @@ export default function Register({ botGuard }) {
                                         onChange={(e) =>
                                             setData("password", e.target.value)
                                         }
-                                        placeholder="Minimal 8 karakter"
+                                        placeholder={t('Minimal 8 karakter')}
                                         className={`w-full h-12 pl-12 pr-12 rounded-xl border-2 ${
                                             errors.password
                                                 ? "border-danger-500 focus:border-danger-500"
@@ -221,7 +222,7 @@ export default function Register({ botGuard }) {
                             {/* Confirm Password */}
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                    Konfirmasi Password
+                                    {t('Konfirmasi Password')}
                                 </label>
                                 <div className="relative">
                                     <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
@@ -240,7 +241,7 @@ export default function Register({ botGuard }) {
                                                 e.target.value
                                             )
                                         }
-                                        placeholder="Ulangi password"
+                                        placeholder={t('Ulangi password')}
                                         className={`w-full h-12 pl-12 pr-12 rounded-xl border-2 ${
                                             errors.password_confirmation
                                                 ? "border-danger-500 focus:border-danger-500"
@@ -282,7 +283,7 @@ export default function Register({ botGuard }) {
                                             size={20}
                                             className="animate-spin"
                                         />
-                                        Memproses...
+                                        {t('Memproses...')}
                                     </>
                                 ) : (
                                     "Daftar Sekarang"
@@ -291,12 +292,12 @@ export default function Register({ botGuard }) {
 
                             {/* Login Link */}
                             <p className="text-center text-sm text-slate-600 dark:text-slate-400">
-                                Sudah punya akun?{" "}
+                                {t('Sudah punya akun?')}{" "}
                                 <Link
                                     href="/login"
                                     className="text-primary-500 hover:text-primary-600 font-semibold"
                                 >
-                                    Masuk disini
+                                    {t('Masuk disini')}
                                 </Link>
                             </p>
                         </form>
