@@ -1,7 +1,6 @@
 @php
-    $formatPrice = fn($v) => 'Rp ' . number_format($v ?? 0, 0, ',', '.');
-    $formatDate = fn($v) => \Carbon\Carbon::parse($v)->format('d M Y');
-@endphp
+    $formatPrice = fn($v) => __('Rp ') . number_format($v ?? 0, 0, ',', '.');
+    $formatDate = fn($v) => \Carbon\Carbon::parse($v)->format('d M Y');@endphp
 <!DOCTYPE html>
 <html lang="id">
 
@@ -174,7 +173,7 @@
                     </div>
                 </td>
                 <td width="180pt" style="text-align: right; vertical-align: top;">
-                    <div class="text-muted" style="font-size: 7pt;">INVOICE </div>
+                    <div class="text-muted" style="font-size: 7pt;">{{ __('INVOICE') }} </div>
                     <div class="text-bold" style="font-size: 15pt; color: #000; line-height: 1.1;">
                         {{ $transaction->invoice }}</div>
                     <div class="text-small">{{ $formatDate($transaction->created_at) }}</div>
@@ -188,12 +187,12 @@
             <tr>
                 <td style="padding-right: 5pt; width: 65%;">
                     <div class="section-box">
-                        <div class="title-label">Penerima</div>
-                        <div class="text-bold">{{ $transaction->customer->name ?? 'Umum' }}</div>
+                        <div class="title-label">{{ __('Penerima') }}</div>
+                        <div class="text-bold">{{ $transaction->customer->name ?? __('Umum') }}</div>
                         <div class="text-small text-muted" style="margin-top: 5px; margin-bottom: 5px;">
                             {{ $transaction->customer->no_telp ?? '-' }}</div>
                         <div class="text-small text-muted">
-                            {{ Str::limit($transaction->customer->address ?? 'No Address', 80) }}</div>
+                            {{ Str::limit($transaction->customer->address ?? __('No Address'), 80) }}</div>
                         <div class="text-small text-muted" style="margin-top:2pt;">
                             {{ $transaction->customer->village_name ?? '-' }}
                             @if ($transaction->customer->district_name)
@@ -210,14 +209,14 @@
                 </td>
                 <td style="padding-left: 5pt; width: 35%;">
                     <div class="section-box">
-                        <div class="title-label">Ringkasan Pesanan</div>
+                        <div class="title-label">{{ __('Ringkasan Pesanan') }}</div>
                         <table class="text-small">
                             <tr>
-                                <td>Item</td>
-                                <td style="text-align: right;">{{ $transaction->details->count() }} unit</td>
+                                <td>{{ __('Item') }}</td>
+                                <td style="text-align: right;">{{ __(':param_1 unit', ['param_1' => $transaction->details->count()]) }}</td>
                             </tr>
                             <tr>
-                                <td style="padding-top: 15pt;" class="text-bold">Total</td>
+                                <td style="padding-top: 15pt;" class="text-bold">{{ __('Total') }}</td>
                                 <td style="padding-top: 15pt; text-align: right;" class="text-bold">
                                     {{ $formatPrice($transaction->grand_total) }}</td>
                             </tr>
@@ -227,11 +226,11 @@
             </tr>
         </table>
 
-        <div class="title-label" style="margin-top: 10pt;">Daftar Produk</div>
+        <div class="title-label" style="margin-top: 10pt;">{{ __('Daftar Produk') }}</div>
         <div style="height: 50pt; overflow: hidden;">
             <ul>
                 @foreach ($transaction->details->take(3) as $detail)
-                    <li>{{ Str::limit($detail->product->title, 40) }} ({{ $detail->qty }}x)</li>
+                    <li>{{ __(':param_1 (:param_2x)', ['param_1' => Str::limit($detail->product->title, 40), 'param_2' => $detail->qty]) }}</li>
                 @endforeach
             </ul>
         </div>
@@ -240,13 +239,13 @@
             <table style="table-layout: auto;">
                 <tr>
                     <td class="text-muted" style="vertical-align: bottom; padding-bottom: 2pt;line-height: 1.5;">
-                        Admin: <strong>{{ $transaction->cashier->name ?? '-' }}</strong><br>
-                        Dicetak: {{ now()->format('d/m/Y H:i') }}
+                        {{ __('Admin:') }} <strong>{{ $transaction->cashier->name ?? '-' }}</strong><br>
+                        {{ __('Dicetak: :param_1', ['param_1' => now()->format('d/m/Y H:i')]) }}
                     </td>
 
                     <td style="text-align: right; width: 150pt;">
                         <div class="barcode-container">
-                            <img src="{{ $barcode }}" class="barcode-img" alt="barcode">
+                            <img src="{{ $barcode }}" class="barcode-img" alt="{{ __('barcode') }}">
                             <div class="invoice-number">{{ $transaction->invoice }}</div>
                         </div>
                     </td>

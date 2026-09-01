@@ -88,8 +88,8 @@ class HandleInertiaRequests extends Middleware
 
                     return [
                         'id' => $item->id,
-                        'title' => "Piutang: {$item->invoice}",
-                        'subtitle' => 'Sisa '.number_format($remaining, 0, ',', '.'),
+                        'title' => __('Piutang: :invoice', ['invoice' => $item->invoice]),
+                        'subtitle' => __('Sisa :number_format', ['number_format' => number_format($remaining, 0, ',', '.')]),
                         'time' => optional($item->due_date)->diffForHumans(),
                         'status' => $item->status,
                         'aging_bucket' => $item->aging_bucket,
@@ -107,8 +107,8 @@ class HandleInertiaRequests extends Middleware
 
                     return [
                         'id' => $item->id,
-                        'title' => "Hutang: {$item->document_number}",
-                        'subtitle' => 'Sisa '.number_format($remaining, 0, ',', '.'),
+                        'title' => __('Hutang: :document_number', ['document_number' => $item->document_number]),
+                        'subtitle' => __('Sisa :number_format', ['number_format' => number_format($remaining, 0, ',', '.')]),
                         'time' => optional($item->due_date)->diffForHumans(),
                         'status' => $item->status,
                         'aging_bucket' => $item->aging_bucket,

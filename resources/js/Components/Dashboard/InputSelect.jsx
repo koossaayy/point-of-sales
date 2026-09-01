@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { Listbox } from '@headlessui/react'
 import { IconChevronDown, IconCircle, IconCircleFilled } from '@tabler/icons-react'
+import { useTranslation } from 'react-i18next';
 
 export default function InputSelect({ selected, data, setSelected, label, errors, placeholder, multiple = false, searchable = false, displayKey = 'name' }) {
+    const { t } = useTranslation();
     const [search, setSearch] = useState('')
 
     const filteredData = data.filter(item =>
@@ -27,7 +29,7 @@ export default function InputSelect({ selected, data, setSelected, label, errors
                             type="text"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            placeholder="Search..."
+                            placeholder={t('Search...')}
                             className="w-full px-3 py-1.5 mb-2 text-sm border rounded-md bg-white text-gray-700 border-gray-200 focus:outline-none focus:border-gray-300 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-800 dark:focus:border-gray-700"
                         />
                     )}

@@ -1,7 +1,7 @@
 @php
     $line = str_repeat('=', 48);
     $dash = str_repeat('-', 48);
-    $formatPrice = fn($v) => 'Rp ' . number_format($v ?? 0, 0, ',', '.');
+    $formatPrice = fn($v) => __('Rp ') . number_format($v ?? 0, 0, ',', '.');
 
     // Translation helpers
     $l = function($key) use ($locale) {
@@ -15,8 +15,7 @@
             $value = $value[$k] ?? $key;
         }
         return $value;
-    };
-@endphp
+    };@endphp
 <!DOCTYPE html>
 <html lang="{{ $locale ?? 'id' }}">
 <head>
@@ -77,7 +76,7 @@
                 </div>
             @endif
             <div style="display:flex; justify-content:space-between;">
-                <span>{{ $qty }}x @ {{ $formatPrice($unit) }}</span>
+                <span>{{ __(':param_1x @ :param_2', ['param_1' => $qty, 'param_2' => $formatPrice($unit)]) }}</span>
                 <span>{{ $formatPrice($total) }}</span>
             </div>
         @endforeach
@@ -97,8 +96,7 @@
         $taxRate = $transaction->tax_rate ?? 0;
         $cash = $transaction->cash ?? 0;
         $change = $transaction->change ?? 0;
-        $paymentMethod = strtoupper($transaction->payment_method ?? 'TUNAI');
-    @endphp
+        $paymentMethod = strtoupper($transaction->payment_method ?? __('TUNAI'));@endphp
 
     <div class="section">
         <div style="display:flex; justify-content:space-between;">
@@ -166,7 +164,7 @@
 
     <div class="center section" style="margin-bottom:0;">
         <div class="barcode">
-            <img src="{{ $barcode }}" alt="barcode">
+            <img src="{{ $barcode }}" alt="{{ __('barcode') }}">
         </div>
         <div style="font-size:11px;">{{ $transaction->invoice }}</div>
         <div>{{ $l('common.thank_you') }}</div>

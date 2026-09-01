@@ -1,5 +1,6 @@
 import React from "react";
 import { Head, Link, usePage } from "@inertiajs/react";
+import { useTranslation } from 'react-i18next';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import {
     IconShoppingCart,
@@ -10,46 +11,47 @@ import {
     IconChartArrowsVertical,
 } from "@tabler/icons-react";
 import hasAnyPermission from "@/Utils/Permission";
+import i18next from 'i18next';
 
 const cards = [
     {
-        title: "Transaksi",
-        desc: "Mulai transaksi kasir",
+        get title() { return i18next.t('Transaksi'); },
+        get desc() { return i18next.t('Mulai transaksi kasir'); },
         icon: <IconShoppingCart size={22} />,
         route: "transactions.index",
         perms: ["transactions-access"],
     },
     {
-        title: "Pelanggan",
-        desc: "Kelola data pelanggan",
+        get title() { return i18next.t('Pelanggan'); },
+        get desc() { return i18next.t('Kelola data pelanggan'); },
         icon: <IconUsers size={22} />,
         route: "customers.index",
         perms: ["customers-access"],
     },
     {
-        title: "Piutang",
-        desc: "Nota barang pelanggan",
+        get title() { return i18next.t('Piutang'); },
+        get desc() { return i18next.t('Nota barang pelanggan'); },
         icon: <IconFileInvoice size={22} />,
         route: "receivables.index",
         perms: ["receivables-access"],
     },
     {
-        title: "Hutang",
-        desc: "Catat hutang supplier",
+        get title() { return i18next.t('Hutang'); },
+        get desc() { return i18next.t('Catat hutang supplier'); },
         icon: <IconCurrencyDollar size={22} />,
         route: "payables.index",
         perms: ["payables-access"],
     },
     {
-        title: "Supplier",
-        desc: "Kelola data supplier",
+        get title() { return i18next.t('Supplier'); },
+        get desc() { return i18next.t('Kelola data supplier'); },
         icon: <IconBuildingWarehouse size={22} />,
         route: "suppliers.index",
         perms: ["suppliers-access"],
     },
     {
-        title: "Laporan",
-        desc: "Lihat laporan penjualan",
+        get title() { return i18next.t('Laporan'); },
+        get desc() { return i18next.t('Lihat laporan penjualan'); },
         icon: <IconChartArrowsVertical size={22} />,
         route: "reports.sales.index",
         perms: ["reports-access"],
@@ -57,6 +59,7 @@ const cards = [
 ];
 
 function AccessPage() {
+    const { t } = useTranslation();
     const { auth } = usePage().props;
 
     const visibleCards = cards.filter((card) =>
@@ -65,15 +68,14 @@ function AccessPage() {
 
     return (
         <>
-            <Head title="Akses" />
+            <Head title={t('Akses')} />
             <div className="space-y-6">
                 <div>
                     <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                        Pilih Akses
+                        {t('Pilih Akses')}
                     </h1>
                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                        Halaman ini muncul ketika Anda tidak memiliki akses
-                        dashboard.
+                        {t('Halaman ini muncul ketika Anda tidak memiliki akses dashboard.')}
                     </p>
                 </div>
 
@@ -100,7 +102,7 @@ function AccessPage() {
                         ))
                     ) : (
                         <div className="col-span-full text-slate-500 dark:text-slate-400">
-                            Tidak ada akses tersedia. Hubungi admin.
+                            {t('Tidak ada akses tersedia. Hubungi admin.')}
                         </div>
                     )}
                 </div>

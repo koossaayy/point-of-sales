@@ -25,7 +25,7 @@ class DiscountApprovalController extends Controller
                 'id' => $t->id,
                 'invoice' => $t->invoice,
                 'cashier' => $t->cashier?->name,
-                'customer' => $t->customer?->name ?? 'Umum',
+                'customer' => $t->customer?->name ?? __('Umum'),
                 'discount' => (int) $t->discount,
                 'grand_total' => (int) $t->grand_total,
                 'created_at' => $t->created_at?->toISOString(),
@@ -42,7 +42,7 @@ class DiscountApprovalController extends Controller
 
         $this->logAndUpdate($transaction, 'approved');
 
-        return back()->with('success', 'Diskon disetujui.');
+        return back()->with('success', __('Diskon disetujui.'));
     }
 
     public function deny(Request $request, Transaction $transaction)
@@ -51,7 +51,7 @@ class DiscountApprovalController extends Controller
 
         $this->logAndUpdate($transaction, 'denied', $request->notes);
 
-        return back()->with('success', 'Diskon ditolak.');
+        return back()->with('success', __('Diskon ditolak.'));
     }
 
     private function logAndUpdate(Transaction $transaction, string $status, ?string $notes = null): void

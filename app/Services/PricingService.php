@@ -146,9 +146,9 @@ class PricingService
     public function ruleLabel(PricingRule $rule): string
     {
         return match ($rule->kind) {
-            PricingRule::KIND_QTY_BREAK => 'Grosir '.$this->standardDiscountLabel($rule),
-            PricingRule::KIND_BUNDLE_PRICE => 'Bundle Rp '.number_format((float) $rule->discount_value, 0, ',', '.'),
-            PricingRule::KIND_BUY_X_GET_Y => 'Buy X Get Y',
+            PricingRule::KIND_QTY_BREAK => __('Grosir :standardDiscountLabel', ['standardDiscountLabel' => $this->standardDiscountLabel($rule)]),
+            PricingRule::KIND_BUNDLE_PRICE => __('Bundle Rp :number_format', ['number_format' => number_format((float) $rule->discount_value, 0, ',', '.')]),
+            PricingRule::KIND_BUY_X_GET_Y => __('Buy X Get Y'),
             default => $this->standardDiscountLabel($rule),
         };
     }
@@ -638,9 +638,9 @@ class PricingService
     private function standardDiscountLabel(PricingRule $rule): string
     {
         return match ($rule->discount_type) {
-            PricingRule::TYPE_PERCENTAGE => rtrim(rtrim(number_format((float) $rule->discount_value, 2, '.', ''), '0'), '.').'% OFF',
-            PricingRule::TYPE_FIXED_AMOUNT => 'Hemat Rp '.number_format((float) $rule->discount_value, 0, ',', '.'),
-            PricingRule::TYPE_FIXED_PRICE => 'Harga Rp '.number_format((float) $rule->discount_value, 0, ',', '.'),
+            PricingRule::TYPE_PERCENTAGE => __(':rtrim% OFF', ['rtrim' => rtrim(rtrim(number_format((float) $rule->discount_value, 2, '.', ''), '0'), '.')]),
+            PricingRule::TYPE_FIXED_AMOUNT => __('Hemat Rp :number_format', ['number_format' => number_format((float) $rule->discount_value, 0, ',', '.')]),
+            PricingRule::TYPE_FIXED_PRICE => __('Harga Rp :number_format', ['number_format' => number_format((float) $rule->discount_value, 0, ',', '.')]),
             default => $rule->name,
         };
     }

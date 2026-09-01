@@ -5,18 +5,21 @@ import {
     IconStar,
     IconArrowRight,
 } from "@tabler/icons-react";
+import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 
 const GITHUB_URL = "https://github.com/aryadwiputra/point-of-sales";
 const DOCS_URL = `${GITHUB_URL}/blob/main/docs/getting-started.md`;
 
 export const NAV_LINKS = [
-    { label: "Fitur", href: "/fitur" },
-    { label: "Dokumentasi", href: "/dokumentasi" },
-    { label: "Roadmap", href: "/roadmap" },
-    { label: "Kontribusi", href: "/kontribusi" },
+    { get label() { return i18next.t('Fitur'); }, href: "/fitur" },
+    { get label() { return i18next.t('Dokumentasi'); }, href: "/dokumentasi" },
+    { get label() { return i18next.t('Roadmap'); }, href: "/roadmap" },
+    { get label() { return i18next.t('Kontribusi'); }, href: "/kontribusi" },
 ];
 
 export default function PublicLayout({ children, active = "" }) {
+    const { t } = useTranslation();
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col">
             {/* ============ NAVBAR ============ */}
@@ -27,7 +30,7 @@ export default function PublicLayout({ children, active = "" }) {
                             <IconShoppingCart size={20} className="text-white" />
                         </div>
                         <span className="text-lg font-bold text-slate-900 dark:text-white">
-                            Dikasir
+                            {t('Dikasir')}
                         </span>
                     </Link>
 
@@ -55,13 +58,13 @@ export default function PublicLayout({ children, active = "" }) {
                             className="hidden sm:flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 rounded-xl hover:border-primary-300 dark:hover:border-primary-700 transition-colors"
                         >
                             <IconStar size={15} className="text-amber-400" />
-                            Star
+                            {t('Star')}
                         </a>
                         <Link
                             href="/login"
                             className="px-5 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary-500 transition-colors"
                         >
-                            Masuk
+                            {t('Masuk')}
                         </Link>
                         <a
                             href={GITHUB_URL}
@@ -69,7 +72,7 @@ export default function PublicLayout({ children, active = "" }) {
                             rel="noopener noreferrer"
                             className="px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-primary-500 to-primary-600 rounded-xl hover:from-primary-600 hover:to-primary-700 shadow-lg shadow-primary-500/25 transition-all"
                         >
-                            Get Source
+                            {t('Get Source')}
                         </a>
                     </div>
                 </div>
@@ -87,37 +90,37 @@ export default function PublicLayout({ children, active = "" }) {
                         </div>
                         <div>
                             <div className="font-semibold text-slate-700 dark:text-slate-300">
-                                Dikasir
+                                {t('Dikasir')}
                             </div>
                             <div className="text-xs text-slate-500">
-                                Sistem kasir open source untuk UMKM
+                                {t('Sistem kasir open source untuk UMKM')}
                             </div>
                         </div>
                     </div>
 
                     <div className="flex flex-wrap items-center gap-6 text-sm text-slate-500 dark:text-slate-400">
                         <Link href="/fitur" className="hover:text-primary-500 transition-colors">
-                            Fitur
+                            {t('Fitur')}
                         </Link>
                         <Link href="/dokumentasi" className="hover:text-primary-500 transition-colors">
-                            Dokumentasi
+                            {t('Dokumentasi')}
                         </Link>
                         <Link href="/roadmap" className="hover:text-primary-500 transition-colors">
-                            Roadmap
+                            {t('Roadmap')}
                         </Link>
                         <Link href="/kontribusi" className="hover:text-primary-500 transition-colors">
-                            Kontribusi
+                            {t('Kontribusi')}
                         </Link>
                         <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer" className="hover:text-primary-500 transition-colors">
-                            GitHub
+                            {t('GitHub')}
                         </a>
                         <a href={`${GITHUB_URL}/blob/main/LICENSE`} target="_blank" rel="noopener noreferrer" className="hover:text-primary-500 transition-colors">
-                            Lisensi MIT
+                            {t('Lisensi MIT')}
                         </a>
                     </div>
 
                     <p className="text-sm text-slate-500">
-                        © {new Date().getFullYear()} Dibuat oleh Arya Dwi Putra
+                        © {new Date().getFullYear()} {t('Dibuat oleh Arya Dwi Putra')}
                     </p>
                 </div>
             </footer>
