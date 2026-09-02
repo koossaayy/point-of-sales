@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from 'react-i18next';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import Button from "@/Components/Dashboard/Button";
@@ -9,6 +10,7 @@ import {
 import toast from "react-hot-toast";
 
 export default function Create({ orders }) {
+    const { t } = useTranslation();
     const { data, setData, post, processing, errors } = useForm({
         purchase_order_id: "",
         notes: "",
@@ -29,7 +31,7 @@ export default function Create({ orders }) {
                 })
                 .map((item) => ({
                     purchase_order_item_id: item.id,
-                    product_title: item.product?.title || "Produk #" + item.product_id,
+                    product_title: item.product?.title || t('Produk #') + item.product_id,
                     product_sku: item.product?.sku || "-",
                     qty_ordered: item.qty_ordered,
                     qty_received_already: item.qty_received || 0,
@@ -55,49 +57,49 @@ export default function Create({ orders }) {
     const submit = (e) => {
         e.preventDefault();
         if (!data.purchase_order_id) {
-            toast.error("Pilih purchase order terlebih dahulu.");
+            toast.error(t('Pilih purchase order terlebih dahulu.'));
             return;
         }
         const validItems = data.items.filter((item) => item.qty_received > 0);
         if (validItems.length === 0) {
-            toast.error("Terima minimal satu item.");
+            toast.error(t('Terima minimal satu item.'));
             return;
         }
         setData("items", validItems);
         post(route("goods-receivings.store"), {
-            onSuccess: () => toast.success("Penerimaan barang berhasil dicatat"),
-            onError: () => toast.error("Gagal mencatat penerimaan"),
+            onSuccess: () => toast.success(t('Penerimaan barang berhasil dicatat')),
+            onError: () => toast.error(t('Gagal mencatat penerimaan')),
             preserveScroll: true,
         });
     };
 
     return (
         <>
-            <Head title="Terima Barang" />
+            <Head title={t('Terima Barang')} />
             <div className="mb-6">
                 <Link
                     href={route("goods-receivings.index")}
                     className="mb-3 inline-flex items-center gap-2 text-sm text-slate-500 hover:text-primary-600"
                 >
                     <IconArrowLeft size={16} />
-                    Kembali ke daftar penerimaan
+                    {t('Kembali ke daftar penerimaan')}
                 </Link>
                 <h1 className="flex items-center gap-2 text-2xl font-bold text-slate-900 dark:text-white">
                     <IconTruckDelivery size={28} className="text-primary-500" />
-                    Terima Barang
+                    {t('Terima Barang')}
                 </h1>
             </div>
 
             <form onSubmit={submit} className="max-w-4xl">
                 <div className="space-y-6">
                     <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
-                        <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">Pilih Purchase Order</h2>
+                        <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">{t('Pilih Purchase Order')}</h2>
                         <select
                             value={selectedPoId}
                             onChange={(e) => selectPO(e.target.value)}
                             className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                         >
-                            <option value="">Pilih PO yang sudah dipesan...</option>
+                            <option value="">{t('Pilih PO yang sudah dipesan...')}</option>
                             {orders.map((order) => (
                                 <option key={order.id} value={order.id}>
                                     {order.document_number} - {order.supplier?.name || "Tanpa Supplier"}
@@ -110,18 +112,18 @@ export default function Create({ orders }) {
                     {selectedOrder && data.items.length > 0 && (
                         <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
                             <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
-                                Item Diterima
+                                {t('Item Diterima')}
                             </h2>
                             <div className="overflow-x-auto">
                                 <table className="w-full text-sm">
                                     <thead>
                                         <tr className="border-b border-slate-200 dark:border-slate-700">
-                                            <th className="px-3 py-2 text-left font-semibold text-slate-700 dark:text-slate-200">Produk</th>
-                                            <th className="px-3 py-2 text-right font-semibold text-slate-700 dark:text-slate-200">Qty PO</th>
-                                            <th className="px-3 py-2 text-right font-semibold text-slate-700 dark:text-slate-200">Sudah Diterima</th>
-                                            <th className="px-3 py-2 text-right font-semibold text-slate-700 dark:text-slate-200">Sisa</th>
-                                            <th className="px-3 py-2 text-right font-semibold text-slate-700 dark:text-slate-200">Qty Diterima</th>
-                                            <th className="px-3 py-2 text-right font-semibold text-slate-700 dark:text-slate-200">Catatan</th>
+                                            <th className="px-3 py-2 text-left font-semibold text-slate-700 dark:text-slate-200">{t('Produk')}</th>
+                                            <th className="px-3 py-2 text-right font-semibold text-slate-700 dark:text-slate-200">{t('Qty PO')}</th>
+                                            <th className="px-3 py-2 text-right font-semibold text-slate-700 dark:text-slate-200">{t('Sudah Diterima')}</th>
+                                            <th className="px-3 py-2 text-right font-semibold text-slate-700 dark:text-slate-200">{t('Sisa')}</th>
+                                            <th className="px-3 py-2 text-right font-semibold text-slate-700 dark:text-slate-200">{t('Qty Diterima')}</th>
+                                            <th className="px-3 py-2 text-right font-semibold text-slate-700 dark:text-slate-200">{t('Catatan')}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -167,13 +169,13 @@ export default function Create({ orders }) {
 
                     {selectedOrder && data.items.length > 0 && (
                         <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
-                            <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">Catatan Penerimaan</h2>
+                            <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">{t('Catatan Penerimaan')}</h2>
                             <textarea
                                 value={data.notes}
                                 onChange={(e) => setData("notes", e.target.value)}
                                 rows={3}
                                 className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
-                                placeholder="Catatan penerimaan barang (opsional)"
+                                placeholder={t('Catatan penerimaan barang (opsional)')}
                             />
                         </div>
                     )}
@@ -183,14 +185,14 @@ export default function Create({ orders }) {
                             href={route("goods-receivings.index")}
                             className="flex h-11 items-center rounded-xl border border-slate-200 bg-white px-6 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
                         >
-                            Batal
+                            {t('Batal')}
                         </Link>
                         {selectedOrder && data.items.length > 0 && (
                             <Button
                                 type="submit"
                                 icon={<IconTruckDelivery size={18} />}
                                 className="bg-success-500 hover:bg-success-600 text-white shadow-lg shadow-success-500/30"
-                                label={processing ? "Menyimpan..." : "Konfirmasi Penerimaan"}
+                                label={processing ? t('Menyimpan...') : t('Konfirmasi Penerimaan')}
                                 disabled={processing}
                             />
                         )}

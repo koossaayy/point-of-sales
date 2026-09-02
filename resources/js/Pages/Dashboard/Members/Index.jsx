@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import Pagination from "@/Components/Dashboard/Pagination";
 import Table from "@/Components/Dashboard/Table";
@@ -27,6 +28,7 @@ const formatDate = (value) =>
         : "-";
 
 export default function Index({ members, filters, tierOptions, summary }) {
+    const { t } = useTranslation();
     const handleFilterChange = (key, value) => {
         router.get(
             route("members.index"),
@@ -37,42 +39,42 @@ export default function Index({ members, filters, tierOptions, summary }) {
 
     const summaryCards = [
         {
-            label: "Total Member",
+            label: t('Total Member'),
             value: summary?.total_members || 0,
-            helper: "Seluruh member yang pernah terdaftar",
+            helper: t('Seluruh member yang pernah terdaftar'),
         },
         {
-            label: "Member Aktif",
+            label: t('Member Aktif'),
             value: summary?.active_members || 0,
-            helper: "Masih menerima benefit member",
+            helper: t('Masih menerima benefit member'),
         },
         {
-            label: "Omzet Member",
+            label: t('Omzet Member'),
             value: formatCurrency(summary?.member_revenue || 0),
-            helper: "Kontribusi transaksi dari member",
+            helper: t('Kontribusi transaksi dari member'),
         },
         {
-            label: "Repeat Rate",
+            label: t('Repeat Rate'),
             value: `${summary?.repeat_rate || 0}%`,
             helper:
                 summary?.top_member?.name
-                    ? `Top member: ${summary.top_member.name}`
-                    : "Belum ada top member",
+                    ? t('Top member: {{0}}', { 0: summary.top_member.name })
+                    : t('Belum ada top member'),
         },
     ];
 
     return (
         <>
-            <Head title="Member" />
+            <Head title={t('Member')} />
 
             <div className="w-full">
                 <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                            Member
+                            {t('Member')}
                         </h1>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                            Kelola pendaftaran, status, dan performa member tanpa memisahkan data dari customer inti.
+                            {t('Kelola pendaftaran, status, dan performa member tanpa memisahkan data dari customer inti.')}
                         </p>
                     </div>
                     <Link
@@ -80,7 +82,7 @@ export default function Index({ members, filters, tierOptions, summary }) {
                         className="inline-flex items-center gap-2 rounded-xl bg-primary-500 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-primary-500/30 transition hover:bg-primary-600"
                     >
                         <IconCirclePlus size={18} />
-                        Daftarkan Member
+                        {t('Daftarkan Member')}
                     </Link>
                 </div>
 
@@ -112,7 +114,7 @@ export default function Index({ members, filters, tierOptions, summary }) {
                                 onChange={(event) =>
                                     handleFilterChange("search", event.target.value)
                                 }
-                                placeholder="Cari nama member atau nomor anggota..."
+                                placeholder={t('Cari nama member atau nomor anggota...')}
                                 className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 pr-11 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                             />
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400">
@@ -127,7 +129,7 @@ export default function Index({ members, filters, tierOptions, summary }) {
                             }
                             className="h-11 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                         >
-                            <option value="">Semua Tier</option>
+                            <option value="">{t('Semua Tier')}</option>
                             {tierOptions.map((tier) => (
                                 <option key={tier.value} value={tier.value}>
                                     {tier.label}
@@ -142,25 +144,25 @@ export default function Index({ members, filters, tierOptions, summary }) {
                             }
                             className="h-11 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                         >
-                            <option value="active">Member Aktif</option>
-                            <option value="inactive">Member Nonaktif</option>
-                            <option value="all">Semua Status</option>
+                            <option value="active">{t('Member Aktif')}</option>
+                            <option value="inactive">{t('Member Nonaktif')}</option>
+                            <option value="all">{t('Semua Status')}</option>
                         </select>
                     </div>
                 </div>
 
-                <Table.Card title="Daftar Member">
+                <Table.Card title={t('Daftar Member')}>
                     <Table>
                         <Table.Thead>
                             <tr>
-                                <Table.Th>Member</Table.Th>
-                                <Table.Th>Tier</Table.Th>
-                                <Table.Th>Poin</Table.Th>
-                                <Table.Th>Total Belanja</Table.Th>
-                                <Table.Th>Transaksi</Table.Th>
-                                <Table.Th>Terakhir Belanja</Table.Th>
+                                <Table.Th>{t('Member')}</Table.Th>
+                                <Table.Th>{t('Tier')}</Table.Th>
+                                <Table.Th>{t('Poin')}</Table.Th>
+                                <Table.Th>{t('Total Belanja')}</Table.Th>
+                                <Table.Th>{t('Transaksi')}</Table.Th>
+                                <Table.Th>{t('Terakhir Belanja')}</Table.Th>
                                 <Table.Th className="w-28 text-center">
-                                    Aksi
+                                    {t('Aksi')}
                                 </Table.Th>
                             </tr>
                         </Table.Thead>
@@ -188,8 +190,8 @@ export default function Index({ members, filters, tierOptions, summary }) {
                                             </span>
                                             <p className="mt-2 text-[11px] text-slate-500 dark:text-slate-400">
                                                 {member.is_loyalty_member
-                                                    ? "Aktif"
-                                                    : "Nonaktif"}
+                                                    ? t('Aktif')
+                                                    : t('Nonaktif')}
                                             </p>
                                         </Table.Td>
                                         <Table.Td>{member.loyalty_points || 0}</Table.Td>
@@ -236,7 +238,7 @@ export default function Index({ members, filters, tierOptions, summary }) {
                             </div>
                             <div>
                                 <p className="text-sm font-semibold text-slate-900 dark:text-white">
-                                    Top Member by Spending
+                                    {t('Top Member by Spending')}
                                 </p>
                                 <p className="text-xs text-slate-500 dark:text-slate-400">
                                     {summary.top_member.name} • {formatCurrency(summary.top_member.total_spent)}
@@ -255,10 +257,10 @@ export default function Index({ members, filters, tierOptions, summary }) {
                         </div>
                         <div>
                             <p className="text-sm font-semibold text-slate-900 dark:text-white">
-                                Bantuan cepat
+                                {t('Bantuan cepat')}
                             </p>
                             <p className="mt-1 text-xs leading-6 text-slate-500 dark:text-slate-400">
-                                Daftarkan member baru dari halaman ini atau langsung dari POS. Untuk upgrade pelanggan biasa menjadi member, gunakan tombol upgrade di detail pelanggan atau picker pelanggan di POS.
+                                {t('Daftarkan member baru dari halaman ini atau langsung dari POS. Untuk upgrade pelanggan biasa menjadi member, gunakan tombol upgrade di detail pelanggan atau picker pelanggan di POS.')}
                             </p>
                         </div>
                     </div>

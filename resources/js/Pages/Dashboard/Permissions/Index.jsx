@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, usePage } from "@inertiajs/react";
 import { IconDatabaseOff, IconKey, IconShield } from "@tabler/icons-react";
@@ -6,11 +7,12 @@ import Search from "@/Components/Dashboard/Search";
 import Pagination from "@/Components/Dashboard/Pagination";
 
 export default function Index() {
+    const { t } = useTranslation();
     const { permissions } = usePage().props;
 
     return (
         <>
-            <Head title="Hak Akses" />
+            <Head title={t('Hak Akses')} />
 
             {/* Header */}
             <div className="mb-6">
@@ -18,11 +20,10 @@ export default function Index() {
                     <div>
                         <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                             <IconKey size={28} className="text-primary-500" />
-                            Hak Akses
+                            {t('Hak Akses')}
                         </h1>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                            {permissions.total || permissions.data?.length || 0}{" "}
-                            hak akses terdaftar
+                            {t('{{0}} hak akses terdaftar', { 0: permissions.total || permissions.data?.length || 0 })}
                         </p>
                     </div>
                 </div>
@@ -32,7 +33,7 @@ export default function Index() {
             <div className="mb-4 w-full sm:w-80">
                 <Search
                     url={route("permissions.index")}
-                    placeholder="Cari hak akses..."
+                    placeholder={t('Cari hak akses...')}
                 />
             </div>
 
@@ -68,10 +69,10 @@ export default function Index() {
                         />
                     </div>
                     <h3 className="text-lg font-medium text-slate-800 dark:text-slate-200 mb-1">
-                        Belum Ada Hak Akses
+                        {t('Belum Ada Hak Akses')}
                     </h3>
                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                        Hak akses tidak ditemukan.
+                        {t('Hak akses tidak ditemukan.')}
                     </p>
                 </div>
             )}

@@ -53,7 +53,7 @@ class DineTableController extends Controller
 
         DiningTable::create($validated);
 
-        return back()->with('success', 'Meja berhasil ditambahkan.');
+        return back()->with('success', __('Meja berhasil ditambahkan.'));
     }
 
     public function update(Request $request, DiningTable $dineTable)
@@ -71,14 +71,14 @@ class DineTableController extends Controller
 
         $dineTable->update($validated);
 
-        return back()->with('success', 'Meja berhasil diperbarui.');
+        return back()->with('success', __('Meja berhasil diperbarui.'));
     }
 
     public function destroy(DiningTable $dineTable)
     {
         $dineTable->delete();
 
-        return back()->with('success', 'Meja berhasil dihapus.');
+        return back()->with('success', __('Meja berhasil dihapus.'));
     }
 
     public function qr(DiningTable $dineTable)

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Head, Link, router, usePage } from "@inertiajs/react";
+import { useTranslation } from 'react-i18next';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { IconListDetails, IconPlus, IconPencil, IconTrash, IconEye } from "@tabler/icons-react";
 import toast from "react-hot-toast";
 
 export default function PriceLists({ priceLists }) {
+    const { t } = useTranslation();
     const { flash } = usePage().props;
     const [showForm, setShowForm] = useState(false);
     const [editing, setEditing] = useState(null);
@@ -34,65 +36,65 @@ export default function PriceLists({ priceLists }) {
     };
 
     const handleDelete = (pl) => {
-        if (!confirm(`Hapus price list ${pl.name}?`)) return;
+        if (!confirm(t('Hapus price list {{0}}?', { 0: pl.name }))) return;
         router.delete(route("price-lists.destroy", pl.id));
     };
 
-    const scopeLabel = { all: "Semua", walk_in: "Walk-in", registered: "Terdaftar", member: "Member", segment: "Segmen" };
+    const scopeLabel = { all: t('Semua'), walk_in: "Walk-in", registered: t('Terdaftar'), member: t('Member'), segment: t('Segmen') };
 
     return (
         <>
-            <Head title="Price List" />
+            <Head title={t('Price List')} />
             <div className="space-y-6">
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="flex items-center gap-2 text-2xl font-bold text-slate-900 dark:text-white">
                             <IconListDetails size={28} className="text-primary-500" />
-                            Price List
+                            {t('Price List')}
                         </h1>
-                        <p className="text-sm text-slate-500 dark:text-slate-400">Harga khusus per kelompok pelanggan</p>
+                        <p className="text-sm text-slate-500 dark:text-slate-400">{t('Harga khusus per kelompok pelanggan')}</p>
                     </div>
                     <button onClick={() => { resetForm(); setShowForm(true); }} className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium transition-colors">
-                        <IconPlus size={18} /> Baru
+                        <IconPlus size={18} /> {t('Baru')}
                     </button>
                 </div>
 
                 {showForm && (
                     <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5">
-                        <h3 className="font-semibold mb-4">{editing ? "Edit Price List" : "Price List Baru"}</h3>
+                        <h3 className="font-semibold mb-4">{editing ? t('Edit Price List') : t('Price List Baru')}</h3>
                         <form onSubmit={handleSubmit} className="space-y-4 max-w-lg">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium mb-1">Nama</label>
+                                    <label className="block text-sm font-medium mb-1">{t('Nama')}</label>
                                     <input value={form.name} onChange={e => setForm({...form, name: e.target.value})} className="h-11 w-full rounded-xl border border-slate-200 px-3 text-sm" required />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium mb-1">Slug</label>
+                                    <label className="block text-sm font-medium mb-1">{t('Slug')}</label>
                                     <input value={form.slug} onChange={e => setForm({...form, slug: e.target.value})} className="h-11 w-full rounded-xl border border-slate-200 px-3 text-sm" required disabled={!!editing} />
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium mb-1">Kelompok</label>
+                                    <label className="block text-sm font-medium mb-1">{t('Kelompok')}</label>
                                     <select value={form.customer_scope} onChange={e => setForm({...form, customer_scope: e.target.value})} className="h-11 w-full rounded-xl border border-slate-200 px-3 text-sm">
-                                        <option value="all">Semua Pelanggan</option>
-                                        <option value="walk_in">Walk-in</option>
-                                        <option value="registered">Terdaftar</option>
-                                        <option value="member">Member</option>
+                                        <option value="all">{t('Semua Pelanggan')}</option>
+                                        <option value="walk_in">{t('Walk-in')}</option>
+                                        <option value="registered">{t('Terdaftar')}</option>
+                                        <option value="member">{t('Member')}</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium mb-1">Prioritas</label>
+                                    <label className="block text-sm font-medium mb-1">{t('Prioritas')}</label>
                                     <input type="number" value={form.priority} onChange={e => setForm({...form, priority: parseInt(e.target.value) || 0})} className="h-11 w-full rounded-xl border border-slate-200 px-3 text-sm" />
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium mb-1">Catatan</label>
+                                <label className="block text-sm font-medium mb-1">{t('Catatan')}</label>
                                 <textarea value={form.notes} onChange={e => setForm({...form, notes: e.target.value})} className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm" rows={2} />
                             </div>
                             <div className="flex gap-3">
-                                <button type="submit" className="px-4 py-2 rounded-xl bg-primary-500 text-white text-sm font-medium">{editing ? "Update" : "Simpan"}</button>
-                                <button type="button" onClick={resetForm} className="px-4 py-2 rounded-xl border text-sm font-medium">Batal</button>
+                                <button type="submit" className="px-4 py-2 rounded-xl bg-primary-500 text-white text-sm font-medium">{editing ? t('Update') : t('Simpan')}</button>
+                                <button type="button" onClick={resetForm} className="px-4 py-2 rounded-xl border text-sm font-medium">{t('Batal')}</button>
                             </div>
                         </form>
                     </div>
@@ -105,7 +107,7 @@ export default function PriceLists({ priceLists }) {
                                 <div key={pl.id} className="p-4 flex items-center gap-4">
                                     <div className="flex-1">
                                         <p className="font-semibold">{pl.name} <span className="text-xs text-slate-400">({pl.slug})</span></p>
-                                        <p className="text-sm text-slate-500">{scopeLabel[pl.customer_scope] || pl.customer_scope} • {pl.items_count} produk • Prioritas {pl.priority}</p>
+                                        <p className="text-sm text-slate-500">{t('{{0}} • {{1}} produk • Prioritas {{2}}', { 0: scopeLabel[pl.customer_scope] || pl.customer_scope, 1: pl.items_count, 2: pl.priority })}</p>
                                     </div>
                                     <Link href={route("price-lists.show", pl.id)} className="p-2 rounded-lg text-slate-500 hover:bg-slate-100"><IconEye size={18} /></Link>
                                     <button onClick={() => openEdit(pl)} className="p-2 rounded-lg text-slate-500 hover:bg-slate-100"><IconPencil size={18} /></button>
@@ -114,7 +116,7 @@ export default function PriceLists({ priceLists }) {
                             ))}
                         </div>
                     ) : (
-                        <div className="p-8 text-center text-slate-400">Belum ada price list.</div>
+                        <div className="p-8 text-center text-slate-400">{t('Belum ada price list.')}</div>
                     )}
                 </div>
             </div>

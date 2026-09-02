@@ -28,7 +28,7 @@ class DineAreaController extends Controller
 
         DineArea::create($validated);
 
-        return back()->with('success', 'Area berhasil ditambahkan.');
+        return back()->with('success', __('Area berhasil ditambahkan.'));
     }
 
     public function update(Request $request, DineArea $dineArea)
@@ -41,17 +41,17 @@ class DineAreaController extends Controller
 
         $dineArea->update($validated);
 
-        return back()->with('success', 'Area berhasil diperbarui.');
+        return back()->with('success', __('Area berhasil diperbarui.'));
     }
 
     public function destroy(DineArea $dineArea)
     {
         if ($dineArea->tables()->exists()) {
-            return back()->with('error', 'Area memiliki meja. Hapus atau pindahkan meja terlebih dahulu.');
+            return back()->with('error', __('Area memiliki meja. Hapus atau pindahkan meja terlebih dahulu.'));
         }
 
         $dineArea->delete();
 
-        return back()->with('success', 'Area berhasil dihapus.');
+        return back()->with('success', __('Area berhasil dihapus.'));
     }
 }

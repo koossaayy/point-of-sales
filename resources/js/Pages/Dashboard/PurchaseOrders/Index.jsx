@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, router } from "@inertiajs/react";
 import Button from "@/Components/Dashboard/Button";
@@ -21,6 +22,7 @@ const formatCurrency = (value = 0) =>
     }).format(value);
 
 const statusBadge = (status) => {
+    const { t } = useTranslation();
     const base = "inline-flex rounded-full px-2.5 py-1 text-xs font-semibold";
     const map = {
         draft: "bg-warning-100 text-warning-700 dark:bg-warning-950/30 dark:text-warning-400",
@@ -30,16 +32,17 @@ const statusBadge = (status) => {
         cancelled: "bg-rose-100 text-rose-700 dark:bg-rose-950/30 dark:text-rose-400",
     };
     const labels = {
-        draft: "Draft",
-        ordered: "Dipesan",
-        partial_received: "Sebagian Diterima",
-        completed: "Selesai",
-        cancelled: "Dibatalkan",
+        draft: t('Draft'),
+        ordered: t('Dipesan'),
+        partial_received: t('Sebagian Diterima'),
+        completed: t('Selesai'),
+        cancelled: t('Dibatalkan'),
     };
     return <span className={`${base} ${map[status] || map.draft}`}>{labels[status] || status}</span>;
 };
 
 export default function Index({ orders, filters, suppliers }) {
+    const { t } = useTranslation();
     const { can } = useAuthorization();
 
     const handleFilterChange = (key, value) => {
@@ -52,14 +55,14 @@ export default function Index({ orders, filters, suppliers }) {
 
     return (
         <>
-            <Head title="Purchase Orders" />
+            <Head title={t('Purchase Orders')} />
             <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                     <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                        Purchase Orders
+                        {t('Purchase Orders')}
                     </h1>
                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                        Kelola pemesanan pembelian ke supplier.
+                        {t('Kelola pemesanan pembelian ke supplier.')}
                     </p>
                 </div>
                 {can("purchase-orders-create") && (
@@ -68,7 +71,7 @@ export default function Index({ orders, filters, suppliers }) {
                         href={route("purchase-orders.create")}
                         icon={<IconCirclePlus size={18} />}
                         className="bg-primary-500 hover:bg-primary-600 text-white shadow-lg shadow-primary-500/30"
-                        label="Buat PO"
+                        label={t('Buat PO')}
                     />
                 )}
             </div>
@@ -79,7 +82,7 @@ export default function Index({ orders, filters, suppliers }) {
                         type="text"
                         value={filters.search || ""}
                         onChange={(e) => handleFilterChange("search", e.target.value)}
-                        placeholder="Cari nomor dokumen..."
+                        placeholder={t('Cari nomor dokumen...')}
                         className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 pr-11 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                     />
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400">
@@ -91,35 +94,35 @@ export default function Index({ orders, filters, suppliers }) {
                     onChange={(e) => handleFilterChange("status", e.target.value)}
                     className="h-11 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                 >
-                    <option value="">Semua Status</option>
-                    <option value="draft">Draft</option>
-                    <option value="ordered">Dipesan</option>
-                    <option value="partial_received">Sebagian Diterima</option>
-                    <option value="completed">Selesai</option>
-                    <option value="cancelled">Dibatalkan</option>
+                    <option value="">{t('Semua Status')}</option>
+                    <option value="draft">{t('Draft')}</option>
+                    <option value="ordered">{t('Dipesan')}</option>
+                    <option value="partial_received">{t('Sebagian Diterima')}</option>
+                    <option value="completed">{t('Selesai')}</option>
+                    <option value="cancelled">{t('Dibatalkan')}</option>
                 </select>
                 <select
                     value={filters.supplier || ""}
                     onChange={(e) => handleFilterChange("supplier", e.target.value)}
                     className="h-11 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                 >
-                    <option value="">Semua Supplier</option>
+                    <option value="">{t('Semua Supplier')}</option>
                     {suppliers.map((s) => (
                         <option key={s.id} value={s.id}>{s.name}</option>
                     ))}
                 </select>
             </div>
 
-            <Table.Card title="Daftar Purchase Order">
+            <Table.Card title={t('Daftar Purchase Order')}>
                 <Table>
                     <Table.Thead>
                         <tr>
-                            <Table.Th>Dokumen</Table.Th>
-                            <Table.Th>Supplier</Table.Th>
-                            <Table.Th>Status</Table.Th>
-                            <Table.Th>Item</Table.Th>
-                            <Table.Th>Dibuat Oleh</Table.Th>
-                            <Table.Th className="w-24 text-center">Aksi</Table.Th>
+                            <Table.Th>{t('Dokumen')}</Table.Th>
+                            <Table.Th>{t('Supplier')}</Table.Th>
+                            <Table.Th>{t('Status')}</Table.Th>
+                            <Table.Th>{t('Item')}</Table.Th>
+                            <Table.Th>{t('Dibuat Oleh')}</Table.Th>
+                            <Table.Th className="w-24 text-center">{t('Aksi')}</Table.Th>
                         </tr>
                     </Table.Thead>
                     <Table.Tbody>
@@ -149,7 +152,7 @@ export default function Index({ orders, filters, suppliers }) {
                         ) : (
                             <Table.Empty colSpan={6} message={
                                 <div className="text-slate-500 dark:text-slate-400">
-                                    Belum ada purchase order.
+                                    {t('Belum ada purchase order.')}
                                 </div>
                             }>
                                 <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800">

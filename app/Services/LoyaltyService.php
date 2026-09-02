@@ -37,19 +37,19 @@ class LoyaltyService
     {
         return [
             self::TIER_REGULAR => [
-                'label' => 'Regular',
+                'label' => __('Regular'),
                 'minimum_total_spent' => Setting::getInt('loyalty_tier_regular_threshold', 0),
             ],
             self::TIER_SILVER => [
-                'label' => 'Silver',
+                'label' => __('Silver'),
                 'minimum_total_spent' => Setting::getInt('loyalty_tier_silver_threshold', 500000),
             ],
             self::TIER_GOLD => [
-                'label' => 'Gold',
+                'label' => __('Gold'),
                 'minimum_total_spent' => Setting::getInt('loyalty_tier_gold_threshold', 1500000),
             ],
             self::TIER_PLATINUM => [
-                'label' => 'Platinum',
+                'label' => __('Platinum'),
                 'minimum_total_spent' => Setting::getInt('loyalty_tier_platinum_threshold', 3000000),
             ],
         ];
@@ -90,35 +90,35 @@ class LoyaltyService
         Setting::setMany([
             'loyalty_enable_earn' => [
                 'value' => $payload['enable_earn'] ? '1' : '0',
-                'description' => 'Aktifkan perolehan poin loyalty',
+                'description' => __('Aktifkan perolehan poin loyalty'),
             ],
             'loyalty_enable_redeem' => [
                 'value' => $payload['enable_redeem'] ? '1' : '0',
-                'description' => 'Aktifkan redeem poin loyalty',
+                'description' => __('Aktifkan redeem poin loyalty'),
             ],
             'loyalty_earn_rate_amount' => [
                 'value' => (string) $payload['earn_rate_amount'],
-                'description' => 'Nominal belanja untuk mendapatkan 1 poin',
+                'description' => __('Nominal belanja untuk mendapatkan 1 poin'),
             ],
             'loyalty_redeem_point_value' => [
                 'value' => (string) $payload['redeem_point_value'],
-                'description' => 'Nilai rupiah untuk 1 poin redeem',
+                'description' => __('Nilai rupiah untuk 1 poin redeem'),
             ],
             'loyalty_tier_regular_threshold' => [
                 'value' => (string) $payload['tiers'][self::TIER_REGULAR],
-                'description' => 'Ambang total belanja tier Regular',
+                'description' => __('Ambang total belanja tier Regular'),
             ],
             'loyalty_tier_silver_threshold' => [
                 'value' => (string) $payload['tiers'][self::TIER_SILVER],
-                'description' => 'Ambang total belanja tier Silver',
+                'description' => __('Ambang total belanja tier Silver'),
             ],
             'loyalty_tier_gold_threshold' => [
                 'value' => (string) $payload['tiers'][self::TIER_GOLD],
-                'description' => 'Ambang total belanja tier Gold',
+                'description' => __('Ambang total belanja tier Gold'),
             ],
             'loyalty_tier_platinum_threshold' => [
                 'value' => (string) $payload['tiers'][self::TIER_PLATINUM],
-                'description' => 'Ambang total belanja tier Platinum',
+                'description' => __('Ambang total belanja tier Platinum'),
             ],
         ]);
     }
@@ -337,7 +337,7 @@ class LoyaltyService
                 LoyaltyPointHistory::TYPE_REDEEM,
                 -$redeemedPoints,
                 (int) ($transaction->loyalty_discount_total ?? 0),
-                'Redeem poin pada transaksi '.$transaction->invoice
+                __('Redeem poin pada transaksi :invoice', ['invoice' => $transaction->invoice])
             );
         }
 
@@ -354,7 +354,7 @@ class LoyaltyService
                 LoyaltyPointHistory::TYPE_VOUCHER,
                 0,
                 (int) ($transaction->customer_voucher_discount ?? 0),
-                'Voucher '.$voucher->code.' digunakan'
+                __('Voucher :code digunakan', ['code' => $voucher->code])
             );
         }
 
@@ -382,7 +382,7 @@ class LoyaltyService
                 LoyaltyPointHistory::TYPE_EARN,
                 $earnedPoints,
                 (int) $transaction->grand_total,
-                'Poin transaksi '.$transaction->invoice
+                __('Poin transaksi :invoice', ['invoice' => $transaction->invoice])
             );
         }
 

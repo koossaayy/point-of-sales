@@ -1,4 +1,5 @@
 import React, { useState, useRef, useCallback } from "react";
+import { useTranslation } from 'react-i18next';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, router, useForm } from "@inertiajs/react";
 import Button from "@/Components/Dashboard/Button";
@@ -71,6 +72,7 @@ function TableShape({ table, onDragStart, isSelected, onClick }) {
 }
 
 export default function Index({ tables, areas, filters }) {
+    const { t } = useTranslation();
     const { can } = useAuthorization();
     const canCreate = can("dine-tables-create");
     const canUpdate = can("dine-tables-update");
@@ -115,7 +117,7 @@ export default function Index({ tables, areas, filters }) {
 
             patch(route("dine-tables.update", dragItem.current.id), {
                 data: { ...dragItem.current, pos_x: clampedX, pos_y: clampedY },
-                onSuccess: () => toast.success("Posisi meja diperbarui."),
+                onSuccess: () => toast.success(t('Posisi meja diperbarui.')),
                 preserveScroll: true,
             });
             dragItem.current = null;
@@ -160,10 +162,10 @@ export default function Index({ tables, areas, filters }) {
     const submit = (e) => {
         e.preventDefault();
         const onSuccess = () => {
-            toast.success(editingTable ? "Meja berhasil diperbarui." : "Meja berhasil ditambahkan.");
+            toast.success(editingTable ? t('Meja berhasil diperbarui.') : t('Meja berhasil ditambahkan.'));
             setModalOpen(false);
         };
-        const onError = () => toast.error("Gagal menyimpan meja.");
+        const onError = () => toast.error(t('Gagal menyimpan meja.'));
 
         if (editingTable) {
             patch(route("dine-tables.update", editingTable.id), { onSuccess, onError });
@@ -173,10 +175,10 @@ export default function Index({ tables, areas, filters }) {
     };
 
     const handleDelete = (table) => {
-        if (!confirm(`Hapus meja "${table.name}"?`)) return;
+        if (!confirm(t('Hapus meja "{{0}}"?', { 0: table.name }))) return;
         router.delete(route("dine-tables.destroy", table.id), {
-            onSuccess: () => toast.success("Meja berhasil dihapus."),
-            onError: () => toast.error("Gagal menghapus meja."),
+            onSuccess: () => toast.success(t('Meja berhasil dihapus.')),
+            onError: () => toast.error(t('Gagal menghapus meja.')),
         });
     };
 
@@ -202,23 +204,23 @@ export default function Index({ tables, areas, filters }) {
 
     return (
         <>
-            <Head title="Meja Dine-In" />
+            <Head title={t('Meja Dine-In')} />
 
             <div className="mb-6">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
                         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                            Meja Dine-In
+                            {t('Meja Dine-In')}
                         </h1>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                            {tables.length} meja terdaftar
+                            {t('{{0}} meja terdaftar', { 0: tables.length })}
                         </p>
                     </div>
                     <div className="flex gap-2">
                         <Button
                             type={"button"}
-                            label={activeView === "grid" ? "Daftar" : "Peta"}
-                            onClick={() => setActiveView(activeView === "grid" ? "list" : "grid")}
+                            label={activeView === "grid" ? t('Daftar') : t('Peta')}
+                            onClick={() => setActiveView(activeView === "grid" ? t('list') : "grid")}
                             className={
                                 "border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800"
                             }
@@ -230,7 +232,7 @@ export default function Index({ tables, areas, filters }) {
                                 className={
                                     "bg-primary-500 hover:bg-primary-600 text-white shadow-lg shadow-primary-500/30"
                                 }
-                                label={"Tambah Meja"}
+                                label={t('Tambah Meja')}
                                 onClick={openCreate}
                             />
                         )}
@@ -248,7 +250,7 @@ export default function Index({ tables, areas, filters }) {
                                 : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700"
                         }`}
                     >
-                        Semua
+                        {t('Semua')}
                     </button>
                     {areas.map((area) => (
                         <button
@@ -303,14 +305,14 @@ export default function Index({ tables, areas, filters }) {
                     </svg>
                 </div>
             ) : tables.length > 0 ? (
-                <Table.Card title={"Daftar Meja"}>
+                <Table.Card title={t('Daftar Meja')}>
                     <Table>
                         <Table.Thead>
                             <tr>
-                                <Table.Th>Meja</Table.Th>
+                                <Table.Th>{t('Meja')}</Table.Th>
                                 <Table.Th>Area</Table.Th>
-                                <Table.Th>Kapasitas</Table.Th>
-                                <Table.Th>Status</Table.Th>
+                                <Table.Th>{t('Kapasitas')}</Table.Th>
+                                <Table.Th>{t('Status')}</Table.Th>
                                 <Table.Th></Table.Th>
                             </tr>
                         </Table.Thead>
@@ -335,7 +337,7 @@ export default function Index({ tables, areas, filters }) {
                                     </Table.Td>
                                     <Table.Td>
                                         <span className="text-sm text-slate-500 dark:text-slate-400">
-                                            {table.capacity} org
+                                            {t('{{0}} org', { 0: table.capacity })}
                                         </span>
                                     </Table.Td>
                                     <Table.Td>
@@ -346,7 +348,7 @@ export default function Index({ tables, areas, filters }) {
                                                     : "bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400"
                                             }`}
                                         >
-                                            {table.is_active ? "Aktif" : "Nonaktif"}
+                                            {table.is_active ? t('Aktif') : t('Nonaktif')}
                                         </span>
                                     </Table.Td>
                                     <Table.Td>
@@ -394,17 +396,17 @@ export default function Index({ tables, areas, filters }) {
                         <IconDatabaseOff size={32} className="text-slate-400" strokeWidth={1.5} />
                     </div>
                     <h3 className="text-lg font-medium text-slate-800 dark:text-slate-200 mb-1">
-                        Belum Ada Meja
+                        {t('Belum Ada Meja')}
                     </h3>
                     <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
-                        Tambahkan meja dine-in pertama Anda.
+                        {t('Tambahkan meja dine-in pertama Anda.')}
                     </p>
                     {canCreate && (
                         <Button
                             type={"link"}
                             icon={<IconCirclePlus size={18} />}
                             className={"bg-primary-500 hover:bg-primary-600 text-white"}
-                            label={"Tambah Meja"}
+                            label={t('Tambah Meja')}
                             onClick={openCreate}
                         />
                     )}
@@ -414,15 +416,15 @@ export default function Index({ tables, areas, filters }) {
             <Modal
                 open={modalOpen}
                 onClose={() => setModalOpen(false)}
-                title={editingTable ? `Edit Meja: ${editingTable.name}` : "Tambah Meja"}
+                title={editingTable ? `Edit Meja: ${editingTable.name}` : t('Tambah Meja')}
             >
                 <form onSubmit={submit} className="space-y-4">
                     <Input
-                        label="Nama Meja"
+                        label={t('Nama Meja')}
                         value={data.name}
                         onChange={(e) => setData("name", e.target.value)}
                         error={errors.name}
-                        placeholder="Contoh: M1, Outdoor-1"
+                        placeholder={t('Contoh: M1, Outdoor-1')}
                         required
                     />
                     <div>
@@ -432,7 +434,7 @@ export default function Index({ tables, areas, filters }) {
                             onChange={(e) => setData("dine_area_id", e.target.value)}
                             className="w-full px-3 py-1.5 border border-slate-300 dark:border-slate-700 rounded-lg text-sm bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-0"
                         >
-                            <option value="">Tanpa Area</option>
+                            <option value="">{t('Tanpa Area')}</option>
                             {areas.map((area) => (
                                 <option key={area.id} value={area.id}>
                                     {area.name}
@@ -443,7 +445,7 @@ export default function Index({ tables, areas, filters }) {
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <Input
-                            label="Kapasitas (org)"
+                            label={t('Kapasitas (org)')}
                             type="number"
                             min="1"
                             value={data.capacity}
@@ -451,20 +453,20 @@ export default function Index({ tables, areas, filters }) {
                             error={errors.capacity}
                         />
                         <div>
-                            <label className="text-sm text-slate-600 dark:text-slate-400 mb-1 block">Bentuk</label>
+                            <label className="text-sm text-slate-600 dark:text-slate-400 mb-1 block">{t('Bentuk')}</label>
                             <select
                                 value={data.shape}
                                 onChange={(e) => setData("shape", e.target.value)}
                                 className="w-full px-3 py-1.5 border border-slate-300 dark:border-slate-700 rounded-lg text-sm bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-0"
                             >
-                                <option value="square">Kotak</option>
-                                <option value="circle">Bulat</option>
+                                <option value="square">{t('Kotak')}</option>
+                                <option value="circle">{t('Bulat')}</option>
                             </select>
                         </div>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <Input
-                            label="Posisi X"
+                            label={t('Posisi X')}
                             type="number"
                             min="0"
                             max={gridWidth - 1}
@@ -473,7 +475,7 @@ export default function Index({ tables, areas, filters }) {
                             error={errors.pos_x}
                         />
                         <Input
-                            label="Posisi Y"
+                            label={t('Posisi Y')}
                             type="number"
                             min="0"
                             max={gridHeight - 1}
@@ -490,14 +492,14 @@ export default function Index({ tables, areas, filters }) {
                             className="w-4 h-4 rounded border-slate-300 text-primary-500 focus:ring-primary-500"
                         />
                         <span className="text-sm text-slate-700 dark:text-slate-300">
-                            Meja aktif
+                            {t('Meja aktif')}
                         </span>
                     </label>
                     <div className="flex justify-end gap-3 pt-2">
-                        <Button type={"button"} label={"Batal"} onClick={() => setModalOpen(false)} />
+                        <Button type={"button"} label={t('Batal')} onClick={() => setModalOpen(false)} />
                         <Button
                             type={"submit"}
-                            label={editingTable ? "Perbarui" : "Simpan"}
+                            label={editingTable ? t('Perbarui') : t('Simpan')}
                             processing={processing}
                             className={"bg-primary-500 hover:bg-primary-600 text-white"}
                         />

@@ -121,17 +121,17 @@ class PricingRule extends Model
     public function currentStatusLabel(): string
     {
         if (! $this->is_active) {
-            return 'inactive';
+            return __('inactive');
         }
 
         if ($this->isScheduled()) {
-            return 'scheduled';
+            return __('scheduled');
         }
 
         if ($this->isExpired()) {
-            return 'expired';
+            return __('expired');
         }
 
-        return 'active';
+        return __('active');
     }
 }

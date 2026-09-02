@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link } from "@inertiajs/react";
 import { useEffect, useMemo, useRef } from "react";
@@ -206,6 +207,7 @@ export default function Dashboard({
     lowStockProducts = [],
     activeShifts = [],
 }) {
+    const { t } = useTranslation();
     const chartRef = useRef(null);
     const chartInstance = useRef(null);
 
@@ -236,7 +238,7 @@ export default function Dashboard({
                 labels,
                 datasets: [
                     {
-                        label: "Pendapatan",
+                        label: t('Pendapatan'),
                         data: totals,
                         borderColor: "#6366f1",
                         backgroundColor: gradient,
@@ -303,17 +305,17 @@ export default function Dashboard({
 
     return (
         <>
-            <Head title="Dashboard" />
+            <Head title={t('Dashboard')} />
 
             <div className="space-y-6">
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div>
                         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                            Dashboard
+                            {t('Dashboard')}
                         </h1>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                            Ringkasan aktivitas bisnis Anda
+                            {t('Ringkasan aktivitas bisnis Anda')}
                         </p>
                     </div>
                     <Link
@@ -321,21 +323,21 @@ export default function Dashboard({
                         className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium transition-colors shadow-lg shadow-primary-500/30"
                     >
                         <IconShoppingCart size={18} />
-                        <span>Transaksi Baru</span>
+                        <span>{t('Transaksi Baru')}</span>
                     </Link>
                 </div>
 
                 {/* Main Stat Cards - Reorganized */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     <StatCard
-                        title="Penjualan Hari Ini"
+                        title={t('Penjualan Hari Ini')}
                         value={formatCurrency(todaySales)}
                         subtitle="Total penjualan hari ini"
                         icon={IconCoin}
                         gradient="from-primary-500 to-primary-700"
                     />
                     <StatCard
-                        title="Profit Hari Ini"
+                        title={t('Profit Hari Ini')}
                         value={formatCurrency(todayProfit)}
                         subtitle="Profit bersih hari ini"
                         icon={IconTrendingUp}
@@ -343,13 +345,13 @@ export default function Dashboard({
                         trend="up"
                     />
                     <TargetCard
-                        title="Target Bulan Ini"
+                        title={t('Target Bulan Ini')}
                         current={currentMonthSales}
                         target={monthlyTarget}
                         icon={IconTarget}
                     />
                     <StatCard
-                        title="Transaksi Hari Ini"
+                        title={t('Transaksi Hari Ini')}
                         value={todayTransactions}
                         subtitle="Transaksi"
                         icon={IconClock}
@@ -360,22 +362,22 @@ export default function Dashboard({
                 {/* Secondary Stats */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <InfoCard
-                        title="Total Kategori"
+                        title={t('Total Kategori')}
                         value={totalCategories}
                         icon={IconCategory}
                     />
                     <InfoCard
-                        title="Total Produk"
+                        title={t('Total Produk')}
                         value={totalProducts}
                         icon={IconBox}
                     />
                     <InfoCard
-                        title="Total Transaksi"
+                        title={t('Total Transaksi')}
                         value={totalTransactions}
                         icon={IconMoneybag}
                     />
                     <InfoCard
-                        title="Total Pelanggan"
+                        title={t('Total Pelanggan')}
                         value={totalCustomers}
                         icon={IconUsers}
                     />
@@ -383,7 +385,7 @@ export default function Dashboard({
 
                 {/* Revenue Chart - Full Width */}
                 <ListCard
-                    title="Tren Pendapatan"
+                    title={t('Tren Pendapatan')}
                     subtitle="12 data terakhir"
                     icon={IconChartBar}
                     emptyMessage="Belum ada data pendapatan"
@@ -398,7 +400,7 @@ export default function Dashboard({
                 {/* 4-Column Bottom Widgets */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                     <ListCard
-                        title="Shift Aktif"
+                        title={t('Shift Aktif')}
                         subtitle="Pemantauan kasir"
                         icon={IconWallet}
                         emptyMessage="Tidak ada shift aktif"
@@ -416,7 +418,7 @@ export default function Dashboard({
                                                     {shift.user?.name || "-"}
                                                 </p>
                                                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                                                    {shift.transactions_count} transaksi
+                                                    {t('{{0}} transaksi', { 0: shift.transactions_count })}
                                                 </p>
                                             </div>
                                             <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">
@@ -431,7 +433,7 @@ export default function Dashboard({
 
                     {/* Top Products */}
                     <ListCard
-                        title="Produk Terlaris"
+                        title={t('Produk Terlaris')}
                         subtitle="Best seller"
                         icon={IconBox}
                         emptyMessage="Belum ada data"
@@ -452,7 +454,7 @@ export default function Dashboard({
                                                     {product.name}
                                                 </p>
                                                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                                                    SKU: {product.sku || "-"}
+                                                    {t('SKU: {{0}}', { 0: product.sku || "-" })}
                                                 </p>
                                             </div>
                                         </div>
@@ -461,7 +463,7 @@ export default function Dashboard({
                                                 {product.qty}x
                                             </p>
                                             <p className="text-[11px] uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                                                Terjual
+                                                {t('Terjual')}
                                             </p>
                                         </div>
                                     </div>
@@ -472,7 +474,7 @@ export default function Dashboard({
 
                     {/* Slow Moving Products */}
                     <ListCard
-                        title="Slow Moving"
+                        title={t('Slow Moving')}
                         subtitle="Tidak terjual 30 hari"
                         icon={IconPackageOff}
                         emptyMessage="Semua produk laku"
@@ -493,7 +495,7 @@ export default function Dashboard({
                                             </span>
                                         </div>
                                         <span className="text-xs text-warning-500 font-semibold">
-                                            {product.stock} pcs
+                                            {t('{{0}} pcs', { 0: product.stock })}
                                         </span>
                                     </li>
                                 ))}
@@ -503,7 +505,7 @@ export default function Dashboard({
 
                     {/* Top Customers */}
                     <ListCard
-                        title="Pelanggan Terbaik"
+                        title={t('Pelanggan Terbaik')}
                         subtitle="Top spender"
                         icon={IconUsers}
                         emptyMessage="Belum ada data"
@@ -536,7 +538,7 @@ export default function Dashboard({
 
                     {/* Top Locations */}
                     <ListCard
-                        title="Lokasi Terbanyak"
+                        title={t('Lokasi Terbanyak')}
                         subtitle="Berdasar kelurahan transaksi"
                         icon={IconMapPin}
                         emptyMessage="Belum ada data"
@@ -568,7 +570,7 @@ export default function Dashboard({
 
                 {/* Recent Transactions */}
                 <ListCard
-                    title="Transaksi Terbaru"
+                    title={t('Transaksi Terbaru')}
                     subtitle="5 transaksi terakhir"
                     icon={IconReceipt}
                     emptyMessage="Belum ada transaksi"
@@ -599,7 +601,7 @@ export default function Dashboard({
 
                 {/* Low Stock Highlight */}
                 <ListCard
-                    title="Stok Menipis"
+                    title={t('Stok Menipis')}
                     subtitle="Stok < 10"
                     icon={IconAlertTriangle}
                     emptyMessage="Semua stok aman"
@@ -620,7 +622,7 @@ export default function Dashboard({
                                         </span>
                                     </div>
                                     <span className="text-xs font-semibold text-rose-700 dark:text-rose-200">
-                                        {product.stock} pcs
+                                        {t('{{0}} pcs', { 0: product.stock })}
                                     </span>
                                 </div>
                             ))}

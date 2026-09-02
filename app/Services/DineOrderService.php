@@ -50,8 +50,9 @@ class DineOrderService
         $order->update([
             'status' => DineOrder::STATUS_REJECTED,
             'notes' => $order->notes
-                ? "{$order->notes}\n[Penolakan: {$reason}]"
-                : "[Penolakan: {$reason}]",
+                ? __(':notes
+[Penolakan: :reason]', ['notes' => $order->notes, 'reason' => $reason])
+                : __('[Penolakan: :reason]', ['reason' => $reason]),
         ]);
     }
 }

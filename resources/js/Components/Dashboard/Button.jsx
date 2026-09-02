@@ -2,6 +2,7 @@ import { Link } from "@inertiajs/react";
 import React from "react";
 import { useForm } from "@inertiajs/react";
 import Swal from "sweetalert2";
+import { useTranslation } from 'react-i18next';
 
 export default function Button({
     className,
@@ -14,25 +15,26 @@ export default function Button({
     id,
     ...props
 }) {
+    const { t } = useTranslation();
     const { delete: destroy } = useForm();
 
     const deleteData = async (url) => {
         Swal.fire({
-            title: "Hapus Data?",
-            text: "Data yang dihapus tidak dapat dikembalikan!",
+            title: t('Hapus Data?'),
+            text: t('Data yang dihapus tidak dapat dikembalikan!'),
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#6366f1",
             cancelButtonColor: "#64748b",
-            confirmButtonText: "Ya, Hapus!",
-            cancelButtonText: "Batal",
+            confirmButtonText: t('Ya, Hapus!'),
+            cancelButtonText: t('Batal'),
         }).then((result) => {
             if (result.isConfirmed) {
                 destroy(url);
 
                 Swal.fire({
                     title: "Berhasil!",
-                    text: "Data berhasil dihapus!",
+                    text: t('Data berhasil dihapus!'),
                     icon: "success",
                     showConfirmButton: false,
                     timer: 1500,
