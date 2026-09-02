@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
+import { useTranslation } from 'react-i18next';
 import Input from "@/Components/Dashboard/Input";
 import Textarea from "@/Components/Dashboard/TextArea";
 import {
@@ -12,6 +13,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 export default function Form({ mode = "create", member = null }) {
+    const { t } = useTranslation();
     const isEdit = mode === "edit";
     const {
         errors,
@@ -141,14 +143,14 @@ export default function Form({ mode = "create", member = null }) {
                 onSuccess: () =>
                     toast.success(
                         isEdit
-                            ? "Data member berhasil diperbarui"
-                            : "Member baru berhasil didaftarkan"
+                            ? t('Data member berhasil diperbarui')
+                            : t('Member baru berhasil didaftarkan')
                     ),
                 onError: () =>
                     toast.error(
                         isEdit
-                            ? "Gagal memperbarui data member"
-                            : "Gagal mendaftarkan member"
+                            ? t('Gagal memperbarui data member')
+                            : t('Gagal mendaftarkan member')
                     ),
             }
         );
@@ -156,7 +158,7 @@ export default function Form({ mode = "create", member = null }) {
 
     return (
         <>
-            <Head title={isEdit ? "Edit Member" : "Daftar Member Baru"} />
+            <Head title={isEdit ? t('Edit Member') : t('Daftar Member Baru')} />
 
             <div className="w-full">
                 <div className="mb-6">
@@ -165,15 +167,15 @@ export default function Form({ mode = "create", member = null }) {
                         className="mb-3 inline-flex items-center gap-2 text-sm text-slate-500 hover:text-primary-600"
                     >
                         <IconArrowLeft size={16} />
-                        Kembali ke Member
+                        {t('Kembali ke Member')}
                     </Link>
                     <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                        {isEdit ? "Edit Member" : "Daftarkan Member Baru"}
+                        {isEdit ? t('Edit Member') : t('Daftarkan Member Baru')}
                     </h1>
                     <p className="text-sm text-slate-500 dark:text-slate-400">
                         {isEdit
-                            ? "Kelola status, tier, dan data dasar member tanpa memutus histori transaksi maupun reward."
-                            : "Daftarkan pelanggan sebagai member agar langsung mendapatkan poin, benefit harga member, dan voucher personal."}
+                            ? t('Kelola status, tier, dan data dasar member tanpa memutus histori transaksi maupun reward.')
+                            : t('Daftarkan pelanggan sebagai member agar langsung mendapatkan poin, benefit harga member, dan voucher personal.')}
                     </p>
                 </div>
 
@@ -185,10 +187,10 @@ export default function Form({ mode = "create", member = null }) {
                             </div>
                             <div>
                                 <p className="text-sm font-semibold text-slate-900 dark:text-white">
-                                    Cara kerja member
+                                    {t('Cara kerja member')}
                                 </p>
                                 <p className="mt-1 text-xs leading-6 text-slate-600 dark:text-slate-300">
-                                    Member otomatis memakai pricing khusus member, earn/redeem poin dari loyalty settings, dan bisa menerima voucher personal di CRM.
+                                    {t('Member otomatis memakai pricing khusus member, earn/redeem poin dari loyalty settings, dan bisa menerima voucher personal di CRM.')}
                                 </p>
                             </div>
                         </div>
@@ -201,10 +203,10 @@ export default function Form({ mode = "create", member = null }) {
                             </div>
                             <div>
                                 <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-                                    Profil Member
+                                    {t('Profil Member')}
                                 </h2>
                                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    Lengkapi identitas dasar member untuk pencarian dan histori CRM.
+                                    {t('Lengkapi identitas dasar member untuk pencarian dan histori CRM.')}
                                 </p>
                             </div>
                         </div>
@@ -212,8 +214,8 @@ export default function Form({ mode = "create", member = null }) {
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                             <Input
                                 type="text"
-                                label="Nama Member"
-                                placeholder="Masukkan nama lengkap"
+                                label={t('Nama Member')}
+                                placeholder={t('Masukkan nama lengkap')}
                                 errors={errors.name}
                                 onChange={(event) =>
                                     setData("name", event.target.value)
@@ -222,7 +224,7 @@ export default function Form({ mode = "create", member = null }) {
                             />
                             <Input
                                 type="text"
-                                label="No. Handphone"
+                                label={t('No. Handphone')}
                                 placeholder="08xxxxxxxxxx"
                                 errors={errors.no_telp}
                                 onChange={(event) =>
@@ -236,10 +238,10 @@ export default function Form({ mode = "create", member = null }) {
                             <div className="flex items-center justify-between gap-4">
                                 <div>
                                     <p className="text-sm font-semibold text-slate-900 dark:text-white">
-                                        Status Member
+                                        {t('Status Member')}
                                     </p>
                                     <p className="text-xs text-slate-500 dark:text-slate-400">
-                                        Nonaktifkan member jika benefit member perlu dihentikan tanpa menghapus histori.
+                                        {t('Nonaktifkan member jika benefit member perlu dihentikan tanpa menghapus histori.')}
                                     </p>
                                 </div>
                                 <label className="inline-flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300">
@@ -254,13 +256,13 @@ export default function Form({ mode = "create", member = null }) {
                                         }
                                         className="h-4 w-4 rounded border-slate-300 text-primary-500"
                                     />
-                                    Aktif
+                                    {t('Aktif')}
                                 </label>
                             </div>
 
                             <div className="mt-4">
                                 <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Tier Member
+                                    {t('Tier Member')}
                                 </label>
                                 <select
                                     value={data.loyalty_tier}
@@ -289,13 +291,13 @@ export default function Form({ mode = "create", member = null }) {
 
                     <div className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
                         <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
-                            Wilayah & Alamat
+                            {t('Wilayah & Alamat')}
                         </h2>
 
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                             <div>
                                 <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Provinsi
+                                    {t('Provinsi')}
                                 </label>
                                 <select
                                     value={data.province_id}
@@ -304,7 +306,7 @@ export default function Form({ mode = "create", member = null }) {
                                     }
                                     className="mt-2 h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                                 >
-                                    <option value="">Pilih Provinsi</option>
+                                    <option value="">{t('Pilih Provinsi')}</option>
                                     {provinces.map((province) => (
                                         <option
                                             key={province.code}
@@ -333,7 +335,7 @@ export default function Form({ mode = "create", member = null }) {
                                     disabled={!data.province_id}
                                     className="mt-2 h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm disabled:cursor-not-allowed disabled:opacity-60 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                                 >
-                                    <option value="">Pilih Kota/Kabupaten</option>
+                                    <option value="">{t('Pilih Kota/Kabupaten')}</option>
                                     {regencyList.map((regency) => (
                                         <option key={regency.code} value={regency.code}>
                                             {regency.name}
@@ -351,7 +353,7 @@ export default function Form({ mode = "create", member = null }) {
                         <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
                             <div>
                                 <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Kecamatan
+                                    {t('Kecamatan')}
                                 </label>
                                 <select
                                     value={data.district_id}
@@ -361,7 +363,7 @@ export default function Form({ mode = "create", member = null }) {
                                     disabled={!data.regency_id}
                                     className="mt-2 h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm disabled:cursor-not-allowed disabled:opacity-60 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                                 >
-                                    <option value="">Pilih Kecamatan</option>
+                                    <option value="">{t('Pilih Kecamatan')}</option>
                                     {districtList.map((district) => (
                                         <option key={district.code} value={district.code}>
                                             {district.name}
@@ -377,7 +379,7 @@ export default function Form({ mode = "create", member = null }) {
 
                             <div>
                                 <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Kelurahan
+                                    {t('Kelurahan')}
                                 </label>
                                 <select
                                     value={data.village_id}
@@ -387,7 +389,7 @@ export default function Form({ mode = "create", member = null }) {
                                     disabled={!data.district_id}
                                     className="mt-2 h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm disabled:cursor-not-allowed disabled:opacity-60 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                                 >
-                                    <option value="">Pilih Kelurahan</option>
+                                    <option value="">{t('Pilih Kelurahan')}</option>
                                     {villageList.map((village) => (
                                         <option key={village.code} value={village.code}>
                                             {village.name}
@@ -404,8 +406,8 @@ export default function Form({ mode = "create", member = null }) {
 
                         <div className="mt-4">
                             <Textarea
-                                label="Alamat Detail"
-                                placeholder="Alamat lengkap member"
+                                label={t('Alamat Detail')}
+                                placeholder={t('Alamat lengkap member')}
                                 errors={errors.address}
                                 onChange={(event) =>
                                     setData("address", event.target.value)
@@ -421,7 +423,7 @@ export default function Form({ mode = "create", member = null }) {
                             href={route("members.index")}
                             className="rounded-xl border border-slate-200 px-5 py-2.5 font-medium text-slate-600 transition-colors hover:bg-slate-100 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-800"
                         >
-                            Batal
+                            {t('Batal')}
                         </Link>
                         <button
                             type="submit"
@@ -430,10 +432,10 @@ export default function Form({ mode = "create", member = null }) {
                         >
                             <IconDeviceFloppy size={18} />
                             {processing
-                                ? "Menyimpan..."
+                                ? t('Menyimpan...')
                                 : isEdit
-                                ? "Simpan Perubahan"
-                                : "Daftarkan Member"}
+                                ? t('Simpan Perubahan')
+                                : t('Daftarkan Member')}
                         </button>
                     </div>
                 </form>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Head, Link, router, usePage } from "@inertiajs/react";
+import { useTranslation } from 'react-i18next';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import {
     IconHistory,
@@ -30,20 +31,22 @@ const formatDate = (value) => {
 };
 
 const statusBadge = (value) => {
+    const { t } = useTranslation();
     const base = "px-2 py-1 text-xs font-semibold rounded-full";
     switch (value) {
         case "paid":
-            return <span className={`${base} bg-success-100 text-success-700`}>Lunas</span>;
+            return <span className={`${base} bg-success-100 text-success-700`}>{t('Lunas')}</span>;
         case "partial":
-            return <span className={`${base} bg-primary-100 text-primary-700`}>Parsial</span>;
+            return <span className={`${base} bg-primary-100 text-primary-700`}>{t('Parsial')}</span>;
         case "overdue":
-            return <span className={`${base} bg-rose-100 text-rose-700`}>Jatuh Tempo</span>;
+            return <span className={`${base} bg-rose-100 text-rose-700`}>{t('Jatuh Tempo')}</span>;
         default:
-            return <span className={`${base} bg-amber-100 text-amber-700`}>Belum Lunas</span>;
+            return <span className={`${base} bg-amber-100 text-amber-700`}>{t('Belum Lunas')}</span>;
     }
 };
 
 export default function ReceivablesIndex({ receivables, filters = {} }) {
+    const { t } = useTranslation();
     const { flash } = usePage().props;
     const [search, setSearch] = useState(filters.invoice || "");
     const [status, setStatus] = useState(filters.status || "");
@@ -67,7 +70,7 @@ export default function ReceivablesIndex({ receivables, filters = {} }) {
             })
             .catch(() => {
                 setLoadingAging(false);
-                toast.error("Gagal memuat data aging");
+                toast.error(t('Gagal memuat data aging'));
             });
     }, [activeTab]);
 
@@ -84,16 +87,16 @@ export default function ReceivablesIndex({ receivables, filters = {} }) {
 
     return (
         <>
-            <Head title="Nota Barang" />
+            <Head title={t('Nota Barang')} />
             <div className="space-y-6">
                 <div className="flex items-start justify-between gap-3 flex-wrap">
                     <div>
                         <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                             <IconHistory size={26} className="text-primary-500" />
-                            Nota Barang (Piutang)
+                            {t('Nota Barang (Piutang)')}
                         </h1>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                            Pantau piutang pelanggan dan pembayaran parsialnya.
+                            {t('Pantau piutang pelanggan dan pembayaran parsialnya.')}
                         </p>
                     </div>
                     <div className="flex items-center gap-2">
@@ -106,7 +109,7 @@ export default function ReceivablesIndex({ receivables, filters = {} }) {
                                         : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
                                 }`}
                             >
-                                Daftar
+                                {t('Daftar')}
                             </button>
                             <button
                                 onClick={() => setActiveTab("aging")}
@@ -117,14 +120,14 @@ export default function ReceivablesIndex({ receivables, filters = {} }) {
                                 }`}
                             >
                                 <IconChartBar size={16} />
-                                Aging
+                                {t('Aging')}
                             </button>
                         </div>
                         <Link
                             href={route("transactions.index")}
                             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-primary-500 hover:bg-primary-600 text-white text-sm font-semibold transition-colors"
                         >
-                            Buat Dari POS
+                            {t('Buat Dari POS')}
                         </Link>
                     </div>
                 </div>
@@ -139,25 +142,25 @@ export default function ReceivablesIndex({ receivables, filters = {} }) {
                             <>
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                     <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
-                                        <p className="text-xs font-medium text-slate-500 uppercase tracking-wide">Total Piutang</p>
+                                        <p className="text-xs font-medium text-slate-500 uppercase tracking-wide">{t('Total Piutang')}</p>
                                         <p className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">
                                             {formatCurrency(agingData.collection_rate?.total_receivables_amount || 0)}
                                         </p>
                                     </div>
                                     <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
-                                        <p className="text-xs font-medium text-slate-500 uppercase tracking-wide">Sudah Dibayar</p>
+                                        <p className="text-xs font-medium text-slate-500 uppercase tracking-wide">{t('Sudah Dibayar')}</p>
                                         <p className="mt-2 text-2xl font-bold text-success-600">
                                             {formatCurrency(agingData.collection_rate?.total_paid_amount || 0)}
                                         </p>
                                     </div>
                                     <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
-                                        <p className="text-xs font-medium text-slate-500 uppercase tracking-wide">Collection Rate</p>
+                                        <p className="text-xs font-medium text-slate-500 uppercase tracking-wide">{t('Collection Rate')}</p>
                                         <p className="mt-2 text-2xl font-bold text-primary-600">
                                             {agingData.collection_rate?.collection_rate || 0}%
                                         </p>
                                     </div>
                                     <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
-                                        <p className="text-xs font-medium text-slate-500 uppercase tracking-wide">Lunas / Total</p>
+                                        <p className="text-xs font-medium text-slate-500 uppercase tracking-wide">{t('Lunas / Total')}</p>
                                         <p className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">
                                             {agingData.collection_rate?.paid_count || 0} / {agingData.collection_rate?.total_count || 0}
                                         </p>
@@ -166,7 +169,7 @@ export default function ReceivablesIndex({ receivables, filters = {} }) {
 
                                 <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
                                     <div className="md:col-span-2 rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
-                                        <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">Aging Piutang</h3>
+                                        <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4">{t('Aging Piutang')}</h3>
                                         <div className="space-y-3">
                                             {agingData.aging_summary?.map((bucket) => {
                                                 const bucketColors = {
@@ -201,7 +204,7 @@ export default function ReceivablesIndex({ receivables, filters = {} }) {
                                     <div className="md:col-span-3 rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
                                         <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
                                             <IconUsers size={20} />
-                                            Pelanggan Terbesar
+                                            {t('Pelanggan Terbesar')}
                                         </h3>
                                         <div className="space-y-3">
                                             {agingData.top_customers?.length > 0 ? (
@@ -209,16 +212,16 @@ export default function ReceivablesIndex({ receivables, filters = {} }) {
                                                     <div key={customer.id} className="flex items-center justify-between py-2 border-b border-slate-100 dark:border-slate-800 last:border-0">
                                                         <div>
                                                             <p className="font-medium text-slate-800 dark:text-white">{customer.name}</p>
-                                                            <p className="text-xs text-slate-500">Piutang</p>
+                                                            <p className="text-xs text-slate-500">{t('Piutang')}</p>
                                                         </div>
                                                         <div className="text-right">
                                                             <p className="font-semibold text-warning-600">{formatCurrency(customer.remaining)}</p>
-                                                            <p className="text-xs text-slate-500">Total: {formatCurrency(customer.total_receivable)}</p>
+                                                            <p className="text-xs text-slate-500">{t('Total:')} {formatCurrency(customer.total_receivable)}</p>
                                                         </div>
                                                     </div>
                                                 ))
                                             ) : (
-                                                <p className="text-sm text-slate-500 text-center py-4">Belum ada data piutang.</p>
+                                                <p className="text-sm text-slate-500 text-center py-4">{t('Belum ada data piutang.')}</p>
                                             )}
                                         </div>
                                     </div>
@@ -237,7 +240,7 @@ export default function ReceivablesIndex({ receivables, filters = {} }) {
                                 <input
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}
-                                    placeholder="Cari invoice / nomor nota"
+                                    placeholder={t('Cari invoice / nomor nota')}
                                     className="w-full h-11 pl-10 pr-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500"
                                 />
                             </div>
@@ -248,18 +251,18 @@ export default function ReceivablesIndex({ receivables, filters = {} }) {
                                     onChange={(e) => setStatus(e.target.value)}
                                     className="w-full h-11 pl-10 pr-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-sm focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500"
                                 >
-                                    <option value="">Semua Status</option>
-                                    <option value="unpaid">Belum Lunas</option>
-                                    <option value="partial">Parsial</option>
-                                    <option value="paid">Lunas</option>
-                                    <option value="overdue">Jatuh Tempo</option>
+                                    <option value="">{t('Semua Status')}</option>
+                                    <option value="unpaid">{t('Belum Lunas')}</option>
+                                    <option value="partial">{t('Parsial')}</option>
+                                    <option value="paid">{t('Lunas')}</option>
+                                    <option value="overdue">{t('Jatuh Tempo')}</option>
                                 </select>
                             </div>
                             <button
                                 type="submit"
                                 className="w-full sm:w-auto inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 text-white text-sm font-semibold"
                             >
-                                Terapkan
+                                {t('Terapkan')}
                             </button>
                         </form>
 
@@ -267,12 +270,12 @@ export default function ReceivablesIndex({ receivables, filters = {} }) {
                             <div className="w-full overflow-x-auto">
                                 <div className="min-w-[720px]">
                                     <div className="grid grid-cols-12 px-4 py-3 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-100 dark:border-slate-800">
-                                        <div className="col-span-2">Invoice</div>
-                                        <div className="col-span-2">Pelanggan</div>
-                                        <div className="col-span-2 text-right">Total</div>
-                                        <div className="col-span-2 text-right">Sisa</div>
-                                        <div className="col-span-2 text-right">Jatuh Tempo</div>
-                                        <div className="col-span-2 text-center">Status</div>
+                                        <div className="col-span-2">{t('Invoice')}</div>
+                                        <div className="col-span-2">{t('Pelanggan')}</div>
+                                        <div className="col-span-2 text-right">{t('Total')}</div>
+                                        <div className="col-span-2 text-right">{t('Sisa')}</div>
+                                        <div className="col-span-2 text-right">{t('Jatuh Tempo')}</div>
+                                        <div className="col-span-2 text-center">{t('Status')}</div>
                                     </div>
                                     {rows.length > 0 ? (
                                         rows.map((item) => (
@@ -284,7 +287,7 @@ export default function ReceivablesIndex({ receivables, filters = {} }) {
                                                 <div className="col-span-2">
                                                     <p className="text-sm font-semibold text-slate-800 dark:text-white">{item.invoice}</p>
                                                     {item.transaction_id && (
-                                                        <p className="text-[11px] text-slate-500">POS #{item.transaction_id}</p>
+                                                        <p className="text-[11px] text-slate-500">{t('POS #')}{item.transaction_id}</p>
                                                     )}
                                                 </div>
                                                 <div className="col-span-2">
@@ -307,7 +310,7 @@ export default function ReceivablesIndex({ receivables, filters = {} }) {
                                     ) : (
                                         <div className="p-8 text-center text-slate-500 dark:text-slate-400">
                                             <IconAlertCircle size={28} className="mx-auto mb-2" />
-                                            Belum ada data nota barang.
+                                            {t('Belum ada data nota barang.')}
                                         </div>
                                     )}
                                 </div>
@@ -316,7 +319,7 @@ export default function ReceivablesIndex({ receivables, filters = {} }) {
 
                         <div className="flex justify-between items-center text-sm text-slate-500">
                             <div>
-                                Menampilkan {rows.length} dari {receivables?.total || 0} data
+                                {t('Menampilkan')} {rows.length} {t('dari')} {receivables?.total || 0} data
                             </div>
                             <div className="flex gap-2">
                                 {receivables?.links?.map((link, idx) => (

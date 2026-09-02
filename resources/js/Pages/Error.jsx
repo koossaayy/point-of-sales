@@ -8,47 +8,50 @@ import {
     IconRefresh,
     IconServerOff,
 } from "@tabler/icons-react";
+import { useTranslation } from 'react-i18next';
 import { useTheme } from "@/Context/ThemeSwitcherContext";
+import i18n from '@/i18n';
 
 const errorContent = {
     401: {
-        title: "Autentikasi Dibutuhkan",
-        description: "Sesi atau akses Anda tidak valid. Silakan masuk kembali untuk melanjutkan.",
+        get title() { return i18n.t('Autentikasi Dibutuhkan'); },
+        get description() { return i18n.t('Sesi atau akses Anda tidak valid. Silakan masuk kembali untuk melanjutkan.'); },
         icon: IconLock,
     },
     403: {
-        title: "Akses Ditolak",
-        description: "Anda tidak memiliki izin untuk membuka halaman ini.",
+        get title() { return i18n.t('Akses Ditolak'); },
+        get description() { return i18n.t('Anda tidak memiliki izin untuk membuka halaman ini.'); },
         icon: IconLock,
     },
     404: {
-        title: "Halaman Tidak Ditemukan",
-        description: "Halaman yang Anda cari tidak tersedia, dipindahkan, atau URL yang dimasukkan tidak tepat.",
+        get title() { return i18n.t('Halaman Tidak Ditemukan'); },
+        get description() { return i18n.t('Halaman yang Anda cari tidak tersedia, dipindahkan, atau URL yang dimasukkan tidak tepat.'); },
         icon: IconAlertTriangle,
     },
     419: {
-        title: "Sesi Kedaluwarsa",
-        description: "Sesi keamanan telah berakhir. Muat ulang halaman lalu coba kembali.",
+        get title() { return i18n.t('Sesi Kedaluwarsa'); },
+        get description() { return i18n.t('Sesi keamanan telah berakhir. Muat ulang halaman lalu coba kembali.'); },
         icon: IconRefresh,
     },
     429: {
-        title: "Terlalu Banyak Permintaan",
-        description: "Permintaan Anda dibatasi sementara. Tunggu sebentar sebelum mencoba lagi.",
+        get title() { return i18n.t('Terlalu Banyak Permintaan'); },
+        get description() { return i18n.t('Permintaan Anda dibatasi sementara. Tunggu sebentar sebelum mencoba lagi.'); },
         icon: IconAlertTriangle,
     },
     500: {
-        title: "Terjadi Kesalahan Server",
-        description: "Ada gangguan pada sistem. Silakan coba lagi dalam beberapa saat.",
+        get title() { return i18n.t('Terjadi Kesalahan Server'); },
+        get description() { return i18n.t('Ada gangguan pada sistem. Silakan coba lagi dalam beberapa saat.'); },
         icon: IconServerOff,
     },
     503: {
-        title: "Layanan Sementara Tidak Tersedia",
-        description: "Aplikasi sedang dalam pemeliharaan atau belum siap melayani permintaan ini.",
+        get title() { return i18n.t('Layanan Sementara Tidak Tersedia'); },
+        get description() { return i18n.t('Aplikasi sedang dalam pemeliharaan atau belum siap melayani permintaan ini.'); },
         icon: IconServerOff,
     },
 };
 
 export default function Error({ status, homeUrl, homeLabel }) {
+    const { t } = useTranslation();
     const { darkMode, themeSwitcher } = useTheme();
     const content = errorContent[status] ?? errorContent[500];
     const Icon = content.icon;
@@ -68,10 +71,10 @@ export default function Error({ status, homeUrl, homeLabel }) {
                             </div>
                             <div>
                                 <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                                    Point of Sales
+                                    {t('Point of Sales')}
                                 </p>
                                 <p className="text-lg font-semibold text-slate-900 dark:text-white">
-                                    Error {status}
+                                    {t('Error')} {status}
                                 </p>
                             </div>
                         </Link>
@@ -82,7 +85,7 @@ export default function Error({ status, homeUrl, homeLabel }) {
                             className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white/80 px-4 py-2 text-sm font-medium text-slate-600 backdrop-blur transition hover:border-primary-300 hover:text-primary-600 dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-300 dark:hover:border-primary-700 dark:hover:text-primary-400"
                         >
                             <span className="h-2.5 w-2.5 rounded-full bg-primary-500" />
-                            {darkMode ? "Mode Terang" : "Mode Gelap"}
+                            {darkMode ? t('Mode Terang') : t('Mode Gelap')}
                         </button>
                     </div>
 
@@ -92,7 +95,7 @@ export default function Error({ status, homeUrl, homeLabel }) {
                                 <div>
                                     <div className="inline-flex items-center gap-2 rounded-full bg-primary-50 px-4 py-2 text-sm font-semibold text-primary-600 dark:bg-primary-950/50 dark:text-primary-400">
                                         <Icon size={18} />
-                                        Status {status}
+                                        {t('Status')} {status}
                                     </div>
 
                                     <h1 className="mt-6 text-4xl font-black tracking-tight text-slate-900 dark:text-white md:text-5xl">
@@ -118,14 +121,14 @@ export default function Error({ status, homeUrl, homeLabel }) {
                                             className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-primary-300 hover:text-primary-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-primary-700 dark:hover:text-primary-400"
                                         >
                                             <IconArrowLeft size={18} />
-                                            Kembali
+                                            {t('Kembali')}
                                         </button>
                                     </div>
                                 </div>
 
                                 <div className="relative overflow-hidden rounded-[1.75rem] border border-slate-200 bg-gradient-to-br from-slate-100 via-white to-primary-50 p-8 dark:border-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-primary-950/40">
                                     <div className="absolute right-6 top-6 rounded-full border border-primary-200/60 bg-white/80 px-3 py-1 text-xs font-bold uppercase tracking-[0.24em] text-primary-600 dark:border-primary-800 dark:bg-slate-900/80 dark:text-primary-400">
-                                        Error State
+                                        {t('Error State')}
                                     </div>
 
                                     <div className="flex min-h-[260px] flex-col justify-between">
@@ -138,7 +141,7 @@ export default function Error({ status, homeUrl, homeLabel }) {
                                                 {status}
                                             </div>
                                             <div className="mt-4 rounded-2xl border border-slate-200 bg-white/80 p-4 text-sm text-slate-600 dark:border-slate-800 dark:bg-slate-950/70 dark:text-slate-400">
-                                                Pastikan URL, hak akses, atau status layanan sudah sesuai sebelum mencoba lagi.
+                                                {t('Pastikan URL, hak akses, atau status layanan sudah sesuai sebelum mencoba lagi.')}
                                             </div>
                                         </div>
                                     </div>

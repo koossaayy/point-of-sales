@@ -86,7 +86,7 @@ class PosApiController extends Controller
 
         return $this->created(
             new CashierShiftResource($shift->load('warehouse')),
-            'Shift kasir berhasil dibuka'
+            __('Shift kasir berhasil dibuka')
         );
     }
 
@@ -120,7 +120,7 @@ class PosApiController extends Controller
 
         return $this->ok(
             new CashierShiftResource($closed->load('warehouse')),
-            'Shift kasir berhasil ditutup'
+            __('Shift kasir berhasil ditutup')
         );
     }
 
@@ -177,7 +177,7 @@ class PosApiController extends Controller
             ->first();
 
         if (! $product) {
-            return $this->notFound('Produk dengan barcode tersebut tidak ditemukan.');
+            return $this->notFound(__('Produk dengan barcode tersebut tidak ditemukan.'));
         }
 
         $stock = $warehouseId
@@ -192,7 +192,7 @@ class PosApiController extends Controller
             'conversion_factor' => (float) $u->pivot->conversion_factor,
         ]);
 
-        return $this->ok($data, 'Produk ditemukan');
+        return $this->ok($data, __('Produk ditemukan'));
     }
 
     /**
@@ -260,7 +260,7 @@ class PosApiController extends Controller
         $product = Product::find($validated['product_id']);
 
         if (! $product) {
-            return $this->notFound('Produk tidak ditemukan.');
+            return $this->notFound(__('Produk tidak ditemukan.'));
         }
 
         if ($product->is_composite) {
@@ -316,7 +316,7 @@ class PosApiController extends Controller
 
         return $this->ok(
             new CartResource($cart->load('product', 'unit')),
-            'Produk ditambahkan ke keranjang'
+            __('Produk ditambahkan ke keranjang')
         );
     }
 
@@ -331,7 +331,7 @@ class PosApiController extends Controller
         ]);
 
         if ($cart->cashier_id !== $request->user()->id) {
-            return $this->forbidden('Bukan keranjang milik Anda.');
+            return $this->forbidden(__('Bukan keranjang milik Anda.'));
         }
 
         $shift = $this->cashierShiftService->getActiveShiftForUser($request->user()->id);
@@ -361,7 +361,7 @@ class PosApiController extends Controller
             : $this->unitConversionService->getSellPrice($product, $cart->unit_id) * $validated['qty'];
         $cart->save();
 
-        return $this->ok(new CartResource($cart->load('product', 'unit')), 'Keranjang diperbarui');
+        return $this->ok(new CartResource($cart->load('product', 'unit')), __('Keranjang diperbarui'));
     }
 
     /**
@@ -371,7 +371,7 @@ class PosApiController extends Controller
     public function removeFromCart(Request $request, Cart $cart): JsonResponse
     {
         if ($cart->cashier_id !== $request->user()->id) {
-            return $this->forbidden('Bukan keranjang milik Anda.');
+            return $this->forbidden(__('Bukan keranjang milik Anda.'));
         }
 
         $cart->delete();
@@ -387,7 +387,7 @@ class PosApiController extends Controller
     {
         Cart::where('cashier_id', $request->user()->id)->active()->delete();
 
-        return $this->ok(null, 'Keranjang dikosongkan');
+        return $this->ok(null, __('Keranjang dikosongkan'));
     }
 
     /**
@@ -408,7 +408,7 @@ class PosApiController extends Controller
         }
 
         $holdId = 'HOLD-'.strtoupper(Str::random(10));
-        $label = $validated['label'] ?? 'Transaksi '.now()->format('H:i');
+        $label = $validated['label'] ?? __('Transaksi ').now()->format('H:i');
 
         Cart::where('cashier_id', $userId)->active()->update([
             'hold_id' => $holdId,
@@ -416,7 +416,7 @@ class PosApiController extends Controller
             'held_at' => now(),
         ]);
 
-        return $this->ok(['hold_id' => $holdId, 'label' => $label], 'Transaksi ditahan');
+        return $this->ok(['hold_id' => $holdId, 'label' => $label], __('Transaksi ditahan'));
     }
 
     /**
@@ -461,7 +461,7 @@ class PosApiController extends Controller
 
         $held = Cart::where('cashier_id', $userId)->forHold($holdId)->get();
         if ($held->isEmpty()) {
-            return $this->notFound('Transaksi ditahan tidak ditemukan.');
+            return $this->notFound(__('Transaksi ditahan tidak ditemukan.'));
         }
 
         Cart::where('cashier_id', $userId)->forHold($holdId)->update([
@@ -470,7 +470,7 @@ class PosApiController extends Controller
             'held_at' => null,
         ]);
 
-        return $this->ok(null, 'Transaksi dilanjutkan');
+        return $this->ok(null, __('Transaksi dilanjutkan'));
     }
 
     /**
@@ -482,7 +482,7 @@ class PosApiController extends Controller
         $deleted = Cart::where('cashier_id', $request->user()->id)->forHold($holdId)->delete();
 
         if ($deleted === 0) {
-            return $this->notFound('Transaksi ditahan tidak ditemukan.');
+            return $this->notFound(__('Transaksi ditahan tidak ditemukan.'));
         }
 
         return $this->noContent();
@@ -690,7 +690,7 @@ class PosApiController extends Controller
 
             return $this->ok(
                 new TransactionResource($transaction->load('details.product', 'customer', 'cashier')),
-                'Transaksi menunggu approval supervisor.',
+                __('Transaksi menunggu approval supervisor.'),
                 202
             );
         }
@@ -711,7 +711,7 @@ class PosApiController extends Controller
 
         return $this->created(
             new TransactionResource($transaction->load('details.product', 'customer', 'cashier', 'warehouse')),
-            'Transaksi berhasil'
+            __('Transaksi berhasil')
         );
     }
 
@@ -747,7 +747,7 @@ class PosApiController extends Controller
     public function transactionDetail(Request $request, Transaction $transaction): JsonResponse
     {
         if (! $request->user()->isSuperAdmin() && $transaction->cashier_id !== $request->user()->id) {
-            return $this->forbidden('Bukan transaksi Anda.');
+            return $this->forbidden(__('Bukan transaksi Anda.'));
         }
 
         $transaction->load('details.product', 'customer', 'cashier', 'warehouse', 'receivable', 'bankAccount');

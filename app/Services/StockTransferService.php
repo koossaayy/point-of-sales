@@ -126,7 +126,7 @@ class StockTransferService
                     'qty' => $item->qty,
                     'stock_before' => $stockBefore,
                     'stock_after' => max(0, $stockBefore - $item->qty),
-                    'notes' => 'Transfer ke '.$transfer->destinationWarehouse->code,
+                    'notes' => __('Transfer ke :code', ['code' => $transfer->destinationWarehouse->code]),
                     'created_by' => $userId,
                 ]);
             }
@@ -179,7 +179,7 @@ class StockTransferService
                     'qty' => $item->qty,
                     'stock_before' => (int) $product->stock - $item->qty,
                     'stock_after' => (int) $product->stock,
-                    'notes' => 'Transfer dari '.$transfer->sourceWarehouse->code,
+                    'notes' => __('Transfer dari :code', ['code' => $transfer->sourceWarehouse->code]),
                     'created_by' => $userId,
                 ]);
             }

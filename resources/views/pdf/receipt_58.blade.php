@@ -20,8 +20,8 @@
     <div class="center section" style="margin-top:0;">
         <div class="bold" style="margin-bottom:2px;">{{ $store['name'] }}</div>
         @if($store['address'])<div>{{ $store['address'] }}</div>@endif
-        @if($store['phone'])<div>Telp: {{ $store['phone'] }}</div>@endif
-        @if($store['email'])<div>Email: {{ $store['email'] }}</div>@endif
+        @if($store['phone'])<div>{{ __('Telp: :param_1', ['param_1' => $store['phone']]) }}</div>@endif
+        @if($store['email'])<div>{{ __('Email: :param_1', ['param_1' => $store['email']]) }}</div>@endif
         @if($store['website'])<div>{{ $store['website'] }}</div>@endif
     </div>
 
@@ -29,20 +29,20 @@
 
     <div class="section">
         <div style="display:flex; justify-content:space-between;">
-            <span>No:</span>
+            <span>{{ __('No:') }}</span>
             <span>{{ $transaction->invoice }}</span>
         </div>
         <div style="display:flex; justify-content:space-between;">
-            <span>Tgl:</span>
+            <span>{{ __('Tgl:') }}</span>
             <span>{{ \Carbon\Carbon::parse($transaction->created_at)->format('d/m/Y H:i') }}</span>
         </div>
         <div style="display:flex; justify-content:space-between;">
-            <span>Kasir:</span>
+            <span>{{ __('Kasir:') }}</span>
             <span>{{ $transaction->cashier->name ?? '-' }}</span>
         </div>
         <div style="display:flex; justify-content:space-between;">
-            <span>Pelanggan:</span>
-            <span>{{ $transaction->customer->name ?? 'Umum' }}</span>
+            <span>{{ __('Pelanggan:') }}</span>
+            <span>{{ $transaction->customer->name ?? __('Umum') }}</span>
         </div>
     </div>
 
@@ -55,15 +55,15 @@
                 $total = $item->price;
                 $unit = $item->unit_price ?: ($qty ? $total / $qty : $total);
             @endphp
-            <div style="font-weight:600;">{{ $item->product->title ?? 'Produk' }}</div>
+            <div style="font-weight:600;">{{ $item->product->title ?? __('Produk') }}</div>
             @if($item->discount_total > 0 && ($item->pricing_group_label || $item->pricing_rule_name))
                 <div style="display:flex; justify-content:space-between; font-size:9px; color:#64748b;">
-                    <span>Promo: {{ $item->pricing_group_label ?: $item->pricing_rule_name }}</span>
+                    <span>{{ __('Promo: :param_1', ['param_1' => $item->pricing_group_label ?: $item->pricing_rule_name]) }}</span>
                     <span>{{ $formatPrice($item->base_unit_price) }}</span>
                 </div>
             @endif
             <div style="display:flex; justify-content:space-between;">
-                <span>{{ $qty }}x @ {{ $formatPrice($unit) }}</span>
+                <span>{{ __(':param_1x @ :param_2', ['param_1' => $qty, 'param_2' => $formatPrice($unit)]) }}</span>
                 <span>{{ $formatPrice($total) }}</span>
             </div>
         @endforeach
@@ -83,52 +83,51 @@
         $taxRate = $transaction->tax_rate ?? 0;
         $cash = $transaction->cash ?? 0;
         $change = $transaction->change ?? 0;
-        $paymentMethod = strtoupper($transaction->payment_method ?? 'TUNAI');
-    @endphp
+        $paymentMethod = strtoupper($transaction->payment_method ?? __('TUNAI'));@endphp
 
     <div class="section">
         <div style="display:flex; justify-content:space-between;">
-            <span>Subtotal</span>
+            <span>{{ __('Subtotal') }}</span>
             <span>{{ $formatPrice($subtotal) }}</span>
         </div>
         @if($promoDiscount > 0)
             <div style="display:flex; justify-content:space-between;">
-                <span>Promo</span>
+                <span>{{ __('Promo') }}</span>
                 <span>-{{ $formatPrice($promoDiscount) }}</span>
             </div>
         @endif
         @if($discount > 0)
             <div style="display:flex; justify-content:space-between;">
-                <span>Diskon Manual</span>
+                <span>{{ __('Diskon Manual') }}</span>
                 <span>-{{ $formatPrice($discount) }}</span>
             </div>
         @endif
         @if($voucherDiscount > 0)
             <div style="display:flex; justify-content:space-between;">
-                <span>Voucher</span>
+                <span>{{ __('Voucher') }}</span>
                 <span>-{{ $formatPrice($voucherDiscount) }}</span>
             </div>
         @endif
         @if($loyaltyDiscount > 0)
             <div style="display:flex; justify-content:space-between;">
-                <span>Redeem Poin</span>
+                <span>{{ __('Redeem Poin') }}</span>
                 <span>-{{ $formatPrice($loyaltyDiscount) }}</span>
             </div>
         @endif
         @if($shipping > 0)
             <div style="display:flex; justify-content:space-between;">
-                <span>Ongkir</span>
+                <span>{{ __('Ongkir') }}</span>
                 <span>{{ $formatPrice($shipping) }}</span>
             </div>
         @endif
         @if($taxTotal > 0)
             <div style="display:flex; justify-content:space-between;">
-                <span>PPN {{ number_format($taxRate, 0) }}%</span>
+                <span>{{ __('PPN :param_1%', ['param_1' => number_format($taxRate, 0)]) }}</span>
                 <span>{{ $formatPrice($taxTotal) }}</span>
             </div>
         @endif
         <div style="display:flex; justify-content:space-between; font-weight:700; font-size:12px;">
-            <span>TOTAL</span>
+            <span>{{ __('TOTAL') }}</span>
             <span>{{ $formatPrice($total) }}</span>
         </div>
     </div>
@@ -137,12 +136,12 @@
 
     <div class="section">
         <div style="display:flex; justify-content:space-between;">
-            <span>Bayar ({{ $paymentMethod }})</span>
+            <span>{{ __('Bayar (:param_1)', ['param_1' => $paymentMethod]) }}</span>
             <span>{{ $formatPrice($cash) }}</span>
         </div>
         @if($change > 0)
             <div style="display:flex; justify-content:space-between; font-weight:700;">
-                <span>Kembali</span>
+                <span>{{ __('Kembali') }}</span>
                 <span>{{ $formatPrice($change) }}</span>
             </div>
         @endif
@@ -152,10 +151,10 @@
 
     <div class="center section" style="margin-bottom:0;">
         <div class="barcode">
-            <img src="{{ $barcode }}" alt="barcode">
+            <img src="{{ $barcode }}" alt="{{ __('barcode') }}">
         </div>
         <div style="font-size:10px;">{{ $transaction->invoice }}</div>
-        <div>Terima kasih!</div>
+        <div>{{ __('Terima kasih!') }}</div>
     </div>
 </body>
 </html>

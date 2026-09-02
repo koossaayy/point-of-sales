@@ -53,7 +53,7 @@ class AuthController extends Controller
             );
 
             throw ValidationException::withMessages([
-                'email' => ['Kredensial yang diberikan tidak cocok dengan data kami.'],
+                'email' => [__('Kredensial yang diberikan tidak cocok dengan data kami.')],
             ]);
         }
 
@@ -81,7 +81,7 @@ class AuthController extends Controller
             'user' => $user->only(['id', 'name', 'email']),
             'roles' => $user->getRoleNames()->all(),
             'permissions' => $abilities,
-        ], 'Login berhasil');
+        ], __('Login berhasil'));
     }
 
     /**
@@ -100,7 +100,7 @@ class AuthController extends Controller
             meta: ['severity' => 'info', 'ip' => $request->ip()],
         );
 
-        return $this->ok(null, 'Logout berhasil');
+        return $this->ok(null, __('Logout berhasil'));
     }
 
     /**
@@ -132,7 +132,7 @@ class AuthController extends Controller
     public function register(Request $request): JsonResponse
     {
         if (! config('security.auth.public_registration', false)) {
-            return $this->forbidden('Pendaftaran publik sedang ditutup.');
+            return $this->forbidden(__('Pendaftaran publik sedang ditutup.'));
         }
 
         $request->validate([
@@ -167,6 +167,6 @@ class AuthController extends Controller
             'token' => $token,
             'token_type' => 'Bearer',
             'user' => $user->only(['id', 'name', 'email']),
-        ], 'Registrasi berhasil');
+        ], __('Registrasi berhasil'));
     }
 }

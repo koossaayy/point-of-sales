@@ -133,7 +133,7 @@ class PricingRuleController extends Controller
 
         return redirect()
             ->route('pricing-rules.index')
-            ->with('success', 'Rule promo berhasil dibuat.');
+            ->with('success', __('Rule promo berhasil dibuat.'));
     }
 
     public function edit(PricingRule $pricingRule)
@@ -187,7 +187,7 @@ class PricingRuleController extends Controller
 
         return redirect()
             ->route('pricing-rules.index')
-            ->with('success', 'Rule promo berhasil diperbarui.');
+            ->with('success', __('Rule promo berhasil diperbarui.'));
     }
 
     public function destroy(PricingRule $pricingRule)
@@ -203,7 +203,7 @@ class PricingRuleController extends Controller
             before: $before
         );
 
-        return back()->with('success', 'Rule promo berhasil dihapus.');
+        return back()->with('success', __('Rule promo berhasil dihapus.'));
     }
 
     public function preview(Request $request)
@@ -232,10 +232,10 @@ class PricingRuleController extends Controller
             'categories' => Category::orderBy('name')->get(['id', 'name']),
             'tierOptions' => $this->loyaltyService->tierOptions(),
             'kindOptions' => [
-                ['value' => PricingRule::KIND_STANDARD_DISCOUNT, 'label' => 'Diskon Standar'],
-                ['value' => PricingRule::KIND_QTY_BREAK, 'label' => 'Harga Grosir / Qty Break'],
-                ['value' => PricingRule::KIND_BUNDLE_PRICE, 'label' => 'Bundle Price'],
-                ['value' => PricingRule::KIND_BUY_X_GET_Y, 'label' => 'Buy X Get Y'],
+                ['value' => PricingRule::KIND_STANDARD_DISCOUNT, 'label' => __('Diskon Standar')],
+                ['value' => PricingRule::KIND_QTY_BREAK, 'label' => __('Harga Grosir / Qty Break')],
+                ['value' => PricingRule::KIND_BUNDLE_PRICE, 'label' => __('Bundle Price')],
+                ['value' => PricingRule::KIND_BUY_X_GET_Y, 'label' => __('Buy X Get Y')],
             ],
         ];
     }

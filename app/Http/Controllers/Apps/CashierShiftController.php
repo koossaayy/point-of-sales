@@ -99,7 +99,7 @@ class CashierShiftController extends Controller
             ? route('transactions.index')
             : route('cashier-shifts.show', $shift);
 
-        return redirect($target)->with('success', 'Shift kasir berhasil dibuka.');
+        return redirect($target)->with('success', __('Shift kasir berhasil dibuka.'));
     }
 
     public function close(CloseCashierShiftRequest $request, CashierShift $cashierShift, ConfirmPasswordForForceCloseRequest $confirmPasswordRequest): RedirectResponse
@@ -156,7 +156,7 @@ class CashierShiftController extends Controller
             ],
         );
 
-        return to_route('cashier-shifts.show', $closedShift)->with('success', 'Shift kasir berhasil ditutup.');
+        return to_route('cashier-shifts.show', $closedShift)->with('success', __('Shift kasir berhasil ditutup.'));
     }
 
     private function resolveVisibleShift(Request $request, CashierShift $cashierShift): CashierShift

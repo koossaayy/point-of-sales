@@ -59,7 +59,7 @@ class CustomerSegmentController extends Controller
 
         return redirect()
             ->route('customer-segments.index')
-            ->with('success', 'Segment customer berhasil dibuat.');
+            ->with('success', __('Segment customer berhasil dibuat.'));
     }
 
     public function show(CustomerSegment $customerSegment)
@@ -114,7 +114,7 @@ class CustomerSegmentController extends Controller
 
         return redirect()
             ->route('customer-segments.show', $customerSegment)
-            ->with('success', 'Segment customer berhasil diperbarui.');
+            ->with('success', __('Segment customer berhasil diperbarui.'));
     }
 
     public function destroy(CustomerSegment $customerSegment)
@@ -123,12 +123,12 @@ class CustomerSegmentController extends Controller
 
         return redirect()
             ->route('customer-segments.index')
-            ->with('success', 'Segment customer berhasil dihapus.');
+            ->with('success', __('Segment customer berhasil dihapus.'));
     }
 
     public function storeMember(Request $request, CustomerSegment $customerSegment)
     {
-        abort_if($customerSegment->type !== CustomerSegment::TYPE_MANUAL, 422, 'Segment otomatis tidak dapat diubah manual.');
+        abort_if($customerSegment->type !== CustomerSegment::TYPE_MANUAL, 422, __('Segment otomatis tidak dapat diubah manual.'));
 
         $validated = $request->validate([
             'customer_id' => ['required', 'exists:customers,id'],
@@ -144,12 +144,12 @@ class CustomerSegmentController extends Controller
             ->all();
         $this->segmentationService->syncManualSegments($customer, $manualIds);
 
-        return back()->with('success', 'Customer ditambahkan ke segment manual.');
+        return back()->with('success', __('Customer ditambahkan ke segment manual.'));
     }
 
     public function destroyMember(CustomerSegment $customerSegment, Customer $customer)
     {
-        abort_if($customerSegment->type !== CustomerSegment::TYPE_MANUAL, 422, 'Segment otomatis tidak dapat diubah manual.');
+        abort_if($customerSegment->type !== CustomerSegment::TYPE_MANUAL, 422, __('Segment otomatis tidak dapat diubah manual.'));
 
         $manualIds = $customer->segmentMemberships()
             ->where('source', 'manual')
@@ -159,7 +159,7 @@ class CustomerSegmentController extends Controller
             ->all();
         $this->segmentationService->syncManualSegments($customer, $manualIds);
 
-        return back()->with('success', 'Customer dihapus dari segment manual.');
+        return back()->with('success', __('Customer dihapus dari segment manual.'));
     }
 
     private function validateSegment(Request $request, ?CustomerSegment $segment = null): array
