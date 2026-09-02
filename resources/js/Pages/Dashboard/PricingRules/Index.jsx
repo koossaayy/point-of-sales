@@ -1,5 +1,6 @@
 import React from "react";
 import { Head, Link, router } from "@inertiajs/react";
+import { useTranslation } from 'react-i18next';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import Button from "@/Components/Dashboard/Button";
 import Table from "@/Components/Dashboard/Table";
@@ -12,6 +13,7 @@ import {
     IconTrash,
 } from "@tabler/icons-react";
 import { useAuthorization } from "@/Utils/authorization";
+import i18n from '@/i18n';
 
 const formatCurrency = (value = 0) =>
     new Intl.NumberFormat("id-ID", {
@@ -22,11 +24,11 @@ const formatCurrency = (value = 0) =>
 
 const discountLabel = (rule) => {
     if (rule.kind === "bundle_price") {
-        return `Bundle ${formatCurrency(rule.discount_value)}`;
+        return i18n.t('Bundle {{0}}', { 0: formatCurrency(rule.discount_value) });
     }
 
     if (rule.kind === "buy_x_get_y") {
-        return `${rule.buy_get_items_count || 0} item rule`;
+        return i18n.t('{{0}} item rule', { 0: rule.buy_get_items_count || 0 });
     }
 
     if (rule.discount_type === "percentage") {
@@ -34,36 +36,37 @@ const discountLabel = (rule) => {
     }
 
     if (rule.discount_type === "fixed_price") {
-        return `Harga ${formatCurrency(rule.discount_value)}`;
+        return i18n.t('Harga {{0}}', { 0: formatCurrency(rule.discount_value) });
     }
 
-    return `Potong ${formatCurrency(rule.discount_value)}`;
+    return i18n.t('Potong {{0}}', { 0: formatCurrency(rule.discount_value) });
 };
 
 const targetLabel = (rule) => {
-    if (rule.target_type === "product") return rule.product?.title || "Produk";
+    if (rule.target_type === "product") return rule.product?.title || i18n.t('Produk');
     if (rule.target_type === "category") {
-        return rule.category?.name || "Kategori";
+        return rule.category?.name || i18n.t('Kategori');
     }
 
-    return "Semua Produk";
+    return i18n.t('Semua Produk');
 };
 
 const customerScopeLabel = (scope) => {
-    if (scope === "walk_in") return "Umum";
-    if (scope === "registered") return "Pelanggan";
-    if (scope === "member") return "Member";
-    return "Semua";
+    if (scope === "walk_in") return i18n.t('Umum');
+    if (scope === "registered") return i18n.t('Pelanggan');
+    if (scope === "member") return i18n.t('Member');
+    return i18n.t('Semua');
 };
 
 const kindLabel = (kind) => {
-    if (kind === "qty_break") return "Grosir";
-    if (kind === "bundle_price") return "Bundle";
-    if (kind === "buy_x_get_y") return "BXGY";
-    return "Standar";
+    if (kind === "qty_break") return i18n.t('Grosir');
+    if (kind === "bundle_price") return i18n.t('Bundle');
+    if (kind === "buy_x_get_y") return i18n.t('BXGY');
+    return i18n.t('Standar');
 };
 
 export default function Index({ rules, filters, summary = {}, recentAudits = [] }) {
+    const { t } = useTranslation();
     const { can } = useAuthorization();
     const hasData = rules.data.length > 0;
 
@@ -77,16 +80,16 @@ export default function Index({ rules, filters, summary = {}, recentAudits = [] 
 
     return (
         <>
-            <Head title="Promo Harga" />
+            <Head title={t('Promo Harga')} />
 
             <div className="w-full">
                 <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                            Promo Harga
+                            {t('Promo Harga')}
                         </h1>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                            Atur diskon dan harga otomatis untuk POS.
+                            {t('Atur diskon dan harga otomatis untuk POS.')}
                         </p>
                     </div>
                     {can("pricing-rules-create") && (
@@ -95,14 +98,14 @@ export default function Index({ rules, filters, summary = {}, recentAudits = [] 
                             href={route("pricing-rules.create")}
                             icon={<IconCirclePlus size={18} />}
                             className="bg-primary-500 text-white shadow-lg shadow-primary-500/30 hover:bg-primary-600"
-                            label="Buat Rule"
+                            label={t('Buat Rule')}
                         />
                     )}
                 </div>
 
                 <div className="mb-4 grid gap-3 md:grid-cols-4">
                     {[
-                        { label: "Aktif", value: summary.active || 0 },
+                        { label: t('Aktif'), value: summary.active || 0 },
                         { label: "Terjadwal", value: summary.scheduled || 0 },
                         { label: "Expired", value: summary.expired || 0 },
                         { label: "Inactive", value: summary.inactive || 0 },
@@ -130,7 +133,7 @@ export default function Index({ rules, filters, summary = {}, recentAudits = [] 
                                 onChange={(event) =>
                                     handleFilterChange("search", event.target.value)
                                 }
-                                placeholder="Cari nama rule..."
+                                placeholder={t('Cari nama rule...')}
                                 className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 pr-11 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                             />
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400">
@@ -144,9 +147,9 @@ export default function Index({ rules, filters, summary = {}, recentAudits = [] 
                             }
                             className="h-11 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                         >
-                            <option value="">Semua Status</option>
-                            <option value="active">Aktif</option>
-                            <option value="inactive">Nonaktif</option>
+                            <option value="">{t('Semua Status')}</option>
+                            <option value="active">{t('Aktif')}</option>
+                            <option value="inactive">{t('Nonaktif')}</option>
                         </select>
                         <select
                             value={filters.target_type || ""}
@@ -155,10 +158,10 @@ export default function Index({ rules, filters, summary = {}, recentAudits = [] 
                             }
                             className="h-11 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                         >
-                            <option value="">Semua Target</option>
-                            <option value="all">Semua Produk</option>
-                            <option value="product">Produk</option>
-                            <option value="category">Kategori</option>
+                            <option value="">{t('Semua Target')}</option>
+                            <option value="all">{t('Semua Produk')}</option>
+                            <option value="product">{t('Produk')}</option>
+                            <option value="category">{t('Kategori')}</option>
                         </select>
                         <select
                             value={filters.kind || ""}
@@ -167,27 +170,27 @@ export default function Index({ rules, filters, summary = {}, recentAudits = [] 
                             }
                             className="h-11 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                         >
-                            <option value="">Semua Jenis</option>
-                            <option value="standard_discount">Standar</option>
-                            <option value="qty_break">Grosir</option>
-                            <option value="bundle_price">Bundle</option>
-                            <option value="buy_x_get_y">BXGY</option>
+                            <option value="">{t('Semua Jenis')}</option>
+                            <option value="standard_discount">{t('Standar')}</option>
+                            <option value="qty_break">{t('Grosir')}</option>
+                            <option value="bundle_price">{t('Bundle')}</option>
+                            <option value="buy_x_get_y">{t('BXGY')}</option>
                         </select>
                     </div>
                 </div>
 
-                <Table.Card title="Daftar Rule Pricing">
+                <Table.Card title={t('Daftar Rule Pricing')}>
                     <Table>
                         <Table.Thead>
                             <tr>
-                                <Table.Th>Rule</Table.Th>
-                                <Table.Th>Target</Table.Th>
-                                <Table.Th>Scope</Table.Th>
-                                <Table.Th>Jenis</Table.Th>
-                                <Table.Th>Diskon</Table.Th>
-                                <Table.Th>Priority</Table.Th>
-                                <Table.Th>Status</Table.Th>
-                                <Table.Th className="w-28 text-center">Aksi</Table.Th>
+                                <Table.Th>{t('Rule')}</Table.Th>
+                                <Table.Th>{t('Target')}</Table.Th>
+                                <Table.Th>{t('Scope')}</Table.Th>
+                                <Table.Th>{t('Jenis')}</Table.Th>
+                                <Table.Th>{t('Diskon')}</Table.Th>
+                                <Table.Th>{t('Priority')}</Table.Th>
+                                <Table.Th>{t('Status')}</Table.Th>
+                                <Table.Th className="w-28 text-center">{t('Aksi')}</Table.Th>
                             </tr>
                         </Table.Thead>
                         <Table.Tbody>
@@ -209,7 +212,7 @@ export default function Index({ rules, filters, summary = {}, recentAudits = [] 
                                                     <p className="text-xs text-slate-500 dark:text-slate-400">
                                                         {rule.starts_at
                                                             ? new Date(rule.starts_at).toLocaleString("id-ID")
-                                                            : "Tanpa jadwal mulai"}
+                                                            : t('Tanpa jadwal mulai')}
                                                     </p>
                                                 </div>
                                             </div>
@@ -282,7 +285,7 @@ export default function Index({ rules, filters, summary = {}, recentAudits = [] 
                 {recentAudits.length > 0 && (
                     <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
                         <h2 className="text-base font-semibold text-slate-900 dark:text-white">
-                            Aktivitas Promo Terbaru
+                            {t('Aktivitas Promo Terbaru')}
                         </h2>
                         <div className="mt-4 space-y-3">
                             {recentAudits.map((audit) => (

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from 'react-i18next';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, usePage, Link } from "@inertiajs/react";
 import Button from "@/Components/Dashboard/Button";
@@ -43,6 +44,7 @@ function ProductCard({
     canUpdate,
     canDelete,
 }) {
+    const { t } = useTranslation();
     const rowNumber = index + 1 + (currentPage - 1) * perPage;
     const lowStock = product.stock > 0 && product.stock <= 5;
     const outOfStock = product.stock === 0;
@@ -87,15 +89,15 @@ function ProductCard({
                 <div className="absolute top-2 right-2">
                     {outOfStock ? (
                         <span className="px-2 py-1 text-xs font-semibold bg-danger-500 text-white rounded-full">
-                            Habis
+                            {t('Habis')}
                         </span>
                     ) : lowStock ? (
                         <span className="px-2 py-1 text-xs font-semibold bg-warning-500 text-white rounded-full">
-                            Stok: {product.stock}
+                            {t('Stok: {{0}}', { 0: product.stock })}
                         </span>
                     ) : (
                         <span className="px-2 py-1 text-xs font-medium bg-slate-900/60 text-white rounded-full">
-                            Stok: {product.stock}
+                            {t('Stok: {{0}}', { 0: product.stock })}
                         </span>
                     )}
                 </div>
@@ -129,7 +131,7 @@ function ProductCard({
             <div className="p-3 sm:p-4">
                 <div className="flex items-start justify-between gap-2 mb-2">
                     <span className="px-2 py-0.5 text-xs font-medium bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-400 rounded-md truncate">
-                        {product.category?.name || "Kategori"}
+                        {product.category?.name || t('Kategori')}
                     </span>
                 </div>
                 <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-200 line-clamp-2 mb-1">
@@ -139,12 +141,12 @@ function ProductCard({
                     <div className="space-y-0.5 mb-2">
                         {product.barcode && (
                             <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1">
-                                Barcode: {product.barcode}
+                                {t('Barcode: {{0}}', { 0: product.barcode })}
                             </p>
                         )}
                         {product.sku && (
                             <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1">
-                                SKU: {product.sku}
+                                {t('SKU: {{0}}', { 0: product.sku })}
                             </p>
                         )}
                     </div>
@@ -159,7 +161,7 @@ function ProductCard({
                     {/* Buy Price - Subtle */}
                     <div className="flex items-center justify-between mt-1">
                         <p className="text-xs text-slate-400 dark:text-slate-500">
-                            Modal: {formatCurrency(product.buy_price)}
+                            {t('Modal: {{0}}', { 0: formatCurrency(product.buy_price) })}
                         </p>
                         {/* Profit Indicator */}
                         {product.sell_price > product.buy_price && (
@@ -178,6 +180,7 @@ function ProductCard({
 }
 
 export default function Index({ products }) {
+    const { t } = useTranslation();
     const { can } = useAuthorization();
     const [viewMode, setViewMode] = useState("grid"); // 'grid' | 'list'
     const [showBarcodeModal, setShowBarcodeModal] = useState(false);
@@ -229,17 +232,17 @@ export default function Index({ products }) {
 
     return (
         <>
-            <Head title="Produk" />
+            <Head title={t('Produk')} />
 
             {/* Header */}
             <div className="mb-6">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
                         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                            Produk
+                            {t('Produk')}
                         </h1>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                            {products.total} produk terdaftar
+                            {t('{{0}} produk terdaftar', { 0: products.total })}
                         </p>
                     </div>
                     <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
@@ -248,7 +251,7 @@ export default function Index({ products }) {
                             className="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors w-full sm:w-auto"
                         >
                             <IconBarcode size={18} />
-                            Cetak All Barcode
+                            {t('Cetak All Barcode')}
                         </button>
                         {canCreateProducts && (
                             <>
@@ -257,7 +260,7 @@ export default function Index({ products }) {
                                     className="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors w-full sm:w-auto"
                                 >
                                     <IconDownload size={18} />
-                                    Export
+                                    {t('Export')}
                                 </a>
                                 <button
                                     type="button"
@@ -265,7 +268,7 @@ export default function Index({ products }) {
                                     className="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors w-full sm:w-auto"
                                 >
                                     <IconUpload size={18} />
-                                    Import
+                                    {t('Import')}
                                 </button>
                                 <input
                                     id="import-products-input"
@@ -291,7 +294,7 @@ export default function Index({ products }) {
                                 className={
                                     "bg-primary-500 hover:bg-primary-600 text-white shadow-lg shadow-primary-500/30 w-full sm:w-auto justify-center"
                                 }
-                                label={"Tambah Produk"}
+                                label={t('Tambah Produk')}
                                 href={route("products.create")}
                             />
                         )}
@@ -305,7 +308,7 @@ export default function Index({ products }) {
                     <div className="w-full sm:w-80">
                         <Search
                             url={route("products.index")}
-                            placeholder="Cari produk..."
+                            placeholder={t('Cari produk...')}
                         />
                     </div>
                     {/* Select All Checkbox */}
@@ -321,7 +324,7 @@ export default function Index({ products }) {
                             className="w-4 h-4 rounded border-slate-300 text-primary-500 focus:ring-primary-500"
                         />
                         <span className="text-sm text-slate-600 dark:text-slate-400 hidden sm:inline">
-                            Pilih Semua
+                            {t('Pilih Semua')}
                         </span>
                     </label>
                 </div>
@@ -333,7 +336,7 @@ export default function Index({ products }) {
                             className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium transition-colors"
                         >
                             <IconPrinter size={18} />
-                            Cetak Terpilih ({selectedProducts.length})
+                            {t('Cetak Terpilih ({{0}})', { 0: selectedProducts.length })}
                         </button>
                     )}
                     <button
@@ -343,7 +346,7 @@ export default function Index({ products }) {
                                 ? "bg-primary-100 text-primary-600 dark:bg-primary-900/50 dark:text-primary-400"
                                 : "text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
                         }`}
-                        title="Grid View"
+                        title={t('Grid View')}
                     >
                         <IconLayoutGrid size={20} />
                     </button>
@@ -354,7 +357,7 @@ export default function Index({ products }) {
                                 ? "bg-primary-100 text-primary-600 dark:bg-primary-900/50 dark:text-primary-400"
                                 : "text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
                         }`}
-                        title="List View"
+                        title={t('List View')}
                     >
                         <IconList size={20} />
                     </button>
@@ -382,16 +385,16 @@ export default function Index({ products }) {
                     </div>
                 ) : (
                     /* List View */
-                    <Table.Card title={"Data Produk"}>
+                    <Table.Card title={t('Data Produk')}>
                         <Table>
                             <Table.Thead>
                                 <tr>
-                                    <Table.Th className="w-10">No</Table.Th>
-                                    <Table.Th>Produk</Table.Th>
-                                    <Table.Th>Kategori</Table.Th>
-                                    <Table.Th>Harga Beli</Table.Th>
-                                    <Table.Th>Harga Jual</Table.Th>
-                                    <Table.Th>Stok</Table.Th>
+                                    <Table.Th className="w-10">{t('No')}</Table.Th>
+                                    <Table.Th>{t('Produk')}</Table.Th>
+                                    <Table.Th>{t('Kategori')}</Table.Th>
+                                    <Table.Th>{t('Harga Beli')}</Table.Th>
+                                    <Table.Th>{t('Harga Jual')}</Table.Th>
+                                    <Table.Th>{t('Stok')}</Table.Th>
                                     <Table.Th></Table.Th>
                                 </tr>
                             </Table.Thead>
@@ -431,10 +434,10 @@ export default function Index({ products }) {
                                                     <div className="text-xs text-slate-500 dark:text-slate-400 space-y-0.5">
                                                         {product.barcode && (
                                                             <p>
-                                                                Barcode: {product.barcode}
+                                                                {t('Barcode: {{0}}', { 0: product.barcode })}
                                                             </p>
                                                         )}
-                                                        {product.sku && <p>SKU: {product.sku}</p>}
+                                                        {product.sku && <p>{t('SKU: {{0}}', { 0: product.sku })}</p>}
                                                     </div>
                                                 </div>
                                             </div>
@@ -524,10 +527,10 @@ export default function Index({ products }) {
                         />
                     </div>
                     <h3 className="text-lg font-medium text-slate-800 dark:text-slate-200 mb-1">
-                        Belum Ada Produk
+                        {t('Belum Ada Produk')}
                     </h3>
                     <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
-                        Tambahkan produk pertama Anda untuk memulai.
+                        {t('Tambahkan produk pertama Anda untuk memulai.')}
                     </p>
                     {canCreateProducts && (
                         <Button
@@ -536,7 +539,7 @@ export default function Index({ products }) {
                             className={
                                 "bg-primary-500 hover:bg-primary-600 text-white"
                             }
-                            label={"Tambah Produk"}
+                            label={t('Tambah Produk')}
                             href={route("products.create")}
                         />
                     )}

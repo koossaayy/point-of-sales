@@ -30,7 +30,7 @@ class TransactionsExport implements FromCollection, ShouldAutoSize, WithHeadings
 
     public function headings(): array
     {
-        return ['Invoice', 'Tanggal', 'Kasir', 'Pelanggan', 'Metode', 'Status', 'Subtotal', 'Diskon', 'Ongkir', 'PPN', 'Grand Total'];
+        return [__('Invoice'), __('Tanggal'), __('Kasir'), __('Pelanggan'), __('Metode'), __('Status'), __('Subtotal'), __('Diskon'), __('Ongkir'), __('PPN'), __('Grand Total')];
     }
 
     public function map($transaction): array
@@ -39,7 +39,7 @@ class TransactionsExport implements FromCollection, ShouldAutoSize, WithHeadings
             $transaction->invoice,
             $transaction->created_at->format('Y-m-d H:i:s'),
             $transaction->cashier?->name ?? '',
-            $transaction->customer?->name ?? 'Umum',
+            $transaction->customer?->name ?? __('Umum'),
             $transaction->payment_method ?? '',
             $transaction->payment_status ?? '',
             (int) ($transaction->grand_total - $transaction->discount + ($transaction->shipping_cost ?? 0) - ($transaction->tax_total ?? 0)),

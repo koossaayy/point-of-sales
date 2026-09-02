@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from 'react-i18next';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, usePage, Link, router } from "@inertiajs/react";
 import Button from "@/Components/Dashboard/Button";
@@ -23,6 +24,7 @@ import toast from "react-hot-toast";
 
 // Customer Card for Grid View
 function CustomerCard({ customer, canUpdate, canDelete }) {
+    const { t } = useTranslation();
     return (
         <div className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 hover:shadow-lg hover:border-slate-300 dark:hover:border-slate-700 transition-all duration-200">
             {/* Avatar & Name */}
@@ -55,7 +57,7 @@ function CustomerCard({ customer, canUpdate, canDelete }) {
                                     : "non-member"}
                             </span>
                             <span className="inline-flex rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-semibold text-slate-600 dark:bg-slate-800 dark:text-slate-300">
-                                {customer.loyalty_points || 0} poin
+                                {t('{{0}} poin', { 0: customer.loyalty_points || 0 })}
                             </span>
                         </div>
                     </div>
@@ -90,7 +92,7 @@ function CustomerCard({ customer, canUpdate, canDelete }) {
                             className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-warning-100 text-warning-600 hover:bg-warning-200 dark:bg-warning-900/50 dark:text-warning-400 text-sm font-medium transition-colors"
                         >
                             <IconPencilCog size={16} />
-                            <span>Edit</span>
+                            <span>{t('Edit')}</span>
                         </Link>
                     )}
                     {canDelete && (
@@ -101,7 +103,7 @@ function CustomerCard({ customer, canUpdate, canDelete }) {
                                 "flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg bg-danger-100 text-danger-600 hover:bg-danger-200 dark:bg-danger-900/50 dark:text-danger-400 text-sm font-medium"
                             }
                             url={route("customers.destroy", customer.id)}
-                            label="Hapus"
+                            label={t('Hapus')}
                         />
                     )}
                 </div>
@@ -111,6 +113,7 @@ function CustomerCard({ customer, canUpdate, canDelete }) {
 }
 
 export default function Index({ customers }) {
+    const { t } = useTranslation();
     const { can } = useAuthorization();
     const [viewMode, setViewMode] = useState("grid");
     const canCreateCustomers = can("customers-create");
@@ -119,18 +122,17 @@ export default function Index({ customers }) {
 
     return (
         <>
-            <Head title="Pelanggan" />
+            <Head title={t('Pelanggan')} />
 
             {/* Header */}
             <div className="mb-6">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
                         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                            Pelanggan
+                            {t('Pelanggan')}
                         </h1>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                            {customers.total || customers.data?.length || 0}{" "}
-                            pelanggan terdaftar
+                            {t('{{0}} pelanggan terdaftar', { 0: customers.total || customers.data?.length || 0 })}
                         </p>
                     </div>
                     {canCreateCustomers && (
@@ -140,7 +142,7 @@ export default function Index({ customers }) {
                                 className="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                             >
                                 <IconDownload size={18} />
-                                Export
+                                {t('Export')}
                             </a>
                             <button
                                 type="button"
@@ -148,7 +150,7 @@ export default function Index({ customers }) {
                                 className="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                             >
                                 <IconUpload size={18} />
-                                Import
+                                {t('Import')}
                             </button>
                             <input id="import-customers-input" type="file" accept=".xlsx,.xls,.csv" className="hidden"
                                 onChange={function(e) {
@@ -167,7 +169,7 @@ export default function Index({ customers }) {
                             className={
                                 "bg-primary-500 hover:bg-primary-600 text-white shadow-lg shadow-primary-500/30"
                             }
-                            label={"Tambah Pelanggan"}
+                            label={t('Tambah Pelanggan')}
                             href={route("customers.create")}
                         />
                         </div>
@@ -180,7 +182,7 @@ export default function Index({ customers }) {
                 <div className="w-full sm:w-80">
                     <Search
                         url={route("customers.index")}
-                        placeholder="Cari pelanggan..."
+                        placeholder={t('Cari pelanggan...')}
                     />
                 </div>
                 <div className="flex items-center gap-2">
@@ -191,7 +193,7 @@ export default function Index({ customers }) {
                                 ? "bg-primary-100 text-primary-600 dark:bg-primary-900/50 dark:text-primary-400"
                                 : "text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
                         }`}
-                        title="Grid View"
+                        title={t('Grid View')}
                     >
                         <IconLayoutGrid size={20} />
                     </button>
@@ -202,7 +204,7 @@ export default function Index({ customers }) {
                                 ? "bg-primary-100 text-primary-600 dark:bg-primary-900/50 dark:text-primary-400"
                                 : "text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
                         }`}
-                        title="List View"
+                        title={t('List View')}
                     >
                         <IconList size={20} />
                     </button>
@@ -225,15 +227,15 @@ export default function Index({ customers }) {
                     </div>
                 ) : (
                     /* List View */
-                    <Table.Card title={"Data Pelanggan"}>
+                    <Table.Card title={t('Data Pelanggan')}>
                         <Table>
                             <Table.Thead>
                                 <tr>
-                                    <Table.Th className="w-10">No</Table.Th>
-                                    <Table.Th>Pelanggan</Table.Th>
-                                    <Table.Th>Loyalty</Table.Th>
-                                    <Table.Th>No. Telepon</Table.Th>
-                                    <Table.Th>Alamat</Table.Th>
+                                    <Table.Th className="w-10">{t('No')}</Table.Th>
+                                    <Table.Th>{t('Pelanggan')}</Table.Th>
+                                    <Table.Th>{t('Loyalty')}</Table.Th>
+                                    <Table.Th>{t('No. Telepon')}</Table.Th>
+                                    <Table.Th>{t('Alamat')}</Table.Th>
                                     <Table.Th></Table.Th>
                                 </tr>
                             </Table.Thead>
@@ -284,9 +286,8 @@ export default function Index({ customers }) {
                                                         : "non-member"}
                                                 </span>
                                                 <span className="text-xs text-slate-500 dark:text-slate-400">
-                                                    {customer.loyalty_points ||
-                                                        0}{" "}
-                                                    poin
+                                                    {t('{{0}} poin', { 0: customer.loyalty_points ||
+                                                        0 })}
                                                 </span>
                                             </div>
                                         </Table.Td>
@@ -361,10 +362,10 @@ export default function Index({ customers }) {
                         />
                     </div>
                     <h3 className="text-lg font-medium text-slate-800 dark:text-slate-200 mb-1">
-                        Belum Ada Pelanggan
+                        {t('Belum Ada Pelanggan')}
                     </h3>
                     <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
-                        Tambahkan pelanggan pertama Anda.
+                        {t('Tambahkan pelanggan pertama Anda.')}
                     </p>
                     <Button
                         type={"link"}
@@ -372,7 +373,7 @@ export default function Index({ customers }) {
                         className={
                             "bg-primary-500 hover:bg-primary-600 text-white"
                         }
-                        label={"Tambah Pelanggan"}
+                        label={t('Tambah Pelanggan')}
                         href={route("customers.create")}
                     />
                 </div>

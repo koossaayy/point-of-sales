@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from 'react-i18next';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import Button from "@/Components/Dashboard/Button";
@@ -18,6 +19,7 @@ const formatCurrency = (value = 0) =>
     }).format(value);
 
 export default function Create({ suppliers, goodsReceivings, products }) {
+    const { t } = useTranslation();
     const { errors } = usePage().props;
     const { data, setData, post, processing } = useForm({
         supplier_id: "",
@@ -40,7 +42,7 @@ export default function Create({ suppliers, goodsReceivings, products }) {
 
     const addItemFromProduct = (product) => {
         if (data.items.some((i) => i.product_id === product.id)) {
-            toast.error("Produk sudah ada di daftar.");
+            toast.error(t('Produk sudah ada di daftar.'));
             return;
         }
         setData("items", [
@@ -59,7 +61,7 @@ export default function Create({ suppliers, goodsReceivings, products }) {
 
     const addItemFromGr = (grItem) => {
         if (data.items.some((i) => i.goods_receiving_item_id === grItem.id)) {
-            toast.error("Item sudah ada di daftar.");
+            toast.error(t('Item sudah ada di daftar.'));
             return;
         }
         setData("items", [
@@ -67,7 +69,7 @@ export default function Create({ suppliers, goodsReceivings, products }) {
             {
                 goods_receiving_item_id: grItem.id,
                 product_id: grItem.product_id,
-                product_title: grItem.product?.title || "Produk #" + grItem.product_id,
+                product_title: grItem.product?.title || t('Produk #') + grItem.product_id,
                 product_sku: grItem.product?.sku || "-",
                 qty_returned: 1,
                 unit_price: Number(grItem.purchase_order_item?.unit_price) || 0,
@@ -96,15 +98,15 @@ export default function Create({ suppliers, goodsReceivings, products }) {
     const submit = (e) => {
         e.preventDefault();
         if (data.items.length === 0) {
-            toast.error("Tambahkan minimal satu item.");
+            toast.error(t('Tambahkan minimal satu item.'));
             return;
         }
         if (!data.supplier_id) {
-            toast.error("Pilih supplier.");
+            toast.error(t('Pilih supplier.'));
             return;
         }
         post(route("supplier-returns.store"), {
-            onError: () => toast.error("Gagal membuat retur supplier"),
+            onError: () => toast.error(t('Gagal membuat retur supplier')),
         });
     };
 
@@ -112,28 +114,28 @@ export default function Create({ suppliers, goodsReceivings, products }) {
 
     return (
         <>
-            <Head title="Buat Retur Supplier" />
+            <Head title={t('Buat Retur Supplier')} />
             <div className="mb-6">
                 <Link
                     href={route("supplier-returns.index")}
                     className="mb-3 inline-flex items-center gap-2 text-sm text-slate-500 hover:text-primary-600"
                 >
                     <IconArrowLeft size={16} />
-                    Kembali ke daftar retur
+                    {t('Kembali ke daftar retur')}
                 </Link>
                 <h1 className="flex items-center gap-2 text-2xl font-bold text-slate-900 dark:text-white">
                     <IconTruckReturn size={28} className="text-primary-500" />
-                    Buat Retur Supplier
+                    {t('Buat Retur Supplier')}
                 </h1>
             </div>
 
             <form onSubmit={submit} className="max-w-5xl">
                 <div className="space-y-6">
                     <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
-                        <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">Informasi Retur</h2>
+                        <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">{t('Informasi Retur')}</h2>
                         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                             <div>
-                                <label className="mb-1 block text-sm font-semibold text-slate-700 dark:text-slate-200">Supplier</label>
+                                <label className="mb-1 block text-sm font-semibold text-slate-700 dark:text-slate-200">{t('Supplier')}</label>
                                 <select
                                     value={data.supplier_id}
                                     onChange={(e) => {
@@ -142,7 +144,7 @@ export default function Create({ suppliers, goodsReceivings, products }) {
                                     }}
                                     className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                                 >
-                                    <option value="">Pilih Supplier</option>
+                                    <option value="">{t('Pilih Supplier')}</option>
                                     {suppliers.map((s) => (
                                         <option key={s.id} value={s.id}>{s.name}</option>
                                     ))}
@@ -150,7 +152,7 @@ export default function Create({ suppliers, goodsReceivings, products }) {
                             </div>
                             <div>
                                 <label className="mb-1 block text-sm font-semibold text-slate-700 dark:text-slate-200">
-                                    Penerimaan Barang (Opsional)
+                                    {t('Penerimaan Barang (Opsional)')}
                                 </label>
                                 <select
                                     value={selectedGrId}
@@ -161,21 +163,21 @@ export default function Create({ suppliers, goodsReceivings, products }) {
                                     disabled={!data.supplier_id}
                                     className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 disabled:opacity-50"
                                 >
-                                    <option value="">Tidak terkait GR</option>
+                                    <option value="">{t('Tidak terkait GR')}</option>
                                     {goodsReceivings.map((gr) => (
                                         <option key={gr.id} value={gr.id}>
-                                            {gr.document_number} ({gr.items?.length || 0} item)
+                                            {t('{{0}} ({{1}} item)', { 0: gr.document_number, 1: gr.items?.length || 0 })}
                                         </option>
                                     ))}
                                 </select>
                             </div>
                             <div>
-                                <label className="mb-1 block text-sm font-semibold text-slate-700 dark:text-slate-200">Catatan</label>
+                                <label className="mb-1 block text-sm font-semibold text-slate-700 dark:text-slate-200">{t('Catatan')}</label>
                                 <input
                                     type="text"
                                     value={data.notes}
                                     onChange={(e) => setData("notes", e.target.value)}
-                                    placeholder="Catatan retur"
+                                    placeholder={t('Catatan retur')}
                                     className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                                 />
                             </div>
@@ -183,15 +185,16 @@ export default function Create({ suppliers, goodsReceivings, products }) {
                     </div>
 
                     <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
-                        <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">Item Retur</h2>
+                        <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">{t('Item Retur')}</h2>
 
                         {selectedGr && (
                             <div className="mb-4">
                                 <p className="mb-2 text-sm font-medium text-slate-600 dark:text-slate-400">
-                                    Item dari GR {selectedGr.document_number}
+                                    {t('Item dari GR {{0}}', { 0: selectedGr.document_number })}
                                 </p>
                                 <div className="max-h-48 space-y-2 overflow-y-auto rounded-xl border border-slate-100 p-3 dark:border-slate-700">
                                     {selectedGr.items?.map((grItem) => {
+    const { t } = useTranslation();
                                         const outstanding = grItem.qty_received || 0;
                                         return outstanding > 0 ? (
                                             <button
@@ -202,13 +205,13 @@ export default function Create({ suppliers, goodsReceivings, products }) {
                                             >
                                                 <div>
                                                     <p className="font-medium text-slate-800 dark:text-slate-200">
-                                                        {grItem.product?.title || "Produk #" + grItem.product_id}
+                                                        {grItem.product?.title || t('Produk #') + grItem.product_id}
                                                     </p>
                                                     <p className="text-xs text-slate-500">
-                                                        {grItem.product?.sku || "-"} &bull; Harga: {formatCurrency(grItem.purchase_order_item?.unit_price || 0)}
+                                                        {t('{{0}} • Harga: {{1}}', { 0: grItem.product?.sku || "-", 1: formatCurrency(grItem.purchase_order_item?.unit_price || 0) })}
                                                     </p>
                                                 </div>
-                                                <span className="text-xs text-primary-600">+ Tambah</span>
+                                                <span className="text-xs text-primary-600">{t('+ Tambah')}</span>
                                             </button>
                                         ) : null;
                                     })}
@@ -221,7 +224,7 @@ export default function Create({ suppliers, goodsReceivings, products }) {
                                 type="text"
                                 value={searchProduct}
                                 onChange={(e) => setSearchProduct(e.target.value)}
-                                placeholder="Cari produk untuk ditambahkan..."
+                                placeholder={t('Cari produk untuk ditambahkan...')}
                                 className="h-11 flex-1 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                             />
                         </div>
@@ -236,7 +239,7 @@ export default function Create({ suppliers, goodsReceivings, products }) {
                                     >
                                         <div>
                                             <p className="font-medium text-slate-800 dark:text-slate-200">{product.title}</p>
-                                            <p className="text-xs text-slate-500">{product.sku || "-"} &bull; Stok: {product.stock}</p>
+                                            <p className="text-xs text-slate-500">{t('{{0}} • Stok: {{1}}', { 0: product.sku || "-", 1: product.stock })}</p>
                                         </div>
                                         <span className="text-xs text-slate-500">{formatCurrency(product.buy_price)}</span>
                                     </button>
@@ -249,11 +252,11 @@ export default function Create({ suppliers, goodsReceivings, products }) {
                                 <table className="w-full text-sm">
                                     <thead>
                                         <tr className="border-b border-slate-200 dark:border-slate-700">
-                                            <th className="px-3 py-2 text-left font-semibold text-slate-700 dark:text-slate-200">Produk</th>
-                                            <th className="px-3 py-2 text-right font-semibold text-slate-700 dark:text-slate-200">Qty</th>
-                                            <th className="px-3 py-2 text-right font-semibold text-slate-700 dark:text-slate-200">Harga</th>
-                                            <th className="px-3 py-2 text-right font-semibold text-slate-700 dark:text-slate-200">Subtotal</th>
-                                            <th className="px-3 py-2 text-left font-semibold text-slate-700 dark:text-slate-200">Alasan</th>
+                                            <th className="px-3 py-2 text-left font-semibold text-slate-700 dark:text-slate-200">{t('Produk')}</th>
+                                            <th className="px-3 py-2 text-right font-semibold text-slate-700 dark:text-slate-200">{t('Qty')}</th>
+                                            <th className="px-3 py-2 text-right font-semibold text-slate-700 dark:text-slate-200">{t('Harga')}</th>
+                                            <th className="px-3 py-2 text-right font-semibold text-slate-700 dark:text-slate-200">{t('Subtotal')}</th>
+                                            <th className="px-3 py-2 text-left font-semibold text-slate-700 dark:text-slate-200">{t('Alasan')}</th>
                                             <th className="w-16 px-3 py-2"></th>
                                         </tr>
                                     </thead>
@@ -291,7 +294,7 @@ export default function Create({ suppliers, goodsReceivings, products }) {
                                                         type="text"
                                                         value={item.reason || ""}
                                                         onChange={(e) => updateItem(index, "reason", e.target.value)}
-                                                        placeholder="Alasan retur"
+                                                        placeholder={t('Alasan retur')}
                                                         className="h-10 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                                                     />
                                                 </td>
@@ -309,7 +312,7 @@ export default function Create({ suppliers, goodsReceivings, products }) {
                                     </tbody>
                                     <tfoot>
                                         <tr className="border-t-2 border-slate-200 dark:border-slate-700">
-                                            <td colSpan={3} className="px-3 py-3 text-right font-bold text-slate-800 dark:text-slate-200">Total</td>
+                                            <td colSpan={3} className="px-3 py-3 text-right font-bold text-slate-800 dark:text-slate-200">{t('Total')}</td>
                                             <td className="px-3 py-3 text-right font-bold text-danger-600">{formatCurrency(total)}</td>
                                             <td colSpan={2}></td>
                                         </tr>
@@ -319,7 +322,7 @@ export default function Create({ suppliers, goodsReceivings, products }) {
                         ) : (
                             <div className="rounded-xl border border-dashed border-slate-200 p-8 text-center dark:border-slate-700">
                                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    Pilih supplier, lalu tambahkan item dari GR atau cari produk di atas.
+                                    {t('Pilih supplier, lalu tambahkan item dari GR atau cari produk di atas.')}
                                 </p>
                             </div>
                         )}
@@ -330,13 +333,13 @@ export default function Create({ suppliers, goodsReceivings, products }) {
                             href={route("supplier-returns.index")}
                             className="flex h-11 items-center rounded-xl border border-slate-200 bg-white px-6 text-sm font-semibold text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
                         >
-                            Batal
+                            {t('Batal')}
                         </Link>
                         <Button
                             type="submit"
                             icon={<IconPlus size={18} />}
                             className="bg-primary-500 hover:bg-primary-600 text-white shadow-lg shadow-primary-500/30"
-                            label={processing ? "Menyimpan..." : "Simpan Retur"}
+                            label={processing ? t('Menyimpan...') : t('Simpan Retur')}
                             disabled={processing}
                         />
                     </div>

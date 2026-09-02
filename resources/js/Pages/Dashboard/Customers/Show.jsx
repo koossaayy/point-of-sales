@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import {
@@ -37,6 +38,7 @@ export default function Show({
     rewardHistory,
     vouchers,
 }) {
+    const { t } = useTranslation();
     const segmentForm = useForm({
         segment_ids: manualSegmentIds,
     });
@@ -55,7 +57,7 @@ export default function Show({
 
     return (
         <>
-            <Head title={`Pelanggan - ${customer.name}`} />
+            <Head title={t('Pelanggan - {{0}}', { 0: customer.name })} />
 
             <div className="w-full">
                 <div className="mb-6">
@@ -64,7 +66,7 @@ export default function Show({
                         className="mb-3 inline-flex items-center gap-2 text-sm text-slate-500 hover:text-primary-600"
                     >
                         <IconArrowLeft size={16} />
-                        Kembali ke Pelanggan
+                        {t('Kembali ke Pelanggan')}
                     </Link>
 
                     <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
@@ -86,14 +88,14 @@ export default function Show({
                             </p>
                             {customer.member_code && (
                                 <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                                    Member Code: {customer.member_code}
+                                    {t('Member Code: {{0}}', { 0: customer.member_code })}
                                 </p>
                             )}
                         </div>
                         <div className="flex gap-2">
                             <span className="inline-flex items-center gap-1 rounded-full bg-primary-100 px-3 py-1 text-xs font-semibold text-primary-700 dark:bg-primary-950/40 dark:text-primary-300">
                                 <IconCoins size={14} />
-                                {customer.loyalty_points} poin
+                                {t('{{0}} poin', { 0: customer.loyalty_points })}
                             </span>
                             {!customer.is_loyalty_member ? (
                                 <Link
@@ -106,7 +108,7 @@ export default function Show({
                                     className="inline-flex items-center gap-2 rounded-full bg-primary-500 px-3 py-1 text-xs font-semibold text-white transition hover:bg-primary-600"
                                 >
                                     <IconCrown size={14} />
-                                    Jadikan Member
+                                    {t('Jadikan Member')}
                                 </Link>
                             ) : null}
                         </div>
@@ -117,12 +119,12 @@ export default function Show({
                     <div className="space-y-6">
                         <section className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
                             <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
-                                Ringkasan Pelanggan
+                                {t('Ringkasan Pelanggan')}
                             </h2>
                             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                                 <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
                                     <p className="text-xs uppercase tracking-wide text-slate-500">
-                                        Total Transaksi
+                                        {t('Total Transaksi')}
                                     </p>
                                     <p className="mt-2 text-2xl font-bold text-slate-900 dark:text-white">
                                         {stats?.total_transactions || 0}
@@ -130,7 +132,7 @@ export default function Show({
                                 </div>
                                 <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
                                     <p className="text-xs uppercase tracking-wide text-slate-500">
-                                        Total Belanja
+                                        {t('Total Belanja')}
                                     </p>
                                     <p className="mt-2 text-lg font-bold text-slate-900 dark:text-white">
                                         {formatPrice(stats?.total_spent || 0)}
@@ -138,7 +140,7 @@ export default function Show({
                                 </div>
                                 <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
                                     <p className="text-xs uppercase tracking-wide text-slate-500">
-                                        Member Sejak
+                                        {t('Member Sejak')}
                                     </p>
                                     <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-white">
                                         {customer.loyalty_member_since
@@ -150,7 +152,7 @@ export default function Show({
                                 </div>
                                 <div className="rounded-2xl bg-slate-50 p-4 dark:bg-slate-800/60">
                                     <p className="text-xs uppercase tracking-wide text-slate-500">
-                                        Kunjungan Terakhir
+                                        {t('Kunjungan Terakhir')}
                                     </p>
                                     <p className="mt-2 text-sm font-semibold text-slate-900 dark:text-white">
                                         {stats?.last_visit
@@ -167,7 +169,7 @@ export default function Show({
                             <div className="mb-4 flex items-center gap-2">
                                 <IconTags size={18} className="text-primary-500" />
                                 <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-                                    Segment Customer
+                                    {t('Segment Customer')}
                                 </h2>
                             </div>
                             {hasSegments ? (
@@ -195,7 +197,7 @@ export default function Show({
                                         className="mx-auto mb-3 text-slate-400"
                                     />
                                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                                        Customer belum memiliki segment.
+                                        {t('Customer belum memiliki segment.')}
                                     </p>
                                 </div>
                             )}
@@ -205,7 +207,7 @@ export default function Show({
                             <div className="mb-4 flex items-center gap-2">
                                 <IconReceipt size={18} className="text-primary-500" />
                                 <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-                                    Transaksi Terakhir
+                                    {t('Transaksi Terakhir')}
                                 </h2>
                             </div>
                             {hasRecentTransactions ? (
@@ -238,7 +240,7 @@ export default function Show({
                                         className="mx-auto mb-3 text-slate-400"
                                     />
                                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                                        Belum ada transaksi pelanggan.
+                                        {t('Belum ada transaksi pelanggan.')}
                                     </p>
                                 </div>
                             )}
@@ -248,7 +250,7 @@ export default function Show({
                             <div className="mb-4 flex items-center gap-2">
                                 <IconGift size={18} className="text-primary-500" />
                                 <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-                                    Histori Reward
+                                    {t('Histori Reward')}
                                 </h2>
                             </div>
                             {hasRewardHistory ? (
@@ -275,8 +277,7 @@ export default function Show({
                                                                 : "text-rose-600 dark:text-rose-300"
                                                         }`}
                                                     >
-                                                        {history.points_delta >= 0 ? "+" : ""}
-                                                        {history.points_delta} poin
+                                                        {t('{{0}} {{1}} poin', { 0: history.points_delta >= 0 ? "+" : "", 1: history.points_delta })}
                                                     </p>
                                                     <p className="text-xs text-slate-500 dark:text-slate-400">
                                                         {formatDateTime(history.created_at)}
@@ -293,7 +294,7 @@ export default function Show({
                                         className="mx-auto mb-3 text-slate-400"
                                     />
                                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                                        Belum ada histori reward.
+                                        {t('Belum ada histori reward.')}
                                     </p>
                                 </div>
                             )}
@@ -303,30 +304,30 @@ export default function Show({
                     <div className="space-y-6">
                         <section className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
                             <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
-                                Informasi
+                                {t('Informasi')}
                             </h2>
                             <div className="space-y-3 text-sm text-slate-500 dark:text-slate-400">
                                 <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800">
                                     <p className="text-xs uppercase tracking-wide text-slate-500">
-                                        Tier Loyalty
+                                        {t('Tier Loyalty')}
                                     </p>
                                     <p className="mt-1 font-semibold text-slate-900 dark:text-white">
                                         {customer.is_loyalty_member
                                             ? customer.loyalty_tier
-                                            : "Belum menjadi member"}
+                                            : t('Belum menjadi member')}
                                     </p>
                                 </div>
                                 <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800">
                                     <p className="text-xs uppercase tracking-wide text-slate-500">
-                                        Saldo Poin
+                                        {t('Saldo Poin')}
                                     </p>
                                     <p className="mt-1 font-semibold text-slate-900 dark:text-white">
-                                        {customer.loyalty_points} poin
+                                        {t('{{0}} poin', { 0: customer.loyalty_points })}
                                     </p>
                                 </div>
                                 <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800">
                                     <p className="text-xs uppercase tracking-wide text-slate-500">
-                                        Total Nilai Transaksi
+                                        {t('Total Nilai Transaksi')}
                                     </p>
                                     <p className="mt-1 font-semibold text-slate-900 dark:text-white">
                                         {formatPrice(
@@ -343,7 +344,7 @@ export default function Show({
                             <div className="mb-4 flex items-center gap-2">
                                 <IconTags size={18} className="text-primary-500" />
                                 <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-                                    Tag Manual
+                                    {t('Tag Manual')}
                                 </h2>
                             </div>
                             {manualSegmentOptions.length > 0 ? (
@@ -402,8 +403,8 @@ export default function Show({
                                         className="inline-flex items-center justify-center rounded-xl bg-primary-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-600 disabled:cursor-not-allowed disabled:opacity-60"
                                     >
                                         {segmentForm.processing
-                                            ? "Menyimpan..."
-                                            : "Simpan Segment"}
+                                            ? t('Menyimpan...')
+                                            : t('Simpan Segment')}
                                     </button>
                                 </form>
                             ) : (
@@ -413,7 +414,7 @@ export default function Show({
                                         className="mx-auto mb-3 text-slate-400"
                                     />
                                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                                        Belum ada segment manual yang tersedia.
+                                        {t('Belum ada segment manual yang tersedia.')}
                                     </p>
                                 </div>
                             )}
@@ -421,7 +422,7 @@ export default function Show({
 
                         <section className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
                             <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
-                                Produk Favorit
+                                {t('Produk Favorit')}
                             </h2>
                             {hasFrequentProducts ? (
                                 <div className="flex flex-wrap gap-2">
@@ -441,7 +442,7 @@ export default function Show({
                                         className="mx-auto mb-3 text-slate-400"
                                     />
                                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                                        Belum ada data produk favorit.
+                                        {t('Belum ada data produk favorit.')}
                                     </p>
                                 </div>
                             )}
@@ -449,7 +450,7 @@ export default function Show({
 
                         <section className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
                             <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
-                                Voucher
+                                {t('Voucher')}
                             </h2>
                             {hasVouchers ? (
                                 <div className="space-y-3">
@@ -483,7 +484,7 @@ export default function Show({
                                         className="mx-auto mb-3 text-slate-400"
                                     />
                                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                                        Belum ada voucher untuk pelanggan ini.
+                                        {t('Belum ada voucher untuk pelanggan ini.')}
                                     </p>
                                 </div>
                             )}

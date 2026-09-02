@@ -38,7 +38,7 @@ class ReorderService
         }
 
         return app(PurchaseOrderService::class)->createOrder(
-            ['notes' => 'Auto-generated from restock suggestion'],
+            ['notes' => __('Auto-generated from restock suggestion')],
             $items,
             $userId
         );

@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, usePage, router } from "@inertiajs/react";
 import Button from "@/Components/Dashboard/Button";
@@ -13,62 +14,64 @@ import {
 import Table from "@/Components/Dashboard/Table";
 import { useAuthorization } from "@/Utils/authorization";
 import toast from "react-hot-toast";
+import i18n from '@/i18n';
 
 const STATUS_CONFIG = {
-    submitted: { label: "Menunggu", color: "bg-warning-100 text-warning-700 dark:bg-warning-900/50 dark:text-warning-400", icon: IconClock },
-    accepted: { label: "Diterima", color: "bg-primary-100 text-primary-700 dark:bg-primary-900/50 dark:text-primary-400", icon: IconCheck },
-    completed: { label: "Selesai", color: "bg-success-100 text-success-700 dark:bg-success-900/50 dark:text-success-400", icon: IconCheck },
-    rejected: { label: "Ditolak", color: "bg-danger-100 text-danger-700 dark:bg-danger-900/50 dark:text-danger-400", icon: IconX },
-    cancelled: { label: "Dibatalkan", color: "bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400", icon: IconX },
+    submitted: { get label() { return i18n.t('Menunggu'); }, color: "bg-warning-100 text-warning-700 dark:bg-warning-900/50 dark:text-warning-400", icon: IconClock },
+    accepted: { get label() { return i18n.t('Diterima'); }, color: "bg-primary-100 text-primary-700 dark:bg-primary-900/50 dark:text-primary-400", icon: IconCheck },
+    completed: { get label() { return i18n.t('Selesai'); }, color: "bg-success-100 text-success-700 dark:bg-success-900/50 dark:text-success-400", icon: IconCheck },
+    rejected: { get label() { return i18n.t('Ditolak'); }, color: "bg-danger-100 text-danger-700 dark:bg-danger-900/50 dark:text-danger-400", icon: IconX },
+    cancelled: { get label() { return i18n.t('Dibatalkan'); }, color: "bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400", icon: IconX },
 };
 
 const PAY_CONFIG = {
-    pay_at_counter: { label: "Bayar di Kasir", color: "text-slate-600 dark:text-slate-400" },
-    pay_online: { label: "Bayar Online", color: "text-primary-600 dark:text-primary-400" },
+    pay_at_counter: { get label() { return i18n.t('Bayar di Kasir'); }, color: "text-slate-600 dark:text-slate-400" },
+    pay_online: { get label() { return i18n.t('Bayar Online'); }, color: "text-primary-600 dark:text-primary-400" },
 };
 
 export default function Index({ orders }) {
+    const { t } = useTranslation();
     const { auth } = usePage().props;
     const { can } = useAuthorization();
     const canProcess = can("dine-orders-process");
 
     const handleAccept = (order) => {
-        if (!confirm("Terima pesanan ini dan lanjutkan ke kasir?")) return;
+        if (!confirm(t('Terima pesanan ini dan lanjutkan ke kasir?'))) return;
         router.post(
             route("dine-orders.accept", order.id),
             {},
             {
-                onSuccess: () => toast.success("Pesanan diterima."),
-                onError: () => toast.error("Gagal menerima pesanan."),
+                onSuccess: () => toast.success(t('Pesanan diterima.')),
+                onError: () => toast.error(t('Gagal menerima pesanan.')),
             }
         );
     };
 
     const handleReject = (order) => {
-        const reason = prompt("Alasan penolakan (opsional):");
+        const reason = prompt(t('Alasan penolakan (opsional):'));
         if (reason === null) return;
         router.post(
             route("dine-orders.reject", order.id),
             { reason },
             {
-                onSuccess: () => toast.success("Pesanan ditolak."),
-                onError: () => toast.error("Gagal menolak pesanan."),
+                onSuccess: () => toast.success(t('Pesanan ditolak.')),
+                onError: () => toast.error(t('Gagal menolak pesanan.')),
             }
         );
     };
 
     return (
         <>
-            <Head title="Pesanan Dine-In" />
+            <Head title={t('Pesanan Dine-In')} />
 
             <div className="mb-6">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
                         <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                            Pesanan Dine-In
+                            {t('Pesanan Dine-In')}
                         </h1>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                            {orders.length} pesanan
+                            {t('{{0}} pesanan', { 0: orders.length })}
                         </p>
                     </div>
                 </div>
@@ -99,8 +102,8 @@ export default function Index({ orders }) {
                                                 </span>
                                             </div>
                                             <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
-                                                <span>{order.item_count} item</span>
-                                                <span>Subtotal: Rp {Number(order.subtotal ?? 0).toLocaleString("id-ID")}</span>
+                                                <span>{t('{{0}} item', { 0: order.item_count })}</span>
+                                                <span>{t('Subtotal: Rp {{0}}', { 0: Number(order.subtotal ?? 0).toLocaleString("id-ID") })}</span>
                                                 <span className={pay.color}>{pay.label}</span>
                                             </div>
                                         </div>
@@ -109,7 +112,7 @@ export default function Index({ orders }) {
                                                 <>
                                                     <Button
                                                         type={"button"}
-                                                        label={"Terima"}
+                                                        label={t('Terima')}
                                                         icon={<IconCheck size={16} strokeWidth={1.5} />}
                                                         className={
                                                             "bg-success-500 hover:bg-success-600 text-white"
@@ -118,7 +121,7 @@ export default function Index({ orders }) {
                                                     />
                                                     <Button
                                                         type={"button"}
-                                                        label={"Tolak"}
+                                                        label={t('Tolak')}
                                                         icon={<IconX size={16} strokeWidth={1.5} />}
                                                         className={
                                                             "border border-danger-200 text-danger-600 hover:bg-danger-50 dark:border-danger-800 dark:text-danger-400"
@@ -140,12 +143,12 @@ export default function Index({ orders }) {
                                                         {item.product?.title ?? "Produk"}
                                                     </p>
                                                     {item.note && (
-                                                        <p className="text-xs text-slate-400 mt-0.5">Catatan: {item.note}</p>
+                                                        <p className="text-xs text-slate-400 mt-0.5">{t('Catatan: {{0}}', { 0: item.note })}</p>
                                                     )}
                                                 </div>
                                                 <div className="text-right">
                                                     <p className="text-sm text-slate-700 dark:text-slate-300">
-                                                        {item.qty}x Rp {Number(item.price).toLocaleString("id-ID")}
+                                                        {t('{{0}}x Rp {{1}}', { 0: item.qty, 1: Number(item.price).toLocaleString("id-ID") })}
                                                     </p>
                                                 </div>
                                             </div>
@@ -155,7 +158,7 @@ export default function Index({ orders }) {
                                     {order.notes && (
                                         <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800">
                                             <p className="text-sm text-slate-500 dark:text-slate-400">
-                                                <span className="font-medium">Catatan:</span> {order.notes}
+                                                <span className="font-medium">{t('Catatan:')}</span> {order.notes}
                                             </p>
                                         </div>
                                     )}
@@ -165,7 +168,7 @@ export default function Index({ orders }) {
                                             {order.created_at}
                                         </span>
                                         <span className="text-sm font-semibold text-slate-800 dark:text-slate-200">
-                                            Total: Rp {Number(order.subtotal ?? 0).toLocaleString("id-ID")}
+                                            {t('Total: Rp {{0}}', { 0: Number(order.subtotal ?? 0).toLocaleString("id-ID") })}
                                         </span>
                                     </div>
                                 </div>
@@ -179,10 +182,10 @@ export default function Index({ orders }) {
                         <IconDatabaseOff size={32} className="text-slate-400" strokeWidth={1.5} />
                     </div>
                     <h3 className="text-lg font-medium text-slate-800 dark:text-slate-200 mb-1">
-                        Tidak Ada Pesanan
+                        {t('Tidak Ada Pesanan')}
                     </h3>
                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                        Pesanan dari pelanggan akan muncul di sini.
+                        {t('Pesanan dari pelanggan akan muncul di sini.')}
                     </p>
                 </div>
             )}

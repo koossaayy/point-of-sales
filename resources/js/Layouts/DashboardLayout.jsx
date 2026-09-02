@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { usePage } from "@inertiajs/react";
+import { useTranslation } from 'react-i18next';
 import Sidebar from "@/Components/Dashboard/Sidebar";
 import Navbar from "@/Components/Dashboard/Navbar";
 import { Toaster } from "react-hot-toast";
 import { useTheme } from "@/Context/ThemeSwitcherContext";
 
 export default function AppLayout({ children }) {
+    const { t } = useTranslation();
     const { darkMode, themeSwitcher } = useTheme();
     const { url } = usePage();
     const { auth, security } = usePage().props;
@@ -72,7 +74,7 @@ export default function AppLayout({ children }) {
                         {showSecurityWarnings && (
                             <div className="mb-6 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-4 text-amber-800 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-200">
                                 <p className="text-sm font-semibold">
-                                    Production security baseline warning
+                                    {t('Production security baseline warning')}
                                 </p>
                                 <ul className="mt-2 space-y-1 text-sm">
                                     {securityWarnings.map((warning) => (

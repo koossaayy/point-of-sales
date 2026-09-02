@@ -86,7 +86,7 @@ class GoodsReceivingService
                     qty: $qtyReceived,
                     stockBefore: (int) $product->stock + $qtyReceived,
                     stockAfter: (int) $product->stock,
-                    notes: 'Penerimaan dari PO '.$order->document_number,
+                    notes: __('Penerimaan dari PO :document_number', ['document_number' => $order->document_number]),
                     userId: $userId,
                 );
             }
@@ -145,7 +145,7 @@ class GoodsReceivingService
                 'paid' => 0,
                 'due_date' => now()->addDays(30),
                 'status' => 'unpaid',
-                'note' => 'Otomatis dari penerimaan PO '.$order->document_number,
+                'note' => __('Otomatis dari penerimaan PO :document_number', ['document_number' => $order->document_number]),
             ]
         );
 

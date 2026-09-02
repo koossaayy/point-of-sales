@@ -27,13 +27,13 @@ class PaymentSettingController extends Controller
         $webhookWarnings = [];
 
         if (blank($appUrl)) {
-            $webhookWarnings[] = 'APP_URL belum diatur. Webhook URL yang dihasilkan bisa tidak valid untuk Midtrans/Xendit.';
+            $webhookWarnings[] = __('APP_URL belum diatur. Webhook URL yang dihasilkan bisa tidak valid untuk Midtrans/Xendit.');
         } elseif ($this->isLocalAppUrl($appUrl)) {
-            $webhookWarnings[] = 'APP_URL masih mengarah ke localhost atau 127.0.0.1. Payment gateway membutuhkan URL publik yang bisa diakses dari internet.';
+            $webhookWarnings[] = __('APP_URL masih mengarah ke localhost atau 127.0.0.1. Payment gateway membutuhkan URL publik yang bisa diakses dari internet.');
         }
 
         if ($setting->xendit_enabled && ! $setting->secretConfigured('xendit_callback_token')) {
-            $webhookWarnings[] = 'Xendit aktif tetapi callback token belum diisi. Webhook Xendit akan ditolak sampai token tersedia.';
+            $webhookWarnings[] = __('Xendit aktif tetapi callback token belum diisi. Webhook Xendit akan ditolak sampai token tersedia.');
         }
 
         if (collect($setting->paymentSettingSources())->contains(fn (array $source) => $source['source'] === 'env')) {
@@ -66,8 +66,8 @@ class PaymentSettingController extends Controller
             ],
             'paymentSettingSources' => $setting->paymentSettingSources(),
             'supportedGateways' => [
-                ['value' => 'cash', 'label' => 'Tunai'],
-                ['value' => PaymentSetting::GATEWAY_BANK_TRANSFER, 'label' => 'Transfer Bank'],
+                ['value' => 'cash', 'label' => __('Tunai')],
+                ['value' => PaymentSetting::GATEWAY_BANK_TRANSFER, 'label' => __('Transfer Bank')],
                 ['value' => PaymentSetting::GATEWAY_MIDTRANS, 'label' => 'Midtrans'],
                 ['value' => PaymentSetting::GATEWAY_XENDIT, 'label' => 'Xendit'],
             ],
@@ -117,19 +117,19 @@ class PaymentSettingController extends Controller
 
         if ($midtransEnabled && (blank($resolvedMidtransServerKey) || empty($data['midtrans_client_key']))) {
             return back()->withErrors([
-                'midtrans_server_key' => 'Server key dan Client key Midtrans wajib diisi saat mengaktifkan Midtrans.',
+                'midtrans_server_key' => __('Server key dan Client key Midtrans wajib diisi saat mengaktifkan Midtrans.'),
             ])->withInput();
         }
 
         if ($xenditEnabled && blank($resolvedXenditSecretKey)) {
             return back()->withErrors([
-                'xendit_secret_key' => 'Secret key Xendit wajib diisi saat mengaktifkan Xendit.',
+                'xendit_secret_key' => __('Secret key Xendit wajib diisi saat mengaktifkan Xendit.'),
             ])->withInput();
         }
 
         if ($xenditEnabled && blank($resolvedXenditCallbackToken)) {
             return back()->withErrors([
-                'xendit_callback_token' => 'Callback token Xendit wajib diisi saat mengaktifkan Xendit.',
+                'xendit_callback_token' => __('Callback token Xendit wajib diisi saat mengaktifkan Xendit.'),
             ])->withInput();
         }
 
@@ -139,7 +139,7 @@ class PaymentSettingController extends Controller
                 || ($data['default_gateway'] === PaymentSetting::GATEWAY_XENDIT && $xenditEnabled))
         ) {
             return back()->withErrors([
-                'default_gateway' => 'Gateway default harus dalam kondisi aktif.',
+                'default_gateway' => __('Gateway default harus dalam kondisi aktif.'),
             ])->withInput();
         }
 
@@ -215,7 +215,7 @@ class PaymentSettingController extends Controller
 
         return redirect()
             ->route('settings.payments.edit')
-            ->with('success', 'Konfigurasi payment gateway berhasil disimpan.');
+            ->with('success', __('Konfigurasi payment gateway berhasil disimpan.'));
     }
 
     private function isLocalAppUrl(string $appUrl): bool

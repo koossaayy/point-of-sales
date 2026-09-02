@@ -77,7 +77,7 @@
                 </div>
             @endif
             <div style="display:flex; justify-content:space-between;">
-                <span>{{ $qty }}x @ {{ $formatPrice($unit) }}</span>
+                <span>{{ __(':param_1x @ :param_2', ['param_1' => $qty, 'param_2' => $formatPrice($unit)]) }}</span>
                 <span>{{ $formatPrice($total) }}</span>
             </div>
         @endforeach
@@ -166,7 +166,7 @@
 
     <div class="center section" style="margin-bottom:0;">
         <div class="barcode">
-            <img src="{{ $barcode }}" alt="barcode">
+            <img src="{{ $barcode }}" alt="{{ __('barcode') }}">
         </div>
         <div style="font-size:11px;">{{ $transaction->invoice }}</div>
         <div>{{ $l('common.thank_you') }}</div>

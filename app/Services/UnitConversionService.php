@@ -43,10 +43,10 @@ class UnitConversionService
     public function getUnitLabel(Product $product, ?int $unitId): string
     {
         if (! $unitId) {
-            return 'pcs';
+            return __('pcs');
         }
         $unit = Unit::find($unitId);
 
-        return $unit?->symbol ?? 'pcs';
+        return $unit?->symbol ?? __('pcs');
     }
 }
