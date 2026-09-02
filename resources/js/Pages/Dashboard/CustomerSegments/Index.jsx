@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, router } from "@inertiajs/react";
 import Button from "@/Components/Dashboard/Button";
@@ -8,6 +9,7 @@ import { IconCirclePlus, IconPencil, IconSearch, IconTrash, IconUsersGroup } fro
 import { useAuthorization } from "@/Utils/authorization";
 
 export default function Index({ segments, filters }) {
+    const { t } = useTranslation();
     const { can } = useAuthorization();
     const handleFilterChange = (key, value) => {
         router.get(route("customer-segments.index"), { ...filters, [key]: value }, { preserveState: true, replace: true });
@@ -15,14 +17,14 @@ export default function Index({ segments, filters }) {
 
     return (
         <>
-            <Head title="Customer Segments" />
+            <Head title={t('Customer Segments')} />
 
             <div className="w-full">
                 <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Customer Segments</h1>
+                        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{t('Customer Segments')}</h1>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                            Kelola tag manual dan auto segment untuk CRM dan automation.
+                            {t('Kelola tag manual dan auto segment untuk CRM dan automation.')}
                         </p>
                     </div>
                     {can("customer-segments-create") && (
@@ -31,7 +33,7 @@ export default function Index({ segments, filters }) {
                             href={route("customer-segments.create")}
                             icon={<IconCirclePlus size={18} />}
                             className="bg-primary-500 text-white hover:bg-primary-600 shadow-lg shadow-primary-500/30"
-                            label="Buat Segment"
+                            label={t('Buat Segment')}
                         />
                     )}
                 </div>
@@ -43,7 +45,7 @@ export default function Index({ segments, filters }) {
                                 type="text"
                                 value={filters.search || ""}
                                 onChange={(event) => handleFilterChange("search", event.target.value)}
-                                placeholder="Cari nama segment..."
+                                placeholder={t('Cari nama segment...')}
                                 className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 pr-11 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                             />
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400">
@@ -55,22 +57,22 @@ export default function Index({ segments, filters }) {
                             onChange={(event) => handleFilterChange("type", event.target.value)}
                             className="h-11 rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                         >
-                            <option value="">Semua Tipe</option>
-                            <option value="manual">Manual</option>
-                            <option value="auto">Auto</option>
+                            <option value="">{t('Semua Tipe')}</option>
+                            <option value="manual">{t('Manual')}</option>
+                            <option value="auto">{t('Auto')}</option>
                         </select>
                     </div>
                 </div>
 
-                <Table.Card title="Daftar Segment">
+                <Table.Card title={t('Daftar Segment')}>
                     <Table>
                         <Table.Thead>
                             <tr>
-                                <Table.Th>Segment</Table.Th>
-                                <Table.Th>Tipe</Table.Th>
-                                <Table.Th>Anggota</Table.Th>
-                                <Table.Th>Status</Table.Th>
-                                <Table.Th className="w-36 text-center">Aksi</Table.Th>
+                                <Table.Th>{t('Segment')}</Table.Th>
+                                <Table.Th>{t('Tipe')}</Table.Th>
+                                <Table.Th>{t('Anggota')}</Table.Th>
+                                <Table.Th>{t('Status')}</Table.Th>
+                                <Table.Th className="w-36 text-center">{t('Aksi')}</Table.Th>
                             </tr>
                         </Table.Thead>
                         <Table.Tbody>
@@ -96,7 +98,7 @@ export default function Index({ segments, filters }) {
                                         <Table.Td>{segment.memberships_count}</Table.Td>
                                         <Table.Td>
                                             <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${segment.is_active ? "bg-success-100 text-success-700 dark:bg-success-950/30 dark:text-success-400" : "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300"}`}>
-                                                {segment.is_active ? "Aktif" : "Nonaktif"}
+                                                {segment.is_active ? t('Aktif') : t('Nonaktif')}
                                             </span>
                                         </Table.Td>
                                         <Table.Td className="text-center">

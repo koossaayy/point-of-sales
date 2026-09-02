@@ -79,7 +79,7 @@ class SalesReturnController extends Controller
         $transaction = $this->resolveAccessibleTransaction($request, $transaction->id);
 
         if (! $this->transactionHasReturnableItems($transaction)) {
-            return to_route('transactions.history')->with('error', 'Seluruh item transaksi ini sudah habis diretur.');
+            return to_route('transactions.history')->with('error', __('Seluruh item transaksi ini sudah habis diretur.'));
         }
 
         return Inertia::render('Dashboard/SalesReturns/Create', [
@@ -122,7 +122,7 @@ class SalesReturnController extends Controller
             after: $this->salesReturnAuditPayload($salesReturn),
         );
 
-        return to_route('sales-returns.show', $salesReturn)->with('success', 'Draft retur penjualan berhasil dibuat.');
+        return to_route('sales-returns.show', $salesReturn)->with('success', __('Draft retur penjualan berhasil dibuat.'));
     }
 
     public function show(Request $request, SalesReturn $salesReturn): Response
@@ -171,7 +171,7 @@ class SalesReturnController extends Controller
             after: $this->salesReturnAuditPayload($salesReturn),
         );
 
-        return back()->with('success', 'Draft retur penjualan berhasil diperbarui.');
+        return back()->with('success', __('Draft retur penjualan berhasil diperbarui.'));
     }
 
     public function complete(Request $request, SalesReturn $salesReturn): RedirectResponse
@@ -308,7 +308,7 @@ class SalesReturnController extends Controller
                     'sales_return_id' => $salesReturn->id,
                     'amount' => $salesReturn->credited_amount,
                     'balance' => $salesReturn->credited_amount,
-                    'notes' => 'Saldo toko dari retur penjualan '.$salesReturn->code,
+                    'notes' => __('Saldo toko dari retur penjualan ').$salesReturn->code,
                 ]);
             }
         });
@@ -324,7 +324,7 @@ class SalesReturnController extends Controller
             after: $this->salesReturnAuditPayload($salesReturn),
         );
 
-        return back()->with('success', 'Retur penjualan berhasil diselesaikan.');
+        return back()->with('success', __('Retur penjualan berhasil diselesaikan.'));
     }
 
     private function salesReturnAuditPayload(SalesReturn $salesReturn): array
@@ -658,7 +658,7 @@ class SalesReturnController extends Controller
     private function ensureSalesReturnTablesExist(): void
     {
         if (! Schema::hasTable('sales_returns') || ! Schema::hasTable('sales_return_items')) {
-            abort(503, 'Fitur retur penjualan belum siap. Jalankan migrasi database terlebih dahulu.');
+            abort(503, __('Fitur retur penjualan belum siap. Jalankan migrasi database terlebih dahulu.'));
         }
     }
 

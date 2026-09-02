@@ -1,5 +1,6 @@
 import React from "react";
 import { Head, useForm } from "@inertiajs/react";
+import { useTranslation } from 'react-i18next';
 import Button from "@/Components/Dashboard/Button";
 import {
     IconArrowLeft,
@@ -14,6 +15,7 @@ function InputError({ message }) {
 }
 
 export default function Form({ mode = "create", voucher = null, customers = [] }) {
+    const { t } = useTranslation();
     const isEdit = mode === "edit";
     const { data, setData, post, put, processing, errors } = useForm({
         customer_id: voucher?.customer_id ? String(voucher.customer_id) : "",
@@ -51,7 +53,7 @@ export default function Form({ mode = "create", voucher = null, customers = [] }
         <>
             <Head
                 title={
-                    isEdit ? "Edit Voucher Customer" : "Buat Voucher Customer"
+                    isEdit ? t('Edit Voucher Customer') : t('Buat Voucher Customer')
                 }
             />
 
@@ -62,15 +64,15 @@ export default function Form({ mode = "create", voucher = null, customers = [] }
                         href={route("customer-vouchers.index")}
                         icon={<IconArrowLeft size={18} />}
                         className="mb-3 border-none bg-transparent px-0 text-slate-500 shadow-none hover:bg-transparent hover:text-primary-600 dark:text-slate-400"
-                        label="Kembali ke voucher customer"
+                        label={t('Kembali ke voucher customer')}
                     />
                     <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
                         {isEdit
-                            ? "Edit Voucher Customer"
-                            : "Buat Voucher Customer"}
+                            ? t('Edit Voucher Customer')
+                            : t('Buat Voucher Customer')}
                     </h1>
                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                        Distribusikan voucher promosi untuk pelanggan tertentu.
+                        {t('Distribusikan voucher promosi untuk pelanggan tertentu.')}
                     </p>
                 </div>
 
@@ -82,10 +84,10 @@ export default function Form({ mode = "create", voucher = null, customers = [] }
                             </div>
                             <div>
                                 <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
-                                    Informasi Voucher
+                                    {t('Informasi Voucher')}
                                 </h2>
                                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    Tentukan pelanggan, kode, dan identitas voucher personal.
+                                    {t('Tentukan pelanggan, kode, dan identitas voucher personal.')}
                                 </p>
                             </div>
                         </div>
@@ -93,7 +95,7 @@ export default function Form({ mode = "create", voucher = null, customers = [] }
                         <div className="grid gap-4 md:grid-cols-2">
                             <div className="md:col-span-2">
                                 <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Pelanggan
+                                    {t('Pelanggan')}
                                 </label>
                                 <select
                                     value={data.customer_id}
@@ -102,7 +104,7 @@ export default function Form({ mode = "create", voucher = null, customers = [] }
                                     }
                                     className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                                 >
-                                    <option value="">Pilih pelanggan</option>
+                                    <option value="">{t('Pilih pelanggan')}</option>
                                     {customers.map((customer) => (
                                         <option key={customer.id} value={customer.id}>
                                             {customer.name} | {customer.no_telp || "-"} |{" "}
@@ -117,7 +119,7 @@ export default function Form({ mode = "create", voucher = null, customers = [] }
 
                             <div>
                                 <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Kode Voucher
+                                    {t('Kode Voucher')}
                                 </label>
                                 <input
                                     type="text"
@@ -128,7 +130,7 @@ export default function Form({ mode = "create", voucher = null, customers = [] }
                                             event.target.value.toUpperCase()
                                         )
                                     }
-                                    placeholder="Kosongkan untuk generate otomatis"
+                                    placeholder={t('Kosongkan untuk generate otomatis')}
                                     className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                                 />
                                 <InputError message={errors.code} />
@@ -136,7 +138,7 @@ export default function Form({ mode = "create", voucher = null, customers = [] }
 
                             <div>
                                 <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Nama Voucher
+                                    {t('Nama Voucher')}
                                 </label>
                                 <input
                                     type="text"
@@ -144,7 +146,7 @@ export default function Form({ mode = "create", voucher = null, customers = [] }
                                     onChange={(event) =>
                                         setData("name", event.target.value)
                                     }
-                                    placeholder="Contoh: Voucher Member Mei"
+                                    placeholder={t('Contoh: Voucher Member Mei')}
                                     className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                                 />
                                 <InputError message={errors.name} />
@@ -154,13 +156,13 @@ export default function Form({ mode = "create", voucher = null, customers = [] }
 
                     <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
                         <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
-                            Benefit & Periode
+                            {t('Benefit & Periode')}
                         </h2>
 
                         <div className="grid gap-4 md:grid-cols-2">
                             <div>
                                 <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Tipe Diskon
+                                    {t('Tipe Diskon')}
                                 </label>
                                 <select
                                     value={data.discount_type}
@@ -169,15 +171,15 @@ export default function Form({ mode = "create", voucher = null, customers = [] }
                                     }
                                     className="h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 text-sm text-slate-800 outline-none transition focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
                                 >
-                                    <option value="fixed_amount">Potongan Nominal</option>
-                                    <option value="percentage">Persentase (%)</option>
+                                    <option value="fixed_amount">{t('Potongan Nominal')}</option>
+                                    <option value="percentage">{t('Persentase (%)')}</option>
                                 </select>
                                 <InputError message={errors.discount_type} />
                             </div>
 
                             <div>
                                 <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Nilai Diskon
+                                    {t('Nilai Diskon')}
                                 </label>
                                 <input
                                     type="number"
@@ -194,7 +196,7 @@ export default function Form({ mode = "create", voucher = null, customers = [] }
 
                             <div>
                                 <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Minimum Belanja
+                                    {t('Minimum Belanja')}
                                 </label>
                                 <input
                                     type="number"
@@ -219,14 +221,14 @@ export default function Form({ mode = "create", voucher = null, customers = [] }
                                         className="h-4 w-4 rounded border-slate-300 text-primary-500 focus:ring-primary-500/20"
                                     />
                                     <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                                        Voucher aktif
+                                        {t('Voucher aktif')}
                                     </span>
                                 </label>
                             </div>
 
                             <div>
                                 <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Mulai Berlaku
+                                    {t('Mulai Berlaku')}
                                 </label>
                                 <input
                                     type="datetime-local"
@@ -241,7 +243,7 @@ export default function Form({ mode = "create", voucher = null, customers = [] }
 
                             <div>
                                 <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Berakhir Pada
+                                    {t('Berakhir Pada')}
                                 </label>
                                 <input
                                     type="datetime-local"
@@ -256,7 +258,7 @@ export default function Form({ mode = "create", voucher = null, customers = [] }
 
                             <div className="md:col-span-2">
                                 <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Catatan
+                                    {t('Catatan')}
                                 </label>
                                 <textarea
                                     rows="4"
@@ -276,14 +278,14 @@ export default function Form({ mode = "create", voucher = null, customers = [] }
                             type="link"
                             href={route("customer-vouchers.index")}
                             className="border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
-                            label="Batal"
+                            label={t('Batal')}
                         />
                         <Button
                             type="submit"
                             disabled={processing}
                             icon={<IconDeviceFloppy size={18} />}
                             className="bg-primary-500 text-white hover:bg-primary-600 disabled:opacity-60"
-                            label={processing ? "Menyimpan..." : "Simpan"}
+                            label={processing ? t('Menyimpan...') : t('Simpan')}
                         />
                     </div>
                 </form>

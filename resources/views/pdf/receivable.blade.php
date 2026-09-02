@@ -46,33 +46,33 @@
                 <div class="store-info">
                     <div class="store-name">{{ $store['name'] }}</div>
                     @if($store['address'])<div class="muted">{{ $store['address'] }}</div>@endif
-                    <div class="muted">{{ $store['phone'] ? 'Telp: '.$store['phone'].' • ' : '' }}{{ $store['email'] }}</div>
+                    <div class="muted">{{ $store['phone'] ? __('Telp:').$store['phone'].' • ' : '' }}{{ $store['email'] }}</div>
                 </div>
             </div>
             <div class="doc">
-                <div class="badge">Nota Barang</div>
+                <div class="badge">{{ __('Nota Barang') }}</div>
                 <div class="doc-number">{{ $receivable->invoice }}</div>
-                <div class="muted">Jatuh tempo: {{ $receivable->due_date ?? '-' }}</div>
+                <div class="muted">{{ __('Jatuh tempo: :param_1', ['param_1' => $receivable->due_date ?? '-']) }}</div>
             </div>
         </div>
 
         <div class="section grid-2">
             <div>
-                <div class="section-title">Pelanggan</div>
-                <div style="font-weight:700; font-size:14px;">{{ $receivable->customer->name ?? 'Umum' }}</div>
+                <div class="section-title">{{ __('Pelanggan') }}</div>
+                <div style="font-weight:700; font-size:14px;">{{ $receivable->customer->name ?? __('Umum') }}</div>
                 @if($receivable->customer?->phone)<div class="muted">{{ $receivable->customer->phone }}</div>@endif
             </div>
             <div class="grid-2" style="gap:10px;">
                 <div class="stat">
-                    <div class="stat-label">Total</div>
+                    <div class="stat-label">{{ __('Total') }}</div>
                     <div class="stat-value">{{ number_format($receivable->total,0,',','.') }}</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-label">Terbayar</div>
+                    <div class="stat-label">{{ __('Terbayar') }}</div>
                     <div class="stat-value stat-positive">{{ number_format($receivable->paid,0,',','.') }}</div>
                 </div>
                 <div class="stat" style="grid-column: span 2;">
-                    <div class="stat-label">Sisa</div>
+                    <div class="stat-label">{{ __('Sisa') }}</div>
                     <div class="stat-value stat-warning">
                         {{ number_format(max(0, $receivable->total - $receivable->paid),0,',','.') }}
                     </div>
@@ -81,13 +81,13 @@
         </div>
 
         <div class="section">
-            <div class="section-title">Riwayat Pembayaran</div>
+            <div class="section-title">{{ __('Riwayat Pembayaran') }}</div>
             <table>
                 <thead>
                     <tr>
-                        <th style="width:35%;">Tanggal</th>
-                        <th style="width:35%;">Metode</th>
-                        <th style="text-align:right;">Jumlah</th>
+                        <th style="width:35%;">{{ __('Tanggal') }}</th>
+                        <th style="width:35%;">{{ __('Metode') }}</th>
+                        <th style="text-align:right;">{{ __('Jumlah') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -98,16 +98,16 @@
                         <td style="text-align:right;">{{ number_format($pay->amount,0,',','.') }}</td>
                     </tr>
                 @empty
-                    <tr><td colspan="3" style="color:#94a3b8; text-align:center;">Belum ada pembayaran</td></tr>
+                    <tr><td colspan="3" style="color:#94a3b8; text-align:center;">{{ __('Belum ada pembayaran') }}</td></tr>
                 @endforelse
                 </tbody>
             </table>
         </div>
 
         <div class="footer">
-            <div class="muted" style="font-size:11px;">Dicetak pada {{ now()->format('d M Y') }}</div>
+            <div class="muted" style="font-size:11px;">{{ __('Dicetak pada :param_1', ['param_1' => now()->format('d M Y')]) }}</div>
             <div class="barcode" style="text-align:right;">
-                <img src="{{ $barcode }}" alt="barcode">
+                <img src="{{ $barcode }}" alt="{{ __('barcode') }}">
                 <div style="font-size:10px; text-align:right;">{{ $receivable->invoice }}</div>
             </div>
         </div>

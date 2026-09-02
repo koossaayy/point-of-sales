@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Head, router } from "@inertiajs/react";
+import { useTranslation } from 'react-i18next';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import InputSelect from "@/Components/Dashboard/InputSelect";
 import Pagination from "@/Components/Dashboard/Pagination";
@@ -61,6 +62,7 @@ const ProfitReport = ({
     cashiers,
     customers,
 }) => {
+    const { t } = useTranslation();
     const [showFilters, setShowFilters] = useState(false);
     const [filterData, setFilterData] = useState({
         ...defaultFilters,
@@ -126,28 +128,28 @@ const ProfitReport = ({
 
     const summaryCards = [
         {
-            title: "Total Profit",
+            title: t('Total Profit'),
             value: formatCurrency(stats.profit_total),
-            description: "Akumulasi bersih",
+            description: t('Akumulasi bersih'),
             icon: <IconCoin />,
             gradient: "from-success-500 to-success-700",
         },
         {
-            title: "Rata-rata Profit",
+            title: t('Rata-rata Profit'),
             value: formatCurrency(stats.average_profit),
             description: `${stats.orders_count} transaksi`,
             icon: <IconTrendingUp />,
             gradient: "from-primary-500 to-primary-700",
         },
         {
-            title: "Margin Kotor",
+            title: t('Margin Kotor'),
             value: `${stats.margin}%`,
-            description: "Profit vs penjualan",
+            description: t('Profit vs penjualan'),
             icon: <IconPercentage />,
             gradient: "from-warning-500 to-warning-600",
         },
         {
-            title: "Transaksi Terbaik",
+            title: t('Transaksi Terbaik'),
             value: stats.best_invoice,
             description: formatCurrency(stats.best_profit),
             icon: <IconReceipt />,
@@ -157,7 +159,7 @@ const ProfitReport = ({
 
     return (
         <>
-            <Head title="Laporan Keuntungan" />
+            <Head title={t('Laporan Keuntungan')} />
 
             <div className="space-y-6">
                 {/* Header */}
@@ -165,10 +167,10 @@ const ProfitReport = ({
                     <div>
                         <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                             <IconCoin size={28} className="text-success-500" />
-                            Laporan Keuntungan
+                            {t('Laporan Keuntungan')}
                         </h1>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                            Analisis profit dan margin
+                            {t('Analisis profit dan margin')}
                         </p>
                     </div>
                     <button
@@ -180,7 +182,7 @@ const ProfitReport = ({
                         }`}
                     >
                         <IconFilter size={18} />
-                        <span>Filter</span>
+                        <span>{t('Filter')}</span>
                         {hasActiveFilters && (
                             <span className="w-2 h-2 rounded-full bg-primary-500"></span>
                         )}
@@ -201,7 +203,7 @@ const ProfitReport = ({
                             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
                                 <div>
                                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                        Tanggal Mulai
+                                        {t('Tanggal Mulai')}
                                     </label>
                                     <input
                                         type="date"
@@ -217,7 +219,7 @@ const ProfitReport = ({
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                        Tanggal Akhir
+                                        {t('Tanggal Akhir')}
                                     </label>
                                     <input
                                         type="date"
@@ -233,11 +235,11 @@ const ProfitReport = ({
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                        Invoice
+                                        {t('Invoice')}
                                     </label>
                                     <input
                                         type="text"
-                                        placeholder="TRX-..."
+                                        placeholder={t('TRX-...')}
                                         value={filterData.invoice}
                                         onChange={(e) =>
                                             handleChange(
@@ -249,7 +251,7 @@ const ProfitReport = ({
                                     />
                                 </div>
                                 <InputSelect
-                                    label="Kasir"
+                                    label={t('Kasir')}
                                     data={cashiers}
                                     selected={selectedCashier}
                                     setSelected={(v) => {
@@ -259,11 +261,11 @@ const ProfitReport = ({
                                             v ? String(v.id) : ""
                                         );
                                     }}
-                                    placeholder="Semua kasir"
+                                    placeholder={t('Semua kasir')}
                                     searchable
                                 />
                                 <InputSelect
-                                    label="Pelanggan"
+                                    label={t('Pelanggan')}
                                     data={customers}
                                     selected={selectedCustomer}
                                     setSelected={(v) => {
@@ -273,7 +275,7 @@ const ProfitReport = ({
                                             v ? String(v.id) : ""
                                         );
                                     }}
-                                    placeholder="Semua pelanggan"
+                                    placeholder={t('Semua pelanggan')}
                                     searchable
                                 />
                             </div>
@@ -292,7 +294,7 @@ const ProfitReport = ({
                                     className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-primary-500 hover:bg-primary-600 text-white font-medium transition-colors"
                                 >
                                     <IconSearch size={18} />
-                                    Terapkan
+                                    {t('Terapkan')}
                                 </button>
                             </div>
                         </form>
@@ -307,28 +309,28 @@ const ProfitReport = ({
                                 <thead>
                                     <tr className="border-b border-slate-100 dark:border-slate-800">
                                         <th className="px-4 py-4 text-left text-xs font-semibold text-slate-500 uppercase">
-                                            No
+                                            {t('No')}
                                         </th>
                                         <th className="px-4 py-4 text-left text-xs font-semibold text-slate-500 uppercase">
-                                            Invoice
+                                            {t('Invoice')}
                                         </th>
                                         <th className="px-4 py-4 text-left text-xs font-semibold text-slate-500 uppercase">
-                                            Tanggal
+                                            {t('Tanggal')}
                                         </th>
                                         <th className="px-4 py-4 text-left text-xs font-semibold text-slate-500 uppercase">
-                                            Kasir
+                                            {t('Kasir')}
                                         </th>
                                         <th className="px-4 py-4 text-left text-xs font-semibold text-slate-500 uppercase">
-                                            Pelanggan
+                                            {t('Pelanggan')}
                                         </th>
                                         <th className="px-4 py-4 text-center text-xs font-semibold text-slate-500 uppercase">
-                                            Item
+                                            {t('Item')}
                                         </th>
                                         <th className="px-4 py-4 text-right text-xs font-semibold text-slate-500 uppercase">
-                                            Penjualan
+                                            {t('Penjualan')}
                                         </th>
                                         <th className="px-4 py-4 text-right text-xs font-semibold text-slate-500 uppercase">
-                                            Profit
+                                            {t('Profit')}
                                         </th>
                                     </tr>
                                 </thead>
@@ -386,7 +388,7 @@ const ProfitReport = ({
                                     <div className="flex items-start justify-between">
                                         <div className="space-y-1">
                                             <p className="text-xs text-slate-500 dark:text-slate-400">
-                                                No {i + 1 + (currentPage - 1) * perPage}
+                                                {t('No')} {i + 1 + (currentPage - 1) * perPage}
                                             </p>
                                             <p className="text-base font-semibold text-slate-900 dark:text-white">
                                                 {trx.invoice}
@@ -400,26 +402,26 @@ const ProfitReport = ({
                                                 {formatCurrency(trx.grand_total ?? 0)}
                                             </p>
                                             <p className="text-xs text-success-600 dark:text-success-400 font-semibold">
-                                                Profit {formatCurrency(trx.total_profit ?? 0)}
+                                                {t('Profit')} {formatCurrency(trx.total_profit ?? 0)}
                                             </p>
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-2 gap-2 text-sm text-slate-600 dark:text-slate-300">
                                         <div>
                                             <p className="text-xs text-slate-500 dark:text-slate-400">
-                                                Kasir
+                                                {t('Kasir')}
                                             </p>
                                             <p className="font-medium">{trx.cashier?.name ?? "-"}</p>
                                         </div>
                                         <div className="text-right">
                                             <p className="text-xs text-slate-500 dark:text-slate-400">
-                                                Pelanggan
+                                                {t('Pelanggan')}
                                             </p>
                                             <p className="font-medium">{trx.customer?.name ?? "-"}</p>
                                         </div>
                                         <div>
                                             <p className="text-xs text-slate-500 dark:text-slate-400">
-                                                Item
+                                                {t('Item')}
                                             </p>
                                             <p className="font-medium">
                                                 {trx.total_items ?? 0}
@@ -439,10 +441,10 @@ const ProfitReport = ({
                             />
                         </div>
                         <h3 className="text-lg font-medium text-slate-800 dark:text-slate-200 mb-1">
-                            Tidak Ada Data
+                            {t('Tidak Ada Data')}
                         </h3>
                         <p className="text-sm text-slate-500">
-                            Tidak ada transaksi sesuai filter.
+                            {t('Tidak ada transaksi sesuai filter.')}
                         </p>
                     </div>
                 )}

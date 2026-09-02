@@ -61,21 +61,21 @@ class CustomerVoucher extends Model
     public function currentStatusLabel(): string
     {
         if ($this->is_used) {
-            return 'used';
+            return __('used');
         }
 
         if (! $this->is_active) {
-            return 'inactive';
+            return __('inactive');
         }
 
         if ($this->starts_at && $this->starts_at->isFuture()) {
-            return 'scheduled';
+            return __('scheduled');
         }
 
         if ($this->expires_at && $this->expires_at->isPast()) {
-            return 'expired';
+            return __('expired');
         }
 
-        return 'active';
+        return __('active');
     }
 }

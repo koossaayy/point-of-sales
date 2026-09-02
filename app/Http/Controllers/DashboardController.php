@@ -61,7 +61,7 @@ class DashboardController extends Controller
             ->get()
             ->map(function ($detail) {
                 return [
-                    'name' => $detail->product?->title ?? 'Produk terhapus',
+                    'name' => $detail->product?->title ?? __('Produk terhapus'),
                     'sku' => $detail->product?->sku ?? '-',
                     'qty' => (int) $detail->qty,
                     'total' => (int) $detail->total,
@@ -122,7 +122,7 @@ class DashboardController extends Controller
             ->get()
             ->map(function ($row) {
                 return [
-                    'name' => $row->customer?->name ?? 'Pelanggan',
+                    'name' => $row->customer?->name ?? __('Pelanggan'),
                     'orders' => (int) $row->orders,
                     'total' => (int) $row->total,
                 ];
@@ -137,7 +137,7 @@ class DashboardController extends Controller
             ->get()
             ->map(function ($row) {
                 return [
-                    'name' => $row->village_name ?? 'Lainnya',
+                    'name' => $row->village_name ?? __('Lainnya'),
                     'orders' => (int) $row->orders,
                 ];
             });

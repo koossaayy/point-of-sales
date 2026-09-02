@@ -83,7 +83,7 @@ class BankAccountController extends Controller
 
         return redirect()
             ->route('settings.bank-accounts.index')
-            ->with('success', 'Rekening bank berhasil ditambahkan.');
+            ->with('success', __('Rekening bank berhasil ditambahkan.'));
     }
 
     /**
@@ -127,7 +127,7 @@ class BankAccountController extends Controller
 
         return redirect()
             ->route('settings.bank-accounts.index')
-            ->with('success', 'Rekening bank berhasil diupdate.');
+            ->with('success', __('Rekening bank berhasil diupdate.'));
     }
 
     /**
@@ -141,7 +141,7 @@ class BankAccountController extends Controller
         if ($bankAccount->transactions()->exists()) {
             return redirect()
                 ->route('settings.bank-accounts.index')
-                ->with('error', 'Rekening bank tidak bisa dihapus karena sudah digunakan di transaksi.');
+                ->with('error', __('Rekening bank tidak bisa dihapus karena sudah digunakan di transaksi.'));
         }
 
         // Delete logo
@@ -161,7 +161,7 @@ class BankAccountController extends Controller
 
         return redirect()
             ->route('settings.bank-accounts.index')
-            ->with('success', 'Rekening bank berhasil dihapus.');
+            ->with('success', __('Rekening bank berhasil dihapus.'));
     }
 
     /**
@@ -175,7 +175,7 @@ class BankAccountController extends Controller
             'is_active' => ! $bankAccount->is_active,
         ]);
 
-        $status = $bankAccount->is_active ? 'diaktifkan' : 'dinonaktifkan';
+        $status = $bankAccount->is_active ? __('diaktifkan') : __('dinonaktifkan');
 
         $this->auditLogService->log(
             event: 'bank_account.toggled',
@@ -188,7 +188,7 @@ class BankAccountController extends Controller
 
         return redirect()
             ->route('settings.bank-accounts.index')
-            ->with('success', "Rekening {$bankAccount->bank_name} berhasil {$status}.");
+            ->with('success', __('Rekening :bank_name berhasil :status.', ['bank_name' => $bankAccount->bank_name, 'status' => $status]));
     }
 
     /**

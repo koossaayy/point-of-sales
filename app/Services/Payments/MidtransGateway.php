@@ -26,7 +26,7 @@ class MidtransGateway
                 'gross_amount' => (int) $transaction->grand_total,
             ],
             'customer_details' => [
-                'first_name' => optional($customer)->name ?? 'Customer',
+                'first_name' => optional($customer)->name ?? __('Customer'),
                 'email' => optional($customer)->email ?? config('mail.from.address'),
                 'phone' => optional($customer)->no_telp,
             ],

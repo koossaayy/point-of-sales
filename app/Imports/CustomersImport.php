@@ -31,7 +31,7 @@ class CustomersImport implements ToModel, WithBatchInserts, WithChunkReading, Wi
     public function customValidationMessages()
     {
         return [
-            'nama.required' => 'Nama customer wajib diisi.',
+            'nama.required' => __('Nama customer wajib diisi.'),
         ];
     }
 

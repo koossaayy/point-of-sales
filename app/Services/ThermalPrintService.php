@@ -16,22 +16,22 @@ class ThermalPrintService
 
         $lines = [];
         $lines[] = '';
-        $lines[] = $this->center(strtoupper($storeName ?? 'TOKO ANDA'), $maxWidth);
+        $lines[] = $this->center(strtoupper($storeName ?? __('TOKO ANDA')), $maxWidth);
         if ($storeAddress) {
             $lines[] = $this->center($storeAddress, $maxWidth);
         }
         if ($storePhone) {
-            $lines[] = $this->center('Telp: '.$storePhone, $maxWidth);
+            $lines[] = $this->center(__('Telp: :storePhone', ['storePhone' => $storePhone]), $maxWidth);
         }
         $lines[] = $this->line($maxWidth);
         $lines[] = $this->left('No: '.($transaction->invoice ?? ''), $maxWidth);
         $lines[] = $this->left('Tgl: '.($transaction->created_at?->format('d/m/Y H:i') ?? ''), $maxWidth);
         $lines[] = $this->left('Kasir: '.($transaction->cashier?->name ?? '-'), $maxWidth);
-        $lines[] = $this->left('Pelanggan: '.($transaction->customer?->name ?? 'Umum'), $maxWidth);
+        $lines[] = $this->left('Pelanggan: '.($transaction->customer?->name ?? __('Umum')), $maxWidth);
         $lines[] = $this->line($maxWidth);
 
         foreach ($transaction->details as $detail) {
-            $title = mb_substr($detail->product?->title ?? 'Produk', 0, $maxWidth - 10);
+            $title = mb_substr($detail->product?->title ?? __('Produk'), 0, $maxWidth - 10);
             $linePrice = number_format((int) $detail->price, 0, ',', '.');
             $lineTotal = "{$detail->qty}x @ ".number_format((int) ($detail->unit_price ?: $detail->price / max(1, $detail->qty)), 0, ',', '.');
             $lines[] = $this->left($title, $maxWidth);
@@ -40,30 +40,30 @@ class ThermalPrintService
 
         $lines[] = $this->line($maxWidth);
         $subtotal = ($transaction->grand_total ?? 0) + ($transaction->discount ?? 0) - ($transaction->shipping_cost ?? 0) - ($transaction->tax_total ?? 0);
-        $lines[] = $this->leftRight('Subtotal', number_format($subtotal, 0, ',', '.'), $maxWidth);
+        $lines[] = $this->leftRight(__('Subtotal'), number_format($subtotal, 0, ',', '.'), $maxWidth);
         if (($transaction->discount ?? 0) > 0) {
-            $lines[] = $this->leftRight('Diskon', '-'.number_format((int) $transaction->discount, 0, ',', '.'), $maxWidth);
+            $lines[] = $this->leftRight(__('Diskon'), '-'.number_format((int) $transaction->discount, 0, ',', '.'), $maxWidth);
         }
         if (($transaction->tax_total ?? 0) > 0) {
-            $lines[] = $this->leftRight('PPN', number_format((int) $transaction->tax_total, 0, ',', '.'), $maxWidth);
+            $lines[] = $this->leftRight(__('PPN'), number_format((int) $transaction->tax_total, 0, ',', '.'), $maxWidth);
         }
         if (($transaction->shipping_cost ?? 0) > 0) {
-            $lines[] = $this->leftRight('Ongkir', number_format((int) $transaction->shipping_cost, 0, ',', '.'), $maxWidth);
+            $lines[] = $this->leftRight(__('Ongkir'), number_format((int) $transaction->shipping_cost, 0, ',', '.'), $maxWidth);
         }
         $lines[] = $this->line($maxWidth);
-        $lines[] = $this->leftRight('TOTAL', number_format((int) $transaction->grand_total, 0, ',', '.'), $maxWidth);
+        $lines[] = $this->leftRight(__('TOTAL'), number_format((int) $transaction->grand_total, 0, ',', '.'), $maxWidth);
 
         if ($transaction->payment_method === 'cash' && $transaction->cash > 0) {
-            $lines[] = $this->leftRight('Tunai', number_format((int) $transaction->cash, 0, ',', '.'), $maxWidth);
+            $lines[] = $this->leftRight(__('Tunai'), number_format((int) $transaction->cash, 0, ',', '.'), $maxWidth);
             if (($transaction->change ?? 0) > 0) {
-                $lines[] = $this->leftRight('Kembali', number_format((int) $transaction->change, 0, ',', '.'), $maxWidth);
+                $lines[] = $this->leftRight(__('Kembali'), number_format((int) $transaction->change, 0, ',', '.'), $maxWidth);
             }
         }
 
         $lines[] = $this->line($maxWidth);
-        $lines[] = $this->center('Terima kasih', $maxWidth);
-        $lines[] = $this->center('Barang yang sudah dibeli', $maxWidth);
-        $lines[] = $this->center('tidak dapat ditukar/dikembalikan', $maxWidth);
+        $lines[] = $this->center(__('Terima kasih'), $maxWidth);
+        $lines[] = $this->center(__('Barang yang sudah dibeli'), $maxWidth);
+        $lines[] = $this->center(__('tidak dapat ditukar/dikembalikan'), $maxWidth);
         $lines[] = '';
         $lines[] = '';
 
