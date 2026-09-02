@@ -5,9 +5,11 @@ import {
     IconLoader2,
     IconArrowLeft,
 } from "@tabler/icons-react";
+import { useTranslation } from 'react-i18next';
 import AuthBotGuardFields from "@/Components/AuthBotGuardFields";
 
 export default function ForgotPassword({ status, botGuard }) {
+    const { t } = useTranslation();
     const honeypotField = botGuard?.honeypot_field || "company_website";
     const tokenField = botGuard?.token_field || "bot_guard_token";
     const { data, setData, post, processing, errors } = useForm({
@@ -24,7 +26,7 @@ export default function ForgotPassword({ status, botGuard }) {
 
     return (
         <>
-            <Head title="Lupa Password" />
+            <Head title={t('Lupa Password')} />
 
             <div className="min-h-screen flex bg-slate-50 dark:bg-slate-950">
                 <div className="flex-1 flex items-center justify-center p-8">
@@ -38,14 +40,14 @@ export default function ForgotPassword({ status, botGuard }) {
                                     <IconShoppingCart size={24} className="text-white" />
                                 </div>
                                 <span className="text-2xl font-bold text-slate-900 dark:text-white">
-                                    Aplikasi Kasir
+                                    {t('Aplikasi Kasir')}
                                 </span>
                             </Link>
                             <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
-                                Reset Password
+                                {t('Reset Password')}
                             </h1>
                             <p className="mt-2 text-slate-600 dark:text-slate-400">
-                                Masukkan email Anda untuk menerima link reset password.
+                                {t('Masukkan email Anda untuk menerima link reset password.')}
                             </p>
                         </div>
 
@@ -68,7 +70,7 @@ export default function ForgotPassword({ status, botGuard }) {
                             )}
                             <div>
                                 <label className="mb-2 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Email
+                                    {t('Email')}
                                 </label>
                                 <div className="relative">
                                     <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
@@ -98,7 +100,7 @@ export default function ForgotPassword({ status, botGuard }) {
                                     className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-xl border-2 border-slate-200 bg-white font-semibold text-slate-700 transition-all hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700"
                                 >
                                     <IconArrowLeft size={18} />
-                                    Kembali
+                                    {t('Kembali')}
                                 </Link>
                                 <button
                                     type="submit"
@@ -108,7 +110,7 @@ export default function ForgotPassword({ status, botGuard }) {
                                     {processing ? (
                                         <>
                                             <IconLoader2 size={18} className="animate-spin" />
-                                            Mengirim...
+                                            {t('Mengirim...')}
                                         </>
                                     ) : (
                                         "Kirim Link Reset"
@@ -124,9 +126,9 @@ export default function ForgotPassword({ status, botGuard }) {
                         <div className="w-24 h-24 rounded-2xl bg-white/20 flex items-center justify-center mx-auto mb-8">
                             <IconMail size={48} />
                         </div>
-                        <h2 className="text-3xl font-bold mb-4">Pemulihan Akun Aman</h2>
+                        <h2 className="text-3xl font-bold mb-4">{t('Pemulihan Akun Aman')}</h2>
                         <p className="text-lg opacity-90">
-                            Link reset password membantu memulihkan akses akun tanpa membuka jalur bypass ke dashboard.
+                            {t('Link reset password membantu memulihkan akses akun tanpa membuka jalur bypass ke dashboard.')}
                         </p>
                     </div>
                 </div>

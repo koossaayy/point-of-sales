@@ -181,13 +181,13 @@
                         <div style="font-size:12px;color:#475569; margin-top:2px;">{{ $store['address'] }}</div>
                     @endif
                     <div style="font-size:12px;color:#475569; margin-top:2px;">
-                        {{ $store['phone'] ? 'Telp: ' . $store['phone'] . ' • ' : '' }}{{ $store['email'] }}
+                        {{ $store['phone'] ? __('Telp:') . $store['phone'] . ' • ' : '' }}{{ $store['email'] }}
                     </div>
                 </div>
             </div>
         </td>
         <td style="width:40%; vertical-align:middle; text-align:right;">
-            <div class="badge">INVOICE</div>
+            <div class="badge">{{ __('INVOICE') }}</div>
             <div style="font-size:25px;font-weight:700; margin-top:8px;">{{ $transaction->invoice }}</div>
             <div style="font-size:12px;color:#475569; margin-top:6px;">
                 {{ \Carbon\Carbon::parse($transaction->created_at)->format('d M Y H:i') }}
@@ -198,8 +198,8 @@
     <table style="width:100%; margin-top:12px; table-layout:fixed;">
         <tr>
             <td style="width:50%; vertical-align:top; font-size:13px;">
-                <div style="color:#64748b;font-weight:600;">Pelanggan</div>
-                <div style="font-weight:700; margin-top:2px;">{{ $transaction->customer->name ?? 'Umum' }}</div>
+                <div style="color:#64748b;font-weight:600;">{{ __('Pelanggan') }}</div>
+                <div style="font-weight:700; margin-top:2px;">{{ $transaction->customer->name ?? __('Umum') }}</div>
                 @if ($transaction->customer?->no_telp)
                     <div style="color:#475569; margin-top:2px;">{{ $transaction->customer->no_telp }}</div>
                 @endif
@@ -217,13 +217,13 @@
                 @endif
             </td>
             <td style="width:50%; vertical-align:top; font-size:13px; text-align:right;">
-                <div style="color:#64748b;font-weight:600;">Kasir</div>
+                <div style="color:#64748b;font-weight:600;">{{ __('Kasir') }}</div>
                 <div style="font-weight:700; margin-top:2px;">{{ $transaction->cashier->name ?? '-' }}</div>
                 <div style="margin-top:6px;">
-                    <div><strong>Status:</strong> {{ $transaction->payment_status }}</div>
-                    <div><strong>Metode:</strong> {{ $transaction->payment_method }}</div>
+                    <div><strong>{{ __('Status:') }}</strong> {{ $transaction->payment_status }}</div>
+                    <div><strong>{{ __('Metode:') }}</strong> {{ $transaction->payment_method }}</div>
                     @if ($transaction->receivable && $transaction->receivable->due_date)
-                        <div><strong>Jatuh tempo:</strong> {{ $transaction->receivable->due_date }}</div>
+                        <div><strong>{{ __('Jatuh tempo:') }}</strong> {{ $transaction->receivable->due_date }}</div>
                     @endif
                 </div>
             </td>
@@ -233,20 +233,20 @@
     <table>
         <thead>
             <tr>
-                <th class="produk">Nama Produk</th>
-                <th class="qty">Qty</th>
-                <th class="right">Harga</th>
-                <th class="right">Subtotal</th>
+                <th class="produk">{{ __('Nama Produk') }}</th>
+                <th class="qty">{{ __('Qty') }}</th>
+                <th class="right">{{ __('Harga') }}</th>
+                <th class="right">{{ __('Subtotal') }}</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($transaction->details as $index => $detail)
                 <tr style="background: {{ $index % 2 === 0 ? '#f8fafc' : '#fff' }};">
                     <td>
-                        {{ $detail->product->title ?? 'Produk' }}
+                        {{ $detail->product->title ?? __('Produk') }}
                         @if ($detail->discount_total > 0 && ($detail->pricing_group_label || $detail->pricing_rule_name))
                             <div style="font-size:11px;color:#e11d48; margin-top:2px;">
-                                Promo: {{ $detail->pricing_group_label ?: $detail->pricing_rule_name }}
+                                {{ __('Promo: :param_1', ['param_1' => $detail->pricing_group_label ?: $detail->pricing_rule_name]) }}
                             </div>
                         @endif
                     </td>
@@ -281,26 +281,26 @@
             <td style="width:45%;">
                 <table style="width:100%; border-collapse:separate; border-spacing:0 6px; font-size:12px;">
                     <tr>
-                        <td style="color:#475569;">Subtotal</td>
+                        <td style="color:#475569;">{{ __('Subtotal') }}</td>
                         <td class="right" style="font-weight:600;">
                             {{ number_format($subtotal, 0, ',', '.') }}
                         </td>
                     </tr>
                     <tr>
-                        <td style="color:#475569;">Promo Otomatis</td>
+                        <td style="color:#475569;">{{ __('Promo Otomatis') }}</td>
                         <td class="right" style="font-weight:600;">
                             - {{ number_format($promoDiscount, 0, ',', '.') }}
                         </td>
                     </tr>
                     <tr>
-                        <td style="color:#475569;">Diskon Manual</td>
+                        <td style="color:#475569;">{{ __('Diskon Manual') }}</td>
                         <td class="right" style="font-weight:600;">
                             - {{ number_format($discount, 0, ',', '.') }}
                         </td>
                     </tr>
                     @if ($voucherDiscount > 0)
                         <tr>
-                            <td style="color:#475569;">Voucher Customer</td>
+                            <td style="color:#475569;">{{ __('Voucher Customer') }}</td>
                             <td class="right" style="font-weight:600;">
                                 - {{ number_format($voucherDiscount, 0, ',', '.') }}
                             </td>
@@ -308,28 +308,28 @@
                     @endif
                     @if ($loyaltyDiscount > 0)
                         <tr>
-                            <td style="color:#475569;">Redeem Poin</td>
+                            <td style="color:#475569;">{{ __('Redeem Poin') }}</td>
                             <td class="right" style="font-weight:600;">
                                 - {{ number_format($loyaltyDiscount, 0, ',', '.') }}
                             </td>
                         </tr>
                     @endif
                     <tr>
-                        <td style="color:#475569;">Ongkir</td>
+                        <td style="color:#475569;">{{ __('Ongkir') }}</td>
                         <td class="right" style="font-weight:600;">
                             + {{ number_format($shipping, 0, ',', '.') }}
                         </td>
                     </tr>
                     @if (($transaction->tax_total ?? 0) > 0)
                         <tr>
-                            <td style="color:#475569;">PPN {{ number_format($transaction->tax_rate ?? 11, 0) }}%</td>
+                            <td style="color:#475569;">{{ __('PPN :param_1%', ['param_1' => number_format($transaction->tax_rate ?? 11, 0)]) }}</td>
                             <td class="right" style="font-weight:600;">
                                 + {{ number_format($transaction->tax_total, 0, ',', '.') }}
                             </td>
                         </tr>
                     @endif
                     <tr>
-                        <td style="font-weight:700; font-size:13px;">Total</td>
+                        <td style="font-weight:700; font-size:13px;">{{ __('Total') }}</td>
                         <td class="right" style="font-weight:800; font-size:13px;">
                             {{ number_format($grandTotal, 0, ',', '.') }}
                         </td>
@@ -341,11 +341,11 @@
 
     <div class="footer">
         <div class="barcode" style="margin-top: 15px">
-            <img src="{{ $barcode }}" alt="barcode">
+            <img src="{{ $barcode }}" alt="{{ __('barcode') }}">
             <div style="font-size:10px;color:#475569;margin-top: 5px;">{{ $transaction->invoice }}</div>
         </div>
         <div style="font-size:11px;color:#94a3b8; text-align:center; margin-top: 20px;">
-            Terima kasih atas kepercayaan Anda.
+            {{ __('Terima kasih atas kepercayaan Anda.') }}
         </div>
     </div>
 </body>

@@ -48,7 +48,7 @@ class WarehouseController extends Controller
             'sort_order' => 0,
         ]);
 
-        return $this->created(new WarehouseResource($warehouse), 'Gudang berhasil dibuat');
+        return $this->created(new WarehouseResource($warehouse), __('Gudang berhasil dibuat'));
     }
 
     /**
@@ -75,7 +75,7 @@ class WarehouseController extends Controller
 
         $warehouse->update($validated);
 
-        return $this->ok(new WarehouseResource($warehouse), 'Gudang berhasil diperbarui');
+        return $this->ok(new WarehouseResource($warehouse), __('Gudang berhasil diperbarui'));
     }
 
     /**

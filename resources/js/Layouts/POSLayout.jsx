@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { usePage, Link } from "@inertiajs/react";
 import { Toaster } from "react-hot-toast";
+import { useTranslation } from 'react-i18next';
 import { useTheme } from "@/Context/ThemeSwitcherContext";
 import { useOnlineStatus } from "@/Context/OnlineStatusContext";
 import {
@@ -19,6 +20,7 @@ import {
 import Notification from "@/Components/Dashboard/Notification";
 
 export default function POSLayout({ children }) {
+    const { t } = useTranslation();
     const { auth, storeProfile, activeCashierShift, appVersion } = usePage().props;
     const { darkMode, themeSwitcher } = useTheme();
     const [currentTime, setCurrentTime] = useState(new Date());
@@ -131,14 +133,14 @@ export default function POSLayout({ children }) {
                             className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800 transition-colors"
                         >
                             <IconHome size={18} />
-                            <span>Dashboard</span>
+                            <span>{t('Dashboard')}</span>
                         </Link>
                         <Link
                             href={route("transactions.history")}
                             className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800 transition-colors"
                         >
                             <IconHistory size={18} />
-                            <span>Riwayat</span>
+                            <span>{t('Riwayat')}</span>
                         </Link>
                     </nav>
 
@@ -159,7 +161,7 @@ export default function POSLayout({ children }) {
                     <button
                         onClick={toggleFullscreen}
                         className="p-2.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors min-w-touch min-h-touch flex items-center justify-center"
-                        title={isFullscreen ? "Keluar Fullscreen" : "Fullscreen"}
+                        title={isFullscreen ? t('Keluar Fullscreen') : t('Fullscreen')}
                     >
                         {isFullscreen ? (
                             <IconArrowsMinimize size={20} className="text-slate-500" />
@@ -172,7 +174,7 @@ export default function POSLayout({ children }) {
                     <button
                         onClick={themeSwitcher}
                         className="p-2.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors min-w-touch min-h-touch flex items-center justify-center"
-                        title={darkMode ? "Light Mode" : "Dark Mode"}
+                        title={darkMode ? t('Light Mode') : t('Dark Mode')}
                     >
                         {darkMode ? (
                             <IconSun size={20} className="text-amber-500" />
@@ -195,7 +197,7 @@ export default function POSLayout({ children }) {
                             >
                                 <IconWallet size={16} />
                                 <span>
-                                    Shift aktif •{" "}
+                                    {t('Shift aktif •')}{" "}
                                     {new Intl.NumberFormat("id-ID").format(
                                         activeCashierShift.expected_cash || 0
                                     )}
@@ -213,7 +215,7 @@ export default function POSLayout({ children }) {
                         method="post"
                         as="button"
                         className="hidden lg:flex p-2.5 rounded-lg text-slate-500 hover:text-danger-600 hover:bg-danger-50 dark:hover:bg-danger-950/50 transition-colors min-w-touch min-h-touch items-center justify-center"
-                        title="Logout"
+                        title={t('Logout')}
                     >
                         <IconLogout size={20} />
                     </Link>
@@ -222,7 +224,7 @@ export default function POSLayout({ children }) {
 
             {!isOnline && (
                 <div className="bg-amber-500 text-white text-center text-xs font-medium py-1 px-4">
-                    Transaksi disimpan offline — akan dikirim saat online kembali
+                    {t('Transaksi disimpan offline — akan dikirim saat online kembali')}
                 </div>
             )}
 
@@ -242,7 +244,7 @@ export default function POSLayout({ children }) {
                                 className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 transition-colors"
                             >
                                 <IconHome size={20} />
-                                <span className="font-medium">Dashboard</span>
+                                <span className="font-medium">{t('Dashboard')}</span>
                             </Link>
                             <Link
                                 href={route("transactions.history")}
@@ -250,7 +252,7 @@ export default function POSLayout({ children }) {
                             >
                                 <IconHistory size={20} />
                                 <span className="font-medium">
-                                    Riwayat Transaksi
+                                    {t('Riwayat Transaksi')}
                                 </span>
                             </Link>
                             <Link
@@ -258,7 +260,7 @@ export default function POSLayout({ children }) {
                                 className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800 transition-colors"
                             >
                                 <IconUser size={20} />
-                                <span className="font-medium">Profil</span>
+                                <span className="font-medium">{t('Profil')}</span>
                             </Link>
                             <hr className="border-slate-200 dark:border-slate-700" />
                             <Link
@@ -268,7 +270,7 @@ export default function POSLayout({ children }) {
                                 className="flex items-center gap-3 px-4 py-3 rounded-xl text-danger-600 hover:bg-danger-50 dark:hover:bg-danger-950/50 transition-colors w-full"
                             >
                                 <IconLogout size={20} />
-                                <span className="font-medium">Keluar</span>
+                                <span className="font-medium">{t('Keluar')}</span>
                             </Link>
                         </nav>
                     </div>

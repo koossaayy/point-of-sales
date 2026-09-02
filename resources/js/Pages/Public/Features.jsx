@@ -1,4 +1,5 @@
 import { Head } from "@inertiajs/react";
+import { useTranslation } from 'react-i18next';
 import PublicLayout from "@/Layouts/PublicLayout";
 import {
     IconShoppingCart,
@@ -12,14 +13,15 @@ import {
     IconCheck,
     IconArrowRight,
 } from "@tabler/icons-react";
+import i18next from 'i18next';
 
 const GITHUB_URL = "https://github.com/aryadwiputra/point-of-sales";
 
 const modules = [
     {
         icon: IconShoppingCart,
-        title: "POS & Transaksi",
-        desc: "Inti dari Dikasir — kasir yang cepat, fleksibel, dan bisa diandalkan setiap hari.",
+        get title() { return i18next.t('POS & Transaksi'); },
+        get desc() { return i18next.t('Inti dari Dikasir — kasir yang cepat, fleksibel, dan bisa diandalkan setiap hari.'); },
         screenshot: "/screenshots/02-pos-checkout.png",
         features: [
             "Pencarian produk via barcode / keyword",
@@ -35,8 +37,8 @@ const modules = [
     },
     {
         icon: IconBuildingWarehouse,
-        title: "Inventory & Multi-Warehouse",
-        desc: "Kontrol penuh atas stok di semua gudang dan cabang.",
+        get title() { return i18next.t('Inventory & Multi-Warehouse'); },
+        get desc() { return i18next.t('Kontrol penuh atas stok di semua gudang dan cabang.'); },
         screenshot: "/screenshots/07-warehouses.png",
         features: [
             "Produk, kategori, dan barcode",
@@ -52,8 +54,8 @@ const modules = [
     },
     {
         icon: IconTruckDelivery,
-        title: "Purchasing & Supplier",
-        desc: "Rantai pengadaan yang rapi dari PO sampai hutang supplier.",
+        get title() { return i18next.t('Purchasing & Supplier'); },
+        get desc() { return i18next.t('Rantai pengadaan yang rapi dari PO sampai hutang supplier.'); },
         screenshot: "/screenshots/09-purchase-orders.png",
         features: [
             "Purchase Order (draft → ordered → partial → completed)",
@@ -65,8 +67,8 @@ const modules = [
     },
     {
         icon: IconReportMoney,
-        title: "Finance & Piutang",
-        desc: "Arus uang terkontrol — piutang, hutang, dan pajak dalam satu tempat.",
+        get title() { return i18next.t('Finance & Piutang'); },
+        get desc() { return i18next.t('Arus uang terkontrol — piutang, hutang, dan pajak dalam satu tempat.'); },
         screenshot: "/screenshots/12-receivables.png",
         features: [
             "Piutang pelanggan dengan partial payment",
@@ -78,8 +80,8 @@ const modules = [
     },
     {
         icon: IconUsers,
-        title: "CRM & Loyalty",
-        desc: "Tumbuhkan bisnis dengan pelanggan yang kembali lagi.",
+        get title() { return i18next.t('CRM & Loyalty'); },
+        get desc() { return i18next.t('Tumbuhkan bisnis dengan pelanggan yang kembali lagi.'); },
         screenshot: "/screenshots/19-members.png",
         features: [
             "Manajemen customer + wilayah Indonesia",
@@ -93,8 +95,8 @@ const modules = [
     },
     {
         icon: IconChartBar,
-        title: "Laporan & Insight",
-        desc: "Keputusan bisnis berbasis data, bukan perasaan.",
+        get title() { return i18next.t('Laporan & Insight'); },
+        get desc() { return i18next.t('Keputusan bisnis berbasis data, bukan perasaan.'); },
         screenshot: "/screenshots/15-sales-report.png",
         features: [
             "Laporan penjualan dengan filter & ringkasan",
@@ -107,8 +109,8 @@ const modules = [
     },
     {
         icon: IconShieldLock,
-        title: "Admin & Keamanan",
-        desc: "Siapa punya akses apa, dan siapa mengubah apa — selalu jelas.",
+        get title() { return i18next.t('Admin & Keamanan'); },
+        get desc() { return i18next.t('Siapa punya akses apa, dan siapa mengubah apa — selalu jelas.'); },
         screenshot: "/screenshots/31-audit-logs.png",
         features: [
             "RBAC penuh: users, roles, permissions",
@@ -121,8 +123,8 @@ const modules = [
     },
     {
         icon: IconCreditCard,
-        title: "Payment & Pengaturan",
-        desc: "Terima pembayaran apa pun yang pelanggan Anda pakai.",
+        get title() { return i18next.t('Payment & Pengaturan'); },
+        get desc() { return i18next.t('Terima pembayaran apa pun yang pelanggan Anda pakai.'); },
         screenshot: "/screenshots/24-payment-settings.png",
         features: [
             "Payment gateway: Midtrans & Xendit",
@@ -136,19 +138,19 @@ const modules = [
 ];
 
 export default function Features() {
+    const { t } = useTranslation();
     return (
         <PublicLayout active="/fitur">
-            <Head title="Fitur Lengkap — Dikasir" />
+            <Head title={t('Fitur Lengkap — Dikasir')} />
 
             {/* Header */}
             <section className="pt-20 pb-14 px-6 bg-gradient-to-b from-primary-50 dark:from-primary-950/40 to-transparent">
                 <div className="max-w-7xl mx-auto text-center">
                     <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white">
-                        Fitur Lengkap untuk Bisnis Nyata
+                        {t('Fitur Lengkap untuk Bisnis Nyata')}
                     </h1>
                     <p className="mt-5 text-lg text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
-                        44+ modul terintegrasi dalam 8 area — dari kasir harian sampai analitik
-                        lanjutan, semua gratis dan open source.
+                        {t('44+ modul terintegrasi dalam 8 area — dari kasir harian sampai analitik lanjutan, semua gratis dan open source.')}
                     </p>
                     <div className="mt-8 flex flex-wrap justify-center gap-3">
                         {modules.map((m) => (
@@ -206,7 +208,7 @@ export default function Features() {
                                 <div className="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-xl bg-white dark:bg-slate-900">
                                     <img
                                         src={mod.screenshot}
-                                        alt={`Screenshot ${mod.title}`}
+                                        alt={t('Screenshot {{0}}', { 0: mod.title })}
                                         className="w-full"
                                         loading="lazy"
                                     />
@@ -222,11 +224,10 @@ export default function Features() {
                 <div className="max-w-3xl mx-auto text-center">
                     <div className="bg-slate-900 dark:bg-slate-800 rounded-3xl p-10">
                         <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
-                            Ada fitur yang kamu butuhkan?
+                            {t('Ada fitur yang kamu butuhkan?')}
                         </h2>
                         <p className="text-slate-400 mb-6">
-                            Karena open source, fitur baru bisa datang dari siapa saja —
-                            termasuk kamu.
+                            {t('Karena open source, fitur baru bisa datang dari siapa saja — termasuk kamu.')}
                         </p>
                         <a
                             href={`${GITHUB_URL}/issues`}
@@ -234,7 +235,7 @@ export default function Features() {
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white font-semibold rounded-xl hover:from-primary-600 hover:to-primary-700 transition-all"
                         >
-                            Ajukan ide fitur di GitHub
+                            {t('Ajukan ide fitur di GitHub')}
                             <IconArrowRight size={16} />
                         </a>
                     </div>

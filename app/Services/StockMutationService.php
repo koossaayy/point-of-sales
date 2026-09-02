@@ -32,7 +32,7 @@ class StockMutationService
             'qty' => $initialStock,
             'stock_before' => 0,
             'stock_after' => $initialStock,
-            'notes' => 'Initial stock saat produk dibuat.',
+            'notes' => __('Initial stock saat produk dibuat.'),
             'created_by' => $userId,
         ]);
 
@@ -89,7 +89,7 @@ class StockMutationService
             'qty' => abs($stockAfter - $stockBefore),
             'stock_before' => $stockBefore,
             'stock_after' => $stockAfter,
-            'notes' => $reason ?: 'Adjustment dari stock opname.',
+            'notes' => $reason ?: __('Adjustment dari stock opname.'),
             'created_by' => $userId,
         ]);
 
@@ -146,7 +146,7 @@ class StockMutationService
             'qty' => abs($stockAfter - $stockBefore),
             'stock_before' => $stockBefore,
             'stock_after' => $stockAfter,
-            'notes' => $reason ?: 'Restock dari retur penjualan.',
+            'notes' => $reason ?: __('Restock dari retur penjualan.'),
             'created_by' => $userId,
         ]);
 
@@ -200,7 +200,7 @@ class StockMutationService
             'qty' => $qty,
             'stock_before' => $stockBefore,
             'stock_after' => $stockAfter,
-            'notes' => $notes ?: 'Stok masuk dari penerimaan barang.',
+            'notes' => $notes ?: __('Stok masuk dari penerimaan barang.'),
             'created_by' => $userId,
         ]);
 
@@ -252,7 +252,7 @@ class StockMutationService
             'qty' => $qty,
             'stock_before' => $stockBefore,
             'stock_after' => $stockAfter,
-            'notes' => $notes ?: 'Retur barang ke supplier.',
+            'notes' => $notes ?: __('Retur barang ke supplier.'),
             'created_by' => $userId,
         ]);
 

@@ -81,7 +81,7 @@ class CustomerVoucherController extends Controller
 
         return redirect()
             ->route('customer-vouchers.index')
-            ->with('success', 'Voucher customer berhasil dibuat.');
+            ->with('success', __('Voucher customer berhasil dibuat.'));
     }
 
     public function edit(CustomerVoucher $customerVoucher)
@@ -113,7 +113,7 @@ class CustomerVoucherController extends Controller
 
         return redirect()
             ->route('customer-vouchers.index')
-            ->with('success', 'Voucher customer berhasil diperbarui.');
+            ->with('success', __('Voucher customer berhasil diperbarui.'));
     }
 
     public function destroy(CustomerVoucher $customerVoucher)
@@ -129,7 +129,7 @@ class CustomerVoucherController extends Controller
             before: $before
         );
 
-        return back()->with('success', 'Voucher customer berhasil dihapus.');
+        return back()->with('success', __('Voucher customer berhasil dihapus.'));
     }
 
     private function validateVoucher(Request $request, ?CustomerVoucher $voucher = null): array

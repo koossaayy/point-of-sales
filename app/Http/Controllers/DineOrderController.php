@@ -75,7 +75,7 @@ class DineOrderController extends Controller
 
         return redirect()
             ->route('dine-order.status', $order->access_token)
-            ->with('success', 'Pesanan berhasil dikirim.');
+            ->with('success', __('Pesanan berhasil dikirim.'));
     }
 
     public function status(string $accessToken)

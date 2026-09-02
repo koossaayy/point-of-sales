@@ -29,7 +29,7 @@ class SupplierController extends Controller
 
         Supplier::create($data);
 
-        return back()->with('success', 'Supplier berhasil ditambahkan.');
+        return back()->with('success', __('Supplier berhasil ditambahkan.'));
     }
 
     public function update(Request $request, Supplier $supplier)
@@ -43,16 +43,16 @@ class SupplierController extends Controller
 
         $supplier->update($data);
 
-        return back()->with('success', 'Supplier berhasil diperbarui.');
+        return back()->with('success', __('Supplier berhasil diperbarui.'));
     }
 
     public function destroy(Supplier $supplier)
     {
         if ($supplier->payables()->exists()) {
-            return back()->with('error', 'Supplier memiliki hutang, tidak dapat dihapus.');
+            return back()->with('error', __('Supplier memiliki hutang, tidak dapat dihapus.'));
         }
         $supplier->delete();
 
-        return back()->with('success', 'Supplier dihapus.');
+        return back()->with('success', __('Supplier dihapus.'));
     }
 }
