@@ -17,7 +17,7 @@ class CustomersExport implements FromCollection, ShouldAutoSize, WithHeadings, W
 
     public function headings(): array
     {
-        return ['Nama', 'Telepon', 'Alamat', 'Provinsi', 'Kota', 'Kecamatan', 'Desa', 'Member', 'Tier', 'Poin'];
+        return [__('Nama'), __('Telepon'), __('Alamat'), __('Provinsi'), __('Kota'), __('Kecamatan'), __('Desa'), __('Member'), __('Tier'), __('Poin')];
     }
 
     public function map($customer): array
@@ -30,8 +30,8 @@ class CustomersExport implements FromCollection, ShouldAutoSize, WithHeadings, W
             $customer->regency_name ?? '',
             $customer->district_name ?? '',
             $customer->village_name ?? '',
-            $customer->is_loyalty_member ? 'Ya' : 'Tidak',
-            $customer->loyalty_tier ?? 'regular',
+            $customer->is_loyalty_member ? __('Ya') : __('Tidak'),
+            $customer->loyalty_tier ?? __('regular'),
             (int) ($customer->loyalty_points ?? 0),
         ];
     }

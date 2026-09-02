@@ -1,4 +1,5 @@
 import { Head, Link } from "@inertiajs/react";
+import { useTranslation } from 'react-i18next';
 import PublicLayout from "@/Layouts/PublicLayout";
 import {
     IconRoute,
@@ -9,99 +10,100 @@ import {
     IconCheck,
     IconBulb,
 } from "@tabler/icons-react";
+import i18n from '@/i18n';
 
 const GITHUB_URL = "https://github.com/aryadwiputra/point-of-sales";
 
 const releases = [
     {
         version: "v2.0",
-        tag: "Revamp besar",
+        get tag() { return i18n.t('Revamp besar'); },
         date: "2025",
-        items: [
-            "Redesign UI modern & responsive",
-            "33 screenshot dokumentasi semua modul",
-            "Fondasi arsitektur service layer",
-        ],
+        get items() { return [
+            i18n.t('Redesign UI modern & responsive'),
+            i18n.t('33 screenshot dokumentasi semua modul'),
+            i18n.t('Fondasi arsitektur service layer'),
+        ]; },
     },
     {
         version: "v2.1",
-        tag: "Komunikasi",
+        get tag() { return i18n.t('Komunikasi'); },
         date: "2025",
-        items: [
-            "WhatsApp Gateway via whatsapp-web.js",
-            "App versioning terpusat (APP_VERSION)",
-            "Notifikasi low stock & aging",
-        ],
+        get items() { return [
+            i18n.t('WhatsApp Gateway via whatsapp-web.js'),
+            i18n.t('App versioning terpusat (APP_VERSION)'),
+            i18n.t('Notifikasi low stock & aging'),
+        ]; },
     },
     {
         version: "v2.2",
-        tag: "Upgrade Stack",
+        get tag() { return i18n.t('Upgrade Stack'); },
         date: "2026",
-        items: [
-            "Upgrade Laravel 12 → 13",
-            "Inertia v3 + React 19",
-            "Multi-language (Indonesia & English)",
-        ],
+        get items() { return [
+            i18n.t('Upgrade Laravel 12 → 13'),
+            i18n.t('Inertia v3 + React 19'),
+            i18n.t('Multi-language (Indonesia & English)'),
+        ]; },
     },
     {
         version: "v2.3",
-        tag: "Penguatan POS",
+        get tag() { return i18n.t('Penguatan POS'); },
         date: "2026",
-        items: [
-            "Perbaikan cart & penanganan shift",
-            "Fallback stok per warehouse",
-            "Dokumentasi lengkap per modul",
-        ],
+        get items() { return [
+            i18n.t('Perbaikan cart & penanganan shift'),
+            i18n.t('Fallback stok per warehouse'),
+            i18n.t('Dokumentasi lengkap per modul'),
+        ]; },
     },
     {
         version: "v2.3.1",
-        tag: "Rilis saat ini",
-        date: "Agu 2026",
-        items: [
-            "Rilis pemeliharaan & penyempurnaan",
-            "CI/CD pipeline (build + auto-deploy)",
-            "Landing page & situs publik baru",
-            "Perbaikan portal customer & invoice PDF",
-        ],
+        get tag() { return i18n.t('Rilis saat ini'); },
+        get date() { return i18n.t('Agu 2026'); },
+        get items() { return [
+            i18n.t('Rilis pemeliharaan & penyempurnaan'),
+            i18n.t('CI/CD pipeline (build + auto-deploy)'),
+            i18n.t('Landing page & situs publik baru'),
+            i18n.t('Perbaikan portal customer & invoice PDF'),
+        ]; },
     },
 ];
 
 const directions = [
     {
         icon: IconSparkles,
-        title: "Pengalaman mobile yang lebih dalam",
-        desc: "Kasir handheld yang lebih matang: mode offline penuh, antrean sinkronisasi yang lebih cerdas, dan UI sentuh yang dioptimalkan.",
+        get title() { return i18n.t('Pengalaman mobile yang lebih dalam'); },
+        get desc() { return i18n.t('Kasir handheld yang lebih matang: mode offline penuh, antrean sinkronisasi yang lebih cerdas, dan UI sentuh yang dioptimalkan.'); },
     },
     {
         icon: IconBulb,
-        title: "Integrasi ekosistem",
-        desc: "Ekspansi payment gateway & kurir pengiriman, konektor akuntansi, dan integrasi e-commerce.",
+        get title() { return i18n.t('Integrasi ekosistem'); },
+        get desc() { return i18n.t('Ekspansi payment gateway & kurir pengiriman, konektor akuntansi, dan integrasi e-commerce.'); },
     },
     {
         icon: IconRocket,
-        title: "Ekosistem pengembang",
-        desc: "Dokumentasi API, tema & plugin, dan tooling yang memudahkan kontribusi.",
+        get title() { return i18n.t('Ekosistem pengembang'); },
+        get desc() { return i18n.t('Dokumentasi API, tema & plugin, dan tooling yang memudahkan kontribusi.'); },
     },
 ];
 
 export default function Roadmap() {
+    const { t } = useTranslation();
     return (
         <PublicLayout active="/roadmap">
-            <Head title="Roadmap — Dikasir" />
+            <Head title={t('Roadmap — Dikasir')} />
 
             {/* Header */}
             <section className="pt-20 pb-14 px-6 bg-gradient-to-b from-primary-50 dark:from-primary-950/40 to-transparent">
                 <div className="max-w-4xl mx-auto text-center">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-50 dark:bg-primary-950/50 text-primary-600 dark:text-primary-400 text-sm font-medium mb-5 border border-primary-100 dark:border-primary-900">
                         <IconRoute size={16} />
-                        Roadmap
+                        {t('Roadmap')}
                     </div>
                     <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white">
-                        Perjalanan Dikasir
+                        {t('Perjalanan Dikasir')}
                     </h1>
                     <p className="mt-5 text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                        Dari kasir sederhana menjadi ekosistem POS lengkap — dan masih terus
-                        berkembang bersama komunitas.
+                        {t('Dari kasir sederhana menjadi ekosistem POS lengkap — dan masih terus berkembang bersama komunitas.')}
                     </p>
                 </div>
             </section>
@@ -143,11 +145,10 @@ export default function Roadmap() {
                 <div className="max-w-5xl mx-auto">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl font-bold text-slate-900 dark:text-white">
-                            Arah ke Depan
+                            {t('Arah ke Depan')}
                         </h2>
                         <p className="mt-4 text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                            Prioritas dibentuk bersama komunitas — dari feedback pengguna dan
-                            kontributor.
+                            {t('Prioritas dibentuk bersama komunitas — dari feedback pengguna dan kontributor.')}
                         </p>
                     </div>
                     <div className="grid md:grid-cols-3 gap-6">
@@ -176,11 +177,10 @@ export default function Roadmap() {
                 <div className="max-w-3xl mx-auto">
                     <div className="bg-slate-900 dark:bg-slate-800 rounded-3xl p-10 text-center">
                         <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
-                            Roadmap dibentuk oleh komunitas
+                            {t('Roadmap dibentuk oleh komunitas')}
                         </h2>
                         <p className="text-slate-400 mb-7">
-                            Punya ide fitur? Laporkan bug? Atau ingin mengerjakan salah satu arah
-                            di atas? Semua dimulai dari GitHub.
+                            {t('Punya ide fitur? Laporkan bug? Atau ingin mengerjakan salah satu arah di atas? Semua dimulai dari GitHub.')}
                         </p>
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                             <a
@@ -190,13 +190,13 @@ export default function Roadmap() {
                                 className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white font-semibold rounded-xl hover:from-primary-600 hover:to-primary-700 transition-all"
                             >
                                 <IconBrandGithub size={18} />
-                                Buat Issue / Ide
+                                {t('Buat Issue / Ide')}
                             </a>
                             <Link
                                 href="/kontribusi"
                                 className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold text-slate-300 border border-slate-600 rounded-xl hover:border-primary-400 hover:text-primary-400 transition-colors"
                             >
-                                Mulai berkontribusi
+                                {t('Mulai berkontribusi')}
                                 <IconArrowRight size={16} />
                             </Link>
                         </div>

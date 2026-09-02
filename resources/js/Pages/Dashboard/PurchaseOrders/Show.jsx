@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from 'react-i18next';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, Link, router } from "@inertiajs/react";
 import Button from "@/Components/Dashboard/Button";
@@ -30,6 +31,7 @@ const formatDateTime = (value) =>
         : "-";
 
 const statusBadge = (status) => {
+    const { t } = useTranslation();
     const base = "inline-flex rounded-full px-2.5 py-1 text-xs font-semibold";
     const map = {
         draft: "bg-warning-100 text-warning-700 dark:bg-warning-950/30 dark:text-warning-400",
@@ -39,16 +41,17 @@ const statusBadge = (status) => {
         cancelled: "bg-rose-100 text-rose-700 dark:bg-rose-950/30 dark:text-rose-400",
     };
     const labels = {
-        draft: "Draft",
-        ordered: "Dipesan",
-        partial_received: "Sebagian Diterima",
-        completed: "Selesai",
-        cancelled: "Dibatalkan",
+        draft: t('Draft'),
+        ordered: t('Dipesan'),
+        partial_received: t('Sebagian Diterima'),
+        completed: t('Selesai'),
+        cancelled: t('Dibatalkan'),
     };
     return <span className={`${base} ${map[status] || map.draft}`}>{labels[status] || status}</span>;
 };
 
 export default function Show({ order }) {
+    const { t } = useTranslation();
     const { can } = useAuthorization();
     const canEdit = can("purchase-orders-update");
     const canCreateReceiving = can("goods-receivings-create");
@@ -56,16 +59,16 @@ export default function Show({ order }) {
     const placeOrder = () => {
         router.post(route("purchase-orders.place", order.id), {}, {
             preserveScroll: true,
-            onSuccess: () => toast.success("PO berhasil dipesan"),
-            onError: () => toast.error("Gagal memesan PO"),
+            onSuccess: () => toast.success(t('PO berhasil dipesan')),
+            onError: () => toast.error(t('Gagal memesan PO')),
         });
     };
 
     const cancelOrder = () => {
         router.post(route("purchase-orders.cancel", order.id), {}, {
             preserveScroll: true,
-            onSuccess: () => toast.success("PO dibatalkan"),
-            onError: () => toast.error("Gagal membatalkan PO"),
+            onSuccess: () => toast.success(t('PO dibatalkan')),
+            onError: () => toast.error(t('Gagal membatalkan PO')),
         });
     };
 
@@ -81,7 +84,7 @@ export default function Show({ order }) {
                     className="mb-3 inline-flex items-center gap-2 text-sm text-slate-500 hover:text-primary-600"
                 >
                     <IconArrowLeft size={16} />
-                    Kembali ke daftar PO
+                    {t('Kembali ke daftar PO')}
                 </Link>
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                     <div>
@@ -92,10 +95,10 @@ export default function Show({ order }) {
                             {statusBadge(order.status)}
                         </div>
                         <p className="text-sm text-slate-500 dark:text-slate-400">
-                            Supplier: {order.supplier?.name || "-"} &bull; Dibuat oleh {order.creator?.name || "-"} &bull; {formatDateTime(order.created_at)}
+                            {t('Supplier:')} {order.supplier?.name || "-"} {t('• Dibuat oleh')} {order.creator?.name || "-"} &bull; {formatDateTime(order.created_at)}
                         </p>
                         {order.ordered_at && (
-                            <p className="text-sm text-slate-500">Dipesan: {formatDateTime(order.ordered_at)}</p>
+                            <p className="text-sm text-slate-500">{t('Dipesan:')} {formatDateTime(order.ordered_at)}</p>
                         )}
                     </div>
                     <div className="flex gap-2">
@@ -104,7 +107,7 @@ export default function Show({ order }) {
                                 type="button"
                                 icon={<IconCheck size={18} />}
                                 className="bg-primary-500 hover:bg-primary-600 text-white"
-                                label="Pesan ke Supplier"
+                                label={t('Pesan ke Supplier')}
                                 onClick={placeOrder}
                             />
                         )}
@@ -113,7 +116,7 @@ export default function Show({ order }) {
                                 type="button"
                                 icon={<IconCircleX size={18} />}
                                 className="bg-rose-500 hover:bg-rose-600 text-white"
-                                label="Batalkan PO"
+                                label={t('Batalkan PO')}
                                 onClick={cancelOrder}
                             />
                         )}
@@ -123,7 +126,7 @@ export default function Show({ order }) {
                                 href={route("goods-receivings.create", { purchase_order_id: order.id })}
                                 icon={<IconTruckDelivery size={18} />}
                                 className="bg-success-500 hover:bg-success-600 text-white"
-                                label="Terima Barang"
+                                label={t('Terima Barang')}
                             />
                         )}
                     </div>
@@ -134,17 +137,17 @@ export default function Show({ order }) {
                 <div className="space-y-6">
                     <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
                         <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
-                            Item Purchase Order
+                            {t('Item Purchase Order')}
                         </h2>
                         <Table>
                             <Table.Thead>
                                 <tr>
-                                    <Table.Th>Produk</Table.Th>
-                                    <Table.Th>Qty Dipesan</Table.Th>
-                                    <Table.Th>Qty Diterima</Table.Th>
-                                    <Table.Th>Sisa</Table.Th>
-                                    <Table.Th>Harga Satuan</Table.Th>
-                                    <Table.Th>Subtotal</Table.Th>
+                                    <Table.Th>{t('Produk')}</Table.Th>
+                                    <Table.Th>{t('Qty Dipesan')}</Table.Th>
+                                    <Table.Th>{t('Qty Diterima')}</Table.Th>
+                                    <Table.Th>{t('Sisa')}</Table.Th>
+                                    <Table.Th>{t('Harga Satuan')}</Table.Th>
+                                    <Table.Th>{t('Subtotal')}</Table.Th>
                                 </tr>
                             </Table.Thead>
                             <Table.Tbody>
@@ -173,7 +176,7 @@ export default function Show({ order }) {
                                     })
                                 ) : (
                                     <Table.Empty colSpan={6} message={
-                                        <div className="text-slate-500 dark:text-slate-400">Tidak ada item pada PO ini.</div>
+                                        <div className="text-slate-500 dark:text-slate-400">{t('Tidak ada item pada PO ini.')}</div>
                                     }>
                                         <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800">
                                             <IconPackage size={28} className="text-slate-400" />
@@ -187,15 +190,15 @@ export default function Show({ order }) {
                     {order.goods_receivings?.length > 0 && (
                         <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
                             <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
-                                Riwayat Penerimaan Barang
+                                {t('Riwayat Penerimaan Barang')}
                             </h2>
                             <Table>
                                 <Table.Thead>
                                     <tr>
-                                        <Table.Th>Dokumen</Table.Th>
-                                        <Table.Th>Tanggal Terima</Table.Th>
-                                        <Table.Th>Item</Table.Th>
-                                        <Table.Th>Aksi</Table.Th>
+                                        <Table.Th>{t('Dokumen')}</Table.Th>
+                                        <Table.Th>{t('Tanggal Terima')}</Table.Th>
+                                        <Table.Th>{t('Item')}</Table.Th>
+                                        <Table.Th>{t('Aksi')}</Table.Th>
                                     </tr>
                                 </Table.Thead>
                                 <Table.Tbody>
@@ -209,7 +212,7 @@ export default function Show({ order }) {
                                                     href={route("goods-receivings.show", gr.id)}
                                                     className="text-sm font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400"
                                                 >
-                                                    Detail
+                                                    {t('Detail')}
                                                 </Link>
                                             </Table.Td>
                                         </tr>
@@ -223,47 +226,47 @@ export default function Show({ order }) {
                 <div className="space-y-6">
                     {order.notes && (
                         <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
-                            <h2 className="mb-3 text-lg font-semibold text-slate-900 dark:text-white">Catatan</h2>
+                            <h2 className="mb-3 text-lg font-semibold text-slate-900 dark:text-white">{t('Catatan')}</h2>
                             <p className="text-sm text-slate-600 dark:text-slate-400">{order.notes}</p>
                         </div>
                     )}
 
                     {order.payable && (
                         <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
-                            <h2 className="mb-3 text-lg font-semibold text-slate-900 dark:text-white">Hutang Supplier</h2>
+                            <h2 className="mb-3 text-lg font-semibold text-slate-900 dark:text-white">{t('Hutang Supplier')}</h2>
                             <div className="space-y-2 text-sm">
                                 <div className="flex justify-between">
-                                    <span className="text-slate-500">Dokumen</span>
+                                    <span className="text-slate-500">{t('Dokumen')}</span>
                                     <span className="font-medium text-slate-800 dark:text-slate-200">{order.payable.document_number}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-slate-500">Total</span>
+                                    <span className="text-slate-500">{t('Total')}</span>
                                     <span className="font-medium text-slate-800 dark:text-slate-200">{formatCurrency(order.payable.total)}</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span className="text-slate-500">Dibayar</span>
+                                    <span className="text-slate-500">{t('Dibayar')}</span>
                                     <span className="font-medium text-slate-800 dark:text-slate-200">{formatCurrency(order.payable.paid)}</span>
                                 </div>
                                 <Link
                                     href={route("payables.show", order.payable.id)}
                                     className="mt-3 inline-flex text-sm font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400"
                                 >
-                                    Lihat Detail Hutang &rarr;
+                                    {t('Lihat Detail Hutang →')}
                                 </Link>
                             </div>
                         </div>
                     )}
 
                     <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
-                        <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">Informasi</h2>
+                        <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">{t('Informasi')}</h2>
                         <div className="space-y-3 text-sm text-slate-500 dark:text-slate-400">
                             <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800">
-                                <p className="font-medium text-slate-700 dark:text-slate-200">Alur PO</p>
+                                <p className="font-medium text-slate-700 dark:text-slate-200">{t('Alur PO')}</p>
                                 <ul className="mt-2 space-y-2">
-                                    <li>1. Buat PO dengan status Draft.</li>
-                                    <li>2. Pesan ke supplier untuk mengubah status menjadi Ordered.</li>
-                                    <li>3. Terima barang melalui menu Terima Barang.</li>
-                                    <li>4. Hutang supplier akan otomatis tercatat.</li>
+                                    <li>{t('1. Buat PO dengan status Draft.')}</li>
+                                    <li>{t('2. Pesan ke supplier untuk mengubah status menjadi Ordered.')}</li>
+                                    <li>{t('3. Terima barang melalui menu Terima Barang.')}</li>
+                                    <li>{t('4. Hutang supplier akan otomatis tercatat.')}</li>
                                 </ul>
                             </div>
                         </div>

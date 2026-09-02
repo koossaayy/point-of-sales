@@ -88,7 +88,7 @@ class ProductController extends Controller
             }
         }
 
-        return $this->created(new ProductResource($product->load('category')), 'Produk berhasil dibuat');
+        return $this->created(new ProductResource($product->load('category')), __('Produk berhasil dibuat'));
     }
 
     /**
@@ -125,7 +125,7 @@ class ProductController extends Controller
 
         $product->update($validated);
 
-        return $this->ok(new ProductResource($product->load('category')), 'Produk berhasil diperbarui');
+        return $this->ok(new ProductResource($product->load('category')), __('Produk berhasil diperbarui'));
     }
 
     /**

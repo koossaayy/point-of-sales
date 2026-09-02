@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Head } from "@inertiajs/react";
 import { IconCheck, IconClock, IconX, IconRefresh } from "@tabler/icons-react";
+import { useTranslation } from 'react-i18next';
+import i18n from '@/i18n';
 
 const fmt = (v) => Number(v || 0).toLocaleString("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0 });
 
 const STATUS_CONFIG = {
-    submitted: { label: "Menunggu Konfirmasi", color: "bg-amber-100 text-amber-700", icon: IconClock, desc: "Pesanan Anda sedang menunggu konfirmasi dari staff." },
-    accepted: { label: "Diterima", color: "bg-primary-100 text-primary-700", icon: IconCheck, desc: "Pesanan diterima. Silakan menuju kasir untuk pembayaran." },
-    completed: { label: "Selesai", color: "bg-emerald-100 text-emerald-700", icon: IconCheck, desc: "Pesanan sudah selesai." },
-    rejected: { label: "Ditolak", color: "bg-rose-100 text-rose-700", icon: IconX, desc: "Pesanan ditolak oleh staff." },
-    cancelled: { label: "Dibatalkan", color: "bg-slate-100 text-slate-500", icon: IconX, desc: "Pesanan dibatalkan." },
+    submitted: { get label() { return i18n.t('Menunggu Konfirmasi'); }, color: "bg-amber-100 text-amber-700", icon: IconClock, get desc() { return i18n.t('Pesanan Anda sedang menunggu konfirmasi dari staff.'); } },
+    accepted: { get label() { return i18n.t('Diterima'); }, color: "bg-primary-100 text-primary-700", icon: IconCheck, get desc() { return i18n.t('Pesanan diterima. Silakan menuju kasir untuk pembayaran.'); } },
+    completed: { get label() { return i18n.t('Selesai'); }, color: "bg-emerald-100 text-emerald-700", icon: IconCheck, get desc() { return i18n.t('Pesanan sudah selesai.'); } },
+    rejected: { get label() { return i18n.t('Ditolak'); }, color: "bg-rose-100 text-rose-700", icon: IconX, get desc() { return i18n.t('Pesanan ditolak oleh staff.'); } },
+    cancelled: { get label() { return i18n.t('Dibatalkan'); }, color: "bg-slate-100 text-slate-500", icon: IconX, get desc() { return i18n.t('Pesanan dibatalkan.'); } },
 };
 
 export default function DineOrderStatus({ order, table, storeName }) {
+    const { t } = useTranslation();
     const [currentOrder, setCurrentOrder] = useState(order);
     const [refreshing, setRefreshing] = useState(false);
 
@@ -43,12 +46,12 @@ export default function DineOrderStatus({ order, table, storeName }) {
 
     return (
         <>
-            <Head title={`Status Pesanan — ${storeName}`} />
+            <Head title={t('Status Pesanan — {{0}}', { 0: storeName })} />
             <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center px-4 py-8">
                 <div className="w-full max-w-md bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
                     <div className="bg-gradient-to-r from-primary-500 to-primary-700 px-6 py-5 text-white text-center">
-                        <p className="text-sm opacity-80">PESANAN DINE-IN</p>
-                        <p className="text-lg font-bold mt-1">Meja {table.name}</p>
+                        <p className="text-sm opacity-80">{t('PESANAN DINE-IN')}</p>
+                        <p className="text-lg font-bold mt-1">{t('Meja')} {table.name}</p>
                         <p className="text-xs opacity-80 mt-1">{storeName}</p>
                     </div>
 
@@ -78,26 +81,26 @@ export default function DineOrderStatus({ order, table, storeName }) {
                         </div>
 
                         <div className="flex justify-between items-center pt-3 border-t border-slate-200">
-                            <span className="font-semibold text-slate-700">Total</span>
+                            <span className="font-semibold text-slate-700">{t('Total')}</span>
                             <span className="font-bold text-lg text-primary-600">{fmt(currentOrder.subtotal)}</span>
                         </div>
 
                         {currentOrder.notes && (
                             <div className="mt-4 p-3 bg-slate-50 rounded-lg">
-                                <p className="text-xs text-slate-500 mb-1">Catatan:</p>
+                                <p className="text-xs text-slate-500 mb-1">{t('Catatan:')}</p>
                                 <p className="text-sm text-slate-700">{currentOrder.notes}</p>
                             </div>
                         )}
 
                         <div className="mt-4 flex flex-col gap-2">
                             <div className="flex items-center justify-between text-xs text-slate-400">
-                                <span>No. Pesanan: {currentOrder.id}</span>
+                                <span>{t('No. Pesanan:')} {currentOrder.id}</span>
                                 <button
                                     onClick={() => window.location.reload()}
                                     className="flex items-center gap-1 hover:text-slate-600 transition-colors"
                                 >
                                     <IconRefresh size={12} className={refreshing ? "animate-spin" : ""} />
-                                    Refresh
+                                    {t('Refresh')}
                                 </button>
                             </div>
                         </div>

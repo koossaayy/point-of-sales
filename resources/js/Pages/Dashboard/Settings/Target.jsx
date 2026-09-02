@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, useForm, usePage } from "@inertiajs/react";
 import Button from "@/Components/Dashboard/Button";
@@ -13,6 +14,7 @@ const formatCurrency = (value = 0) =>
     }).format(value);
 
 export default function Target({ settings }) {
+    const { t } = useTranslation();
     const { data, setData, post, processing, errors } = useForm({
         monthly_sales_target: settings?.monthly_sales_target || "",
     });
@@ -21,23 +23,23 @@ export default function Target({ settings }) {
         e.preventDefault();
         post(route("settings.target.update"), {
             preserveScroll: true,
-            onSuccess: () => toast.success("Target berhasil disimpan"),
-            onError: () => toast.error("Gagal menyimpan target"),
+            onSuccess: () => toast.success(t('Target berhasil disimpan')),
+            onError: () => toast.error(t('Gagal menyimpan target')),
         });
     };
 
     return (
         <>
-            <Head title="Target Penjualan" />
+            <Head title={t('Target Penjualan')} />
 
             <div className="space-y-6">
                 {/* Header */}
                 <div>
                     <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                        Target Penjualan
+                        {t('Target Penjualan')}
                     </h1>
                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                        Atur target penjualan bulanan untuk bisnis Anda
+                        {t('Atur target penjualan bulanan untuk bisnis Anda')}
                     </p>
                 </div>
 
@@ -53,7 +55,7 @@ export default function Target({ settings }) {
                             </div>
                             <div className="flex-1">
                                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                                    Target Penjualan Bulanan
+                                    {t('Target Penjualan Bulanan')}
                                 </label>
                                 <div className="relative">
                                     <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
@@ -68,13 +70,13 @@ export default function Target({ settings }) {
                                                 e.target.value
                                             )
                                         }
-                                        placeholder="Contoh: 50000000"
+                                        placeholder={t('Contoh: 50000000')}
                                         className="w-full h-12 pl-12 pr-4 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/20 transition-all"
                                     />
                                 </div>
                                 {data.monthly_sales_target > 0 && (
                                     <p className="mt-2 text-sm text-slate-500">
-                                        Target:{" "}
+                                        {t('Target:')}{" "}
                                         {formatCurrency(
                                             data.monthly_sales_target
                                         )}
@@ -96,7 +98,7 @@ export default function Target({ settings }) {
                                 className="flex items-center gap-2"
                             >
                                 <IconDeviceFloppy size={18} />
-                                {processing ? "Menyimpan..." : "Simpan Target"}
+                                {processing ? t('Menyimpan...') : t('Simpan Target')}
                             </Button>
                         </div>
                     </form>
@@ -105,9 +107,7 @@ export default function Target({ settings }) {
                 {/* Info */}
                 <div className="bg-primary-50 dark:bg-primary-950/30 rounded-xl p-4 border border-primary-200 dark:border-primary-900">
                     <p className="text-sm text-primary-700 dark:text-primary-300">
-                        <strong>Tip:</strong> Target penjualan akan ditampilkan
-                        di Dashboard sebagai progress bar untuk memantau
-                        pencapaian bulanan Anda.
+                        <strong>{t('Tip:')}</strong> {t('Target penjualan akan ditampilkan di Dashboard sebagai progress bar untuk memantau pencapaian bulanan Anda.')}
                     </p>
                 </div>
             </div>

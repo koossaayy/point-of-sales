@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { usePage } from "@inertiajs/react";
 import { IconMenu2, IconMoon, IconSun, IconSearch } from "@tabler/icons-react";
+import { useTranslation } from 'react-i18next';
 import AuthDropdown from "@/Components/Dashboard/AuthDropdown";
 import LanguageSwitcher from "@/Components/Dashboard/LanguageSwitcher";
 import Menu from "@/Utils/Menu";
 import Notification from "@/Components/Dashboard/Notification";
 
 export default function Navbar({ toggleSidebar, themeSwitcher, darkMode }) {
+    const { t } = useTranslation();
     const { auth, storeProfile } = usePage().props;
     const menuNavigation = Menu();
 
-    const storeName = storeProfile?.name || "KASIR";
+    const storeName = storeProfile?.name || t('KASIR');
     const storeInitial = storeName?.charAt(0)?.toUpperCase() || "K";
 
     // Get current page title
@@ -28,7 +30,7 @@ export default function Navbar({ toggleSidebar, themeSwitcher, darkMode }) {
                 return link.title;
             }
         }
-        return "Dashboard";
+        return t('Dashboard');
     };
 
     const [isMobile, setIsMobile] = useState(false);
@@ -53,7 +55,7 @@ export default function Navbar({ toggleSidebar, themeSwitcher, darkMode }) {
                 <button
                     onClick={toggleSidebar}
                     className="flex p-2 rounded-lg text-slate-500 hover:text-slate-700 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800 transition-colors"
-                    title="Toggle Sidebar"
+                    title={t('Toggle Sidebar')}
                 >
                     <IconMenu2 size={20} strokeWidth={1.5} />
                 </button>
@@ -86,7 +88,7 @@ export default function Navbar({ toggleSidebar, themeSwitcher, darkMode }) {
                 <button
                     onClick={themeSwitcher}
                     className="p-2.5 rounded-xl text-slate-500 hover:text-slate-700 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-200 dark:hover:bg-slate-800 transition-colors"
-                    title={darkMode ? "Light Mode" : "Dark Mode"}
+                    title={darkMode ? t('Light Mode') : t('Dark Mode')}
                 >
                     {darkMode ? (
                         <IconSun

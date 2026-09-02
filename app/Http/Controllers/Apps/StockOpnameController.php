@@ -140,7 +140,7 @@ class StockOpnameController extends Controller
 
         $stockOpname->update($request->validated());
 
-        return back()->with('success', 'Catatan stock opname berhasil diperbarui.');
+        return back()->with('success', __('Catatan stock opname berhasil diperbarui.'));
     }
 
     public function storeItem(StoreStockOpnameItemRequest $request, StockOpname $stockOpname): RedirectResponse
@@ -166,7 +166,7 @@ class StockOpnameController extends Controller
             'system_stock' => $systemStock,
         ]);
 
-        return back()->with('success', 'Produk berhasil ditambahkan ke stock opname.');
+        return back()->with('success', __('Produk berhasil ditambahkan ke stock opname.'));
     }
 
     public function updateItem(
@@ -201,7 +201,7 @@ class StockOpnameController extends Controller
             'adjustment_reason' => $adjustmentReason,
         ]);
 
-        return back()->with('success', 'Item stock opname berhasil diperbarui.');
+        return back()->with('success', __('Item stock opname berhasil diperbarui.'));
     }
 
     public function finalize(Request $request, StockOpname $stockOpname): RedirectResponse
@@ -288,7 +288,7 @@ class StockOpnameController extends Controller
             ],
         );
 
-        return back()->with('success', 'Stock opname berhasil difinalisasi.');
+        return back()->with('success', __('Stock opname berhasil difinalisasi.'));
     }
 
     private function ensureDraft(StockOpname $stockOpname): void

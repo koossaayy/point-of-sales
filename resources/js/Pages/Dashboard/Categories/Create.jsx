@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from 'react-i18next';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import { Head, useForm, usePage, Link } from "@inertiajs/react";
 import Input from "@/Components/Dashboard/Input";
@@ -12,6 +13,7 @@ import {
 } from "@tabler/icons-react";
 
 export default function Create() {
+    const { t } = useTranslation();
     const { errors } = usePage().props;
 
     const { data, setData, post, processing } = useForm({
@@ -33,14 +35,14 @@ export default function Create() {
     const submit = (e) => {
         e.preventDefault();
         post(route("categories.store"), {
-            onSuccess: () => toast.success("Kategori berhasil ditambahkan"),
-            onError: () => toast.error("Gagal menyimpan kategori"),
+            onSuccess: () => toast.success(t('Kategori berhasil ditambahkan')),
+            onError: () => toast.error(t('Gagal menyimpan kategori')),
         });
     };
 
     return (
         <>
-            <Head title="Tambah Kategori" />
+            <Head title={t('Tambah Kategori')} />
 
             <div className="mb-6">
                 <Link
@@ -48,11 +50,11 @@ export default function Create() {
                     className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-primary-600 mb-3"
                 >
                     <IconArrowLeft size={16} />
-                    Kembali ke Kategori
+                    {t('Kembali ke Kategori')}
                 </Link>
                 <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <IconCategory size={28} className="text-primary-500" />
-                    Tambah Kategori Baru
+                    {t('Tambah Kategori Baru')}
                 </h1>
             </div>
 
@@ -64,13 +66,13 @@ export default function Create() {
                             <div>
                                 <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3 flex items-center gap-2">
                                     <IconPhoto size={16} />
-                                    Gambar
+                                    {t('Gambar')}
                                 </h3>
                                 <div className="aspect-video rounded-xl bg-slate-100 dark:bg-slate-800 border-2 border-dashed border-slate-300 dark:border-slate-700 flex items-center justify-center overflow-hidden mb-3">
                                     {imagePreview ? (
                                         <img
                                             src={imagePreview}
-                                            alt="Preview"
+                                            alt={t('Preview')}
                                             className="w-full h-full object-cover"
                                         />
                                     ) : (
@@ -92,8 +94,8 @@ export default function Create() {
                             <div className="space-y-4">
                                 <Input
                                     type="text"
-                                    label="Nama Kategori"
-                                    placeholder="Masukkan nama"
+                                    label={t('Nama Kategori')}
+                                    placeholder={t('Masukkan nama')}
                                     errors={errors.name}
                                     onChange={(e) =>
                                         setData("name", e.target.value)
@@ -101,8 +103,8 @@ export default function Create() {
                                     value={data.name}
                                 />
                                 <Textarea
-                                    label="Deskripsi"
-                                    placeholder="Deskripsi kategori"
+                                    label={t('Deskripsi')}
+                                    placeholder={t('Deskripsi kategori')}
                                     errors={errors.description}
                                     onChange={(e) =>
                                         setData("description", e.target.value)
@@ -118,7 +120,7 @@ export default function Create() {
                                 href={route("categories.index")}
                                 className="px-5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium transition-colors"
                             >
-                                Batal
+                                {t('Batal')}
                             </Link>
                             <button
                                 type="submit"
@@ -126,7 +128,7 @@ export default function Create() {
                                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary-500 hover:bg-primary-600 text-white font-medium transition-colors disabled:opacity-50"
                             >
                                 <IconDeviceFloppy size={18} />
-                                {processing ? "Menyimpan..." : "Simpan"}
+                                {processing ? t('Menyimpan...') : t('Simpan')}
                             </button>
                         </div>
                     </div>

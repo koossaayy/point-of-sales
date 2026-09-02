@@ -54,8 +54,8 @@ class PaymentSetting extends Model
         if ($this->isBankTransferReady()) {
             $gateways[] = [
                 'value' => self::GATEWAY_BANK_TRANSFER,
-                'label' => 'Transfer Bank',
-                'description' => 'Pembayaran manual via transfer bank.',
+                'label' => __('Transfer Bank'),
+                'description' => __('Pembayaran manual via transfer bank.'),
             ];
         }
 
@@ -63,7 +63,7 @@ class PaymentSetting extends Model
             $gateways[] = [
                 'value' => self::GATEWAY_MIDTRANS,
                 'label' => 'Midtrans',
-                'description' => 'Bagikan tautan pembayaran Snap Midtrans ke pelanggan.',
+                'description' => __('Bagikan tautan pembayaran Snap Midtrans ke pelanggan.'),
             ];
         }
 
@@ -71,7 +71,7 @@ class PaymentSetting extends Model
             $gateways[] = [
                 'value' => self::GATEWAY_XENDIT,
                 'label' => 'Xendit',
-                'description' => 'Buat invoice otomatis menggunakan Xendit.',
+                'description' => __('Buat invoice otomatis menggunakan Xendit.'),
             ];
         }
 

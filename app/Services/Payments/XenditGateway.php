@@ -22,7 +22,7 @@ class XenditGateway
                 'amount' => (int) $transaction->grand_total,
                 'description' => 'Pembayaran transaksi #'.$transaction->invoice,
                 'customer' => [
-                    'given_names' => optional($customer)->name ?? 'Customer',
+                    'given_names' => optional($customer)->name ?? __('Customer'),
                     'email' => optional($customer)->email ?? config('mail.from.address'),
                     'mobile_number' => optional($customer)->no_telp,
                 ],

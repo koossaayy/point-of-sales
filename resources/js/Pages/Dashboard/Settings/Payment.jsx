@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Head, useForm, usePage } from "@inertiajs/react";
+import { useTranslation } from 'react-i18next';
 import DashboardLayout from "@/Layouts/DashboardLayout";
 import Input from "@/Components/Dashboard/Input";
 import Checkbox from "@/Components/Dashboard/Checkbox";
@@ -19,6 +20,7 @@ export default function Payment({
     webhookUrls = {},
     webhookWarnings = [],
 }) {
+    const { t } = useTranslation();
     const { flash } = usePage().props;
     const { can } = useAuthorization();
     const canUpdatePaymentSettings = can("payment-settings-update");
@@ -55,6 +57,7 @@ export default function Payment({
     };
 
     const renderSecretHint = (field, keepMessage) => {
+    const { t } = useTranslation();
         const source = paymentSettingSources?.[field];
 
         if (!source) {
@@ -64,7 +67,7 @@ export default function Payment({
         if (source.managed_by_environment) {
             return (
                 <p className="text-xs text-amber-600 dark:text-amber-400">
-                    Secret dikelola oleh environment dan tidak bisa diubah dari dashboard.
+                    {t('Secret dikelola oleh environment dan tidak bisa diubah dari dashboard.')}
                 </p>
             );
         }
@@ -72,7 +75,7 @@ export default function Payment({
         if (source.configured) {
             return (
                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Tersimpan: <span className="font-medium">{source.masked}</span>. {keepMessage}
+                    {t('Tersimpan:')} <span className="font-medium">{source.masked}</span>. {keepMessage}
                 </p>
             );
         }
@@ -82,15 +85,15 @@ export default function Payment({
 
     return (
         <>
-            <Head title="Pengaturan Payment" />
+            <Head title={t('Pengaturan Payment')} />
 
             <div className="mb-6">
                 <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <IconCreditCard size={28} className="text-primary-500" />
-                    Pengaturan Payment Gateway
+                    {t('Pengaturan Payment Gateway')}
                 </h1>
                 <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                    Konfigurasi metode pembayaran dan gateway
+                    {t('Konfigurasi metode pembayaran dan gateway')}
                 </p>
             </div>
 
@@ -99,20 +102,19 @@ export default function Payment({
                 <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6">
                     <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-4 flex items-center gap-2">
                         <IconCash size={18} />
-                        Gateway Default
+                        {t('Gateway Default')}
                     </h3>
                     <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
-                        Gateway pembayaran default yang digunakan kasir saat
-                        membuka halaman transaksi.
+                        {t('Gateway pembayaran default yang digunakan kasir saat membuka halaman transaksi.')}
                     </p>
                     {!canUpdatePaymentSettings && (
                         <div className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-300">
-                            Anda hanya memiliki akses lihat. Perubahan payment settings memerlukan permission update dan konfirmasi password ulang.
+                            {t('Anda hanya memiliki akses lihat. Perubahan payment settings memerlukan permission update dan konfirmasi password ulang.')}
                         </div>
                     )}
                     <div>
                         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-                            Pilih Gateway
+                            {t('Pilih Gateway')}
                         </label>
                         <select
                             value={data.default_gateway}
@@ -146,7 +148,7 @@ export default function Payment({
                 <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6">
                     <div className="flex items-center justify-between mb-4">
                         <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
-                            🏦 Transfer Bank
+                            {t('🏦 Transfer Bank')}
                         </h3>
                         <label
                             className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-all ${
@@ -165,19 +167,17 @@ export default function Payment({
                                 }
                                 disabled={!canUpdatePaymentSettings}
                             />
-                            {data.bank_transfer_enabled ? "Aktif" : "Nonaktif"}
+                            {data.bank_transfer_enabled ? t('Aktif') : t('Nonaktif')}
                         </label>
                     </div>
                     <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
-                        Pembayaran manual via transfer bank. Kasir akan
-                        memasukkan transaksi dengan status pending, kemudian
-                        admin mengkonfirmasi setelah dana diterima.
+                        {t('Pembayaran manual via transfer bank. Kasir akan memasukkan transaksi dengan status pending, kemudian admin mengkonfirmasi setelah dana diterima.')}
                     </p>
                         <a
                             href={route("settings.bank-accounts.index")}
                         className="inline-flex items-center gap-2 text-sm text-primary-500 hover:text-primary-600 font-medium"
                     >
-                        Kelola Rekening Bank →
+                        {t('Kelola Rekening Bank →')}
                     </a>
                 </div>
 
@@ -186,7 +186,7 @@ export default function Payment({
                     <div className="flex items-center justify-between mb-4">
                         <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                             <IconBrandStripe size={18} />
-                            Midtrans Snap
+                            {t('Midtrans Snap')}
                         </h3>
                         <label
                             className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-all ${
@@ -205,7 +205,7 @@ export default function Payment({
                                 }
                                 disabled={!canUpdatePaymentSettings}
                             />
-                            {data.midtrans_enabled ? "Aktif" : "Nonaktif"}
+                            {data.midtrans_enabled ? t('Aktif') : t('Nonaktif')}
                         </label>
                     </div>
                     <div
@@ -217,7 +217,7 @@ export default function Payment({
                     >
                         <div className="grid gap-4 md:grid-cols-2">
                             <Input
-                                label="Server Key"
+                                label={t('Server Key')}
                                 type="password"
                                 value={data.midtrans_server_key}
                                 onChange={(e) =>
@@ -229,8 +229,8 @@ export default function Payment({
                                 errors={errors?.midtrans_server_key}
                                 placeholder={
                                     paymentSettingSources?.midtrans_server_key?.configured
-                                        ? "Kosongkan untuk mempertahankan nilai saat ini"
-                                        : "SB-Mid-server-xxx"
+                                        ? t('Kosongkan untuk mempertahankan nilai saat ini')
+                                        : t('SB-Mid-server-xxx')
                                 }
                                 disabled={
                                     !canUpdatePaymentSettings ||
@@ -238,7 +238,7 @@ export default function Payment({
                                 }
                             />
                             <Input
-                                label="Client Key"
+                                label={t('Client Key')}
                                 type="text"
                                 value={data.midtrans_client_key}
                                 onChange={(e) =>
@@ -248,7 +248,7 @@ export default function Payment({
                                     )
                                 }
                                 errors={errors?.midtrans_client_key}
-                                placeholder="SB-Mid-client-xxx"
+                                placeholder={t('SB-Mid-client-xxx')}
                                 disabled={!canUpdatePaymentSettings}
                             />
                         </div>
@@ -268,7 +268,7 @@ export default function Payment({
                                 disabled={!canUpdatePaymentSettings}
                             />
                             <span className="text-sm text-slate-600 dark:text-slate-400">
-                                Mode Produksi
+                                {t('Mode Produksi')}
                             </span>
                         </label>
                     </div>
@@ -279,7 +279,7 @@ export default function Payment({
                     <div className="flex items-center justify-between mb-4">
                         <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                             <IconCreditCard size={18} />
-                            Xendit Invoice
+                            {t('Xendit Invoice')}
                         </h3>
                         <label
                             className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-all ${
@@ -295,7 +295,7 @@ export default function Payment({
                                 }
                                 disabled={!canUpdatePaymentSettings}
                             />
-                            {data.xendit_enabled ? "Aktif" : "Nonaktif"}
+                            {data.xendit_enabled ? t('Aktif') : t('Nonaktif')}
                         </label>
                     </div>
                     <div
@@ -307,7 +307,7 @@ export default function Payment({
                     >
                         <div className="grid gap-4 md:grid-cols-2">
                             <Input
-                                label="Secret Key"
+                                label={t('Secret Key')}
                                 type="password"
                                 value={data.xendit_secret_key}
                                 onChange={(e) =>
@@ -316,8 +316,8 @@ export default function Payment({
                                 errors={errors?.xendit_secret_key}
                                 placeholder={
                                     paymentSettingSources?.xendit_secret_key?.configured
-                                        ? "Kosongkan untuk mempertahankan nilai saat ini"
-                                        : "xnd_development_xxx"
+                                        ? t('Kosongkan untuk mempertahankan nilai saat ini')
+                                        : t('xnd_development_xxx')
                                 }
                                 disabled={
                                     !canUpdatePaymentSettings ||
@@ -325,7 +325,7 @@ export default function Payment({
                                 }
                             />
                             <Input
-                                label="Public Key"
+                                label={t('Public Key')}
                                 type="text"
                                 value={data.xendit_public_key}
                                 onChange={(e) =>
@@ -341,7 +341,7 @@ export default function Payment({
                             "Isi ulang hanya jika ingin mengganti secret."
                         )}
                         <Input
-                            label="Callback Token"
+                            label={t('Callback Token')}
                             type="password"
                             value={data.xendit_callback_token}
                             onChange={(e) =>
@@ -350,8 +350,8 @@ export default function Payment({
                             errors={errors?.xendit_callback_token}
                             placeholder={
                                 paymentSettingSources?.xendit_callback_token?.configured
-                                    ? "Kosongkan untuk mempertahankan nilai saat ini"
-                                    : "xendit-callback-token"
+                                    ? t('Kosongkan untuk mempertahankan nilai saat ini')
+                                    : t('xendit-callback-token')
                             }
                             disabled={
                                 !canUpdatePaymentSettings ||
@@ -374,7 +374,7 @@ export default function Payment({
                                 disabled={!canUpdatePaymentSettings}
                             />
                             <span className="text-sm text-slate-600 dark:text-slate-400">
-                                Mode Produksi
+                                {t('Mode Produksi')}
                             </span>
                         </label>
                     </div>
@@ -383,11 +383,10 @@ export default function Payment({
                 {/* Webhook URLs Info */}
                 <div className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700 p-6">
                     <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-4 flex items-center gap-2">
-                        🔗 Webhook URLs
+                        {t('🔗 Webhook URLs')}
                     </h3>
                     <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
-                        Salin URL berikut dan paste ke dashboard Midtrans/Xendit
-                        sebagai Notification/Callback URL.
+                        {t('Salin URL berikut dan paste ke dashboard Midtrans/Xendit sebagai Notification/Callback URL.')}
                     </p>
                     {webhookWarnings.length > 0 && (
                         <div className="mb-4 space-y-2">
@@ -404,7 +403,7 @@ export default function Payment({
                     <div className="space-y-3">
                         <div>
                             <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
-                                Midtrans Notification URL
+                                {t('Midtrans Notification URL')}
                             </label>
                             <div className="flex items-center gap-2">
                                 <input
@@ -423,13 +422,13 @@ export default function Payment({
                                     }}
                                     className="px-3 h-10 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
                                 >
-                                    Salin
+                                    {t('Salin')}
                                 </button>
                             </div>
                         </div>
                         <div>
                             <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
-                                Xendit Callback URL
+                                {t('Xendit Callback URL')}
                             </label>
                             <div className="flex items-center gap-2">
                                 <input
@@ -448,7 +447,7 @@ export default function Payment({
                                     }}
                                     className="px-3 h-10 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
                                 >
-                                    Salin
+                                    {t('Salin')}
                                 </button>
                             </div>
                         </div>
@@ -463,7 +462,7 @@ export default function Payment({
                         className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-primary-500 hover:bg-primary-600 text-white font-medium transition-colors disabled:opacity-50"
                     >
                         <IconDeviceFloppy size={18} />
-                        {processing ? "Menyimpan..." : "Simpan Konfigurasi"}
+                        {processing ? t('Menyimpan...') : t('Simpan Konfigurasi')}
                     </button>
                 </div>
             </form>
